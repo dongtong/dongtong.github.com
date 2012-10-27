@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category:其它 | Dong Way]]></title>
+  <link href="http://dongtong.github.com/blog/categories/%E5%85%B6%E5%AE%83/atom.xml" rel="self"/>
+  <link href="http://dongtong.github.com/"/>
+  <updated>2012-10-27T13:19:25+08:00</updated>
+  <id>http://dongtong.github.com/</id>
+  <author>
+    <name><![CDATA[Dong]]></name>
+    <email><![CDATA[chinatea.guy@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sublime text 2使用介绍]]></title>
+    <link href="http://dongtong.github.com/blog/2012/10/04/sublime-text2-usage/"/>
+    <updated>2012-10-04T22:20:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/10/04/sublime-text2-usage</id>
+    <content type="html"><![CDATA[<ol>
+<li><p>注意"Preferences>Default"下面的"ignored_packages"选项。这个是在Sublime Text 2编辑器启动时需要忽略哪些package的。每次打开编辑器时，default都是会被重置的，会使用User中的配置。所以如果需要根据个人喜好，应该修改user级别的，可以把default中的一些选项拷贝到user中。</p></li>
+<li><p>如果在编辑一个新文件，但是还没有保存，但是又希望代码能高亮，使用"Tools>Command Palette"中设置syntax为指定的语言。里面还有其它的一些选项。例如要显示或者隐藏sidebar。
+只要输入"sidebar"回车即可。如果想显示或隐藏右边的缩略图"toggle minimap"即可。</p></li>
+<li><p>快速定位文件，比如/views/home/index.html,那么可以control + p(command + p)然后
+在弹出的对话框中输入"viewshomeindex", 或"homeindex"或"views/home/index"等等模糊匹配都可以。如果想导航到项目中的任何文件，这要使用这个快捷键模糊定位即可。</p></li>
+<li><p>快速定位"Symbols"。这里可以理解为快速定位方法或者函数名，或者其它块元素名。control + R(command + R)然后输入symbol的名字即可快速定位。如果想快速定位到某一个文件中的某一个symbol,那么可以可以control + p(command + P)然后输入类似于"post.rb@show",如果当前在index.html文件中，想添加body这个元素式样，可以control + p(command + P)然后输入类似于"style.css@body"即可快速定位到相应的文件中指定的位置。</p></li>
+<li><p>添加或修改快捷键,首先打开"Preferences> Key Bindings Default"查找需要修改的快捷键定义，例如:
+<code>json
+{ "keys": ["super+k", "super+b"], "command": "toggle_side_bar" },
+</code>
+然后打开"Preferences>Key Bindings User"将其修改为:
+<code>json
+{ "keys": ["control+s"], "command": "toggle_side_bar" }
+</code>
+保存后，control+s即可实现显示和隐藏左边项目导航栏的功能，也可以在这个文件中添加自定义的快捷键。</p></li>
+<li><p>安装package实现对语法的支持以及其他一些功能。首先访问"http://wbond.net/sublime_packages/package_control"打开sublime text 2的控制台输入:
+<code>
+import urllib2,os; pf='Package Control.sublime-package'; ipp=sublime.installed_packages_path(); os.makedirs(ipp) if not os.path.exists(ipp) else None; urllib2.install_opener(urllib2.build_opener(urllib2.ProxyHandler())); open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read()); print 'Please restart Sublime Text to finish installation'
+</code>
+然后重启sublime text 2.然后进入"Preferences>Package Control>Install Package"稍等片刻后，输入"rspec"然后安装。然后检查"Preferences>Package Settings>Package Control>User"中发现已经添加Rspec支持:
+```json
+{
+ "auto_upgrade_last_run": 1349498917,
+ "installed_packages":
+ [</p>
+
+<pre><code> "RSpec (snippets and syntax)"
+</code></pre>
+
+<p> ]
+}
+```</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

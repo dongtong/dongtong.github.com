@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Add new page in Octopress - Dong Way</title>
+  <meta name="author" content="Dong">
+
+  
+  <meta name="description" content="If you want to add new page in Octopress, just like Octopress&#8217;s build-in &#8220;Blog&#8221; and &#8220;Archives&#8221; link. Firstly, you &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dongtong.github.com/blog/2012/10/26/add-new-page-in-octopress">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dong Way" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Dong Way</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss email">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+            <li><a href="chinatea.guy@gmail.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:dongtong.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Add New Page in Octopress</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-26T22:33:00+08:00" pubdate data-updated="true">Oct 26<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>If you want to add new page in Octopress, just like Octopress&#8217;s build-in &#8220;Blog&#8221; and &#8220;Archives&#8221; link. Firstly, you should create new page that you
+want.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; rake new_page["about"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, Octopress engine will create the following fold and file:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir -p source/about
+</span><span class='line'>Creating new page: source/about/index.markdown</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Secondly, you should edit &#8220;source/_includes/custom/navigation.html&#8221; file as
+following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>Blog<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/blog/archives&quot;</span><span class="nt">&gt;</span>Archives<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/about&quot;</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Last, you could add about informaton in &#8220;source/about/index.markdown&#8221; and run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>$rake generate
+</span><span class='line'>$rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will find &#8220;About&#8221; in navigation bar. :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dong</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-26T22:33:00+08:00" pubdate data-updated="true">Oct 26<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>Octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/10/04/sublime-text2-usage/" title="Previous Post:
+        Sublime text 2使用介绍">&laquo; Sublime text 2使用介绍</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+ <h1>标签</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+<li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
+<li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
+<li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
+
+ </ul>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - Dong -
+  <span class="credit">Powered by <a href="http://dongtong.github.com">ME</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dong-way';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dongtong.github.com/blog/2012/10/26/add-new-page-in-octopress/';
+        var disqus_url = 'http://dongtong.github.com/blog/2012/10/26/add-new-page-in-octopress/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

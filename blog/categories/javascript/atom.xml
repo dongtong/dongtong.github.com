@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category:JavaScript | Dong Way]]></title>
+  <link href="http://dongtong.github.com/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://dongtong.github.com/"/>
+  <updated>2012-10-27T13:19:25+08:00</updated>
+  <id>http://dongtong.github.com/</id>
+  <author>
+    <name><![CDATA[Dong]]></name>
+    <email><![CDATA[chinatea.guy@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JavaScript语言中的一些小建议]]></title>
+    <link href="http://dongtong.github.com/blog/2012/08/26/some-small-tips-in-javascript/"/>
+    <updated>2012-08-26T23:22:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/08/26/some-small-tips-in-javascript</id>
+    <content type="html"><![CDATA[<p>下面列举一些JavaScript编程过程中的小建议，这些也可以编程项目开发中的
+一些约定，其实这些小建议可能大家有些地方不是很赞同，其实遵守一些约定比
+这些约定的内容更重要，即使是一些比较糟糕的约定，如果大家都去遵守了，我
+想这些糟糕的约定也就不会惹来话柄了。下面看看这些小建议:</p>
+
+<!--More-->
+
+
+<ol>
+<li><p>在做比较的时候，为了避免隐式类型转换，请使用 '===', '!==='而不是
+'=='和'!=='。
+因为 false == 0, "" == 0这些都是"真的",你不会期望这样吧</p></li>
+<li><p>不要使用eval()函数。
+首先是不安全，可能会执行ajax获取的脚本，万一这些脚本被修改过，那么
+前台就可能存在危险。关于eval更深入的详述，以后再细说。</p></li>
+<li><p>使用parseInt()时，最好加上第二个参数指明转换成什么进制.
+parseInt('09')会转换成0,因为在转换过程中首先遇到了'0'，那么就把
+它当做八进制转换，但是八进制中没有9，所以非法，最后就得到了0.
+应该这样：parseInt('09', 10)</p>
+
+<p>+'09'和Number('09')其实更快，但是 Number('09 foobar')就得不到
+9了。</p></li>
+<li><p>关于代码缩进问题，很多程序员都不是很统一，有的使用tab,有的使用空格
+其实使用tab会有一些小麻烦，因为不同的编辑器对待tab的长度不全是一致的。
+所以建议使用空格，至于多少个空格，可以在项目约定中指出，个人偏好使用
+4个空格。</p></li>
+<li><p>语句块最好使用{}包围。</p></li>
+</ol>
+
+
+<p>```javascript</p>
+
+<pre><code>for (var i = 0; i &lt; 10; i++)
+    console.log('foo');//这样是正确的，但是如果以后添加语句呢？
+
+for (var i = 0; i &lt; 10; i++){
+    console.log('bar');
+}
+</code></pre>
+
+<p><code>
+6. {}最好第一个括号添加在语句末尾
+</code>javascript
+   function print(){</p>
+
+<pre><code>    return  
+    {
+        name: 'foobar'
+    };
+</code></pre>
+
+<p>   }
+   //你知道哪里出问题了吗?
+   function print(){</p>
+
+<pre><code>    return{
+        name: 'foobar'
+    };
+</code></pre>
+
+<p>   }
+```
+   这里牵涉到"分号插入机制"，第一种情形会return undefined;分号自动添加在return
+   后面。</p>
+
+<ol>
+<li>代码要有空格
+<code>javascript
+ for (var i = 0; i &lt; 10; i++){...}
+ function printFoo() {...}
+ var arr = [1, 2, 3];
+ printBar(str1, str2);
+ var myFunc = function () {...};
+ //等等
+</code></li>
+<li><p>命名约定。
+ 函数名使用驼峰标志,如printFooBar().变量使用下划线 first_name, my_own_val.
+ 常量可以使用全是大写字母PI, WIDTH。私有方法前加一个下划线(_getName())。其实
+ JavaScript没有私有方法一说。似有属性使用两个下划线等等，这些都是可以在项目中约
+ 定的。</p></li>
+<li><p>代码一定要有注释(后面阐述如何使用YUI Doc注释工具)。</p></li>
+<li><p>代码一定需要review。在review中别人可以很容易发现我们的错误，所谓"旁观者清，当局者迷"。</p></li>
+<li><p>开发过程中，最好经常使用JSLint工具</p></li>
+<li><p>最终发布代码时，最好使用工具来压缩代码，精简代码，加快浏览器的加载速度。</p></li>
+</ol>
+
+
+<p>以后继续添加Tips  :D</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何写出优美的switch]]></title>
+    <link href="http://dongtong.github.com/blog/2012/08/26/how-to-write-switch-sentence/"/>
+    <updated>2012-08-26T20:50:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/08/26/how-to-write-switch-sentence</id>
+    <content type="html"><![CDATA[<p>当代码中出现多个条件分支时(if...else if...else if...else)时可以考虑使用
+switch语句。目前不同的浏览器针对到此是if..else效率高还是switch效率高没有
+基准。条件过多的话还是建议使用switch语句。为了提高条件匹配的效率，建议把命中
+率高的条件，或者经常出现的条件提升到最前面。</p>
+
+<p>下面看一段代码实例:
+```javascript
+var num = 0;</p>
+
+<pre><code>result = 0;
+</code></pre>
+
+<p>switch (num) {
+case 0://case条件的缩进和switch一样</p>
+
+<pre><code>result += 0;//case中的语句需要缩进
+break;//每一个case条件执行完成后要break,否则会继续执行剩下的case
+</code></pre>
+
+<p>case 1:</p>
+
+<pre><code>result += 1;
+break;
+</code></pre>
+
+<p>default://所有条件都不满足时执行默认的语句</p>
+
+<pre><code>result += num;
+</code></pre>
+
+<p>}
+```
+如果你确信自己的代码需要顺序执行剩下的语句，那么也可以不使用break。  :D</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[不要擅自扩展内建对象原型]]></title>
+    <link href="http://dongtong.github.com/blog/2012/08/25/do-not-extend-built-in-prototype/"/>
+    <updated>2012-08-25T22:00:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/08/25/do-not-extend-built-in-prototype</id>
+    <content type="html"><![CDATA[<p>有时在特定的情形下，开发者需要扩展内建对象来达到自己的目的。但是如果别的
+开发者使用这个内建对象时，发现莫名奇妙地多了一个原型属性，这可能会扰乱内建
+对象的使用。</p>
+
+<p>什么时候可以考虑扩展内建对象呢?</p>
+
+<!--More-->
+
+
+<ol>
+<li><p>需要使用某个方法，但是在当前的ECMAScript标准中没有定义。比如Array的foreach()方法
+在将来的ECMAScript 5中才使用。所以可以在当前的ECMAScript 3中扩展Array对象，这样
+当将来浏览器升级后，支持后，可以考虑移除。</p></li>
+<li><p>在使用的过程中，发现自定义的属性竟然不存在，有可能在别的地方定义这样的属性，又或者
+特定浏览器环境中有这样的属性，把自定义的可能覆盖了。那么可以考虑扩展一下内建对象，保证
+自定义的属性可以使用。</p></li>
+<li><p>如果开发的是内部的项目，这样扩展内建对象其他人不会使用，那么只要和项目组内的
+成员沟通好后，可以使用，并且文档化。也可以考虑扩展内建对象，毕竟可以方便开发。</p></li>
+</ol>
+
+
+<p>你还有什么理由需要扩展内建对象的呢？请留言。:D</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[什么是可维护的JavaScript代码]]></title>
+    <link href="http://dongtong.github.com/blog/2012/08/25/write-maintainable-js-code/"/>
+    <updated>2012-08-25T14:37:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/08/25/write-maintainable-js-code</id>
+    <content type="html"><![CDATA[<p>最为一个开发人员，我们需要对自己编写的代码负责，对我们的解决方案负责。</p>
+
+<ol>
+<li><p>花时间重新温习和理解我们遇到的问题。</p></li>
+<li><p>重新理解我们的解决方案。</p></li>
+</ol>
+
+
+<p>可能过若干个月后，我们可能会再次遇到这些问题，似曾相识但又无法清晰地表达出来，
+所以当我们应该间歇性地回头回顾我们遇到的问题，总结我们的解决方案。</p>
+
+<!--More-->
+
+
+<p>如果静下心来写代码可能几个小时我们就可以堆积大量的代码，因为当时我们在实现
+我们的思路时，应该沉静在问题中，最终的解决方案可能也能解决我们的问题，但是回头
+认真地在看一次写过的代码，发现这里需要优化，那里觉得冗余等等。甚至如果在另外一
+中条件下再执行我们的解决方案发现就无法通过了。所以对自己实现的代码负责，最好的
+方法就是叫上几个同事多次回归审阅我们的代码。</p>
+
+<p>良好的代码应该具备至少以下一些特性：</p>
+
+<ol>
+<li><p>具有可读性。</p></li>
+<li><p>代码风格要保持一致性。</p></li>
+<li><p>代码要有详细注释。</p></li>
+<li><p>具有可扩展性。</p></li>
+<li><p>具有可测试性。</p></li>
+</ol>
+
+
+<p>你做到了吗? :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[关于扩展JavaScript内建对象]]></title>
+    <link href="http://dongtong.github.com/blog/2012/07/26/extend-javascript-builtin-object/"/>
+    <updated>2012-07-26T23:39:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/07/26/extend-javascript-builtin-object</id>
+    <content type="html"><![CDATA[<p>举个例子，如果内建的string没有capitalize方法，如果根据项目需求某处需要扩展string内建对象，比如添加了一个方法capitalize()将字符串首字母大写。</p>
+
+<p>在使用一个内建对象不存在的方法时，首先可以先查看一下ECMAScript 5有没有提供，其次查看一下prototype原型链上有没有已经定义的方法。最后查看文档中有没有定义对应的方法，以及和其它team成员沟通一下有没有定义对应的方法。如果这些都不能解决你的问题，那么可以考虑扩展prototype。</p>
+
+<p>可能第一时间会想到这样做:
+``` javascript
+if(!String.prototype.capitalize){</p>
+
+<pre><code>String.prototype.capitalize = function(){
+    return this.slice(0,1).toUpperCase() + this.slice(1).toLowerCase();
+}
+</code></pre>
+
+<p>}
+console.log("hello".capitalize())//Hello
+```</p>
+
+<!-- more -->
+
+
+<p>但是之后就会这样：
+``` javascript
+var str = "foo";
+for(var i in str){</p>
+
+<pre><code>console.log(i + ":" + str[i]);
+</code></pre>
+
+<p>}
+//0:f
+//1:o
+//2:o
+// capitalize:function () { return this.slice(0, 1).toUpperCase() + this.slice(1).toLowerCase(); }
+```</p>
+
+<p>因为for..in会一直在原型链上查找属性。String的capitalize枚举属性已经设置为true了，
+所以在原型链上就能查到capitalize().如果用for的话，就看不到capitalize()，但那不代
+表这个原型属性不存在。如何改变(添加，修改，删除)枚举属性？
+``` javascript
+if(!String.prototype.capitalize){</p>
+
+<pre><code>Object.defineProperty(String.prototype, 'capitalize',{
+    value: function(){
+        return this.slice(0,1).toUpperCase() + this.slice(1).toLowerCase();
+    },
+    enumerable: false
+})
+</code></pre>
+
+<p>}</p>
+
+<p>var str = "foo";
+for(var i in str){
+console.log(i + ":" + str[i]);
+}
+//0:f
+//1:o
+//2:o
+```
+以上这种方式也可以运用到我们自定义的对象中,但是又不影响原型链其它对象的使用。</p>
+
+<p>:D</p>
+]]></content>
+  </entry>
+  
+</feed>

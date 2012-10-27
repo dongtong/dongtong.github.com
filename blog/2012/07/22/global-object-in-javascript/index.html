@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript中的全局对象 - Dong Way</title>
+  <meta name="author" content="Dong">
+
+  
+  <meta name="description" content="JavaScript使用function来界定作用域，如果在function内部定义一个变量，那么它就是local的，如果
+在function外部定义一个变量，那么就是global的。 在浏览器上下文中，有一个window属性指向的是global对象，不论是否在function内部还是外部，只要 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dongtong.github.com/blog/2012/07/22/global-object-in-javascript">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dong Way" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Dong Way</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss email">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+            <li><a href="chinatea.guy@gmail.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:dongtong.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">JavaScript中的全局对象</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-22T14:29:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>JavaScript使用function来界定作用域，如果在function内部定义一个变量，那么它就是local的，如果
+在function外部定义一个变量，那么就是global的。</p>
+
+<p>在浏览器上下文中，有一个window属性指向的是global对象，不论是否在function内部还是外部，只要
+声明变量不使用var那么浏览器就把它当做window的属性，如果在function外部，this指代的也是window。
+下面声明的就是window对象的属性:</p>
+
+<figure class='code'><figcaption><span>Declare global object</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">globalVar1</span> <span class="o">=</span> <span class="s2">&quot;hello world&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">globalVar1</span><span class="p">);</span><span class="c1">// hello world</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="nx">declareGlobalVar</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">globalVar2</span> <span class="o">=</span> <span class="s2">&quot;foo bar&quot;</span><span class="p">;</span><span class="c1">//如果在其余代码中申明globalVar2这个全局变量就会出问题</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">[</span><span class="s1">&#39;globalVar2&#39;</span><span class="p">]);</span><span class="c1">//foo bar</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">globalVar2</span><span class="p">);</span><span class="c1">//foo bar</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="nx">chainAssign</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">bar</span> <span class="o">=</span> <span class="s2">&quot;hello world&quot;</span><span class="p">;</span><span class="c1">//这里其实首先执行的是 bar = &quot;hello world&quot;,没有使用var</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">bar</span><span class="p">);</span><span class="c1">//bar变成了window的属性</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span><span class="c1">//foo还是local</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="nx">chainAssign2</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">foo</span><span class="p">,</span> <span class="nx">bar2</span> <span class="o">=</span> <span class="s2">&quot;hello world again&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">bar2</span><span class="p">);</span><span class="c1">//bar2是local</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span><span class="c1">//foo还是local</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="nx">chainAssign3</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">foo</span><span class="p">,</span> <span class="nx">bar3</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">foo</span> <span class="o">=</span> <span class="nx">bar3</span> <span class="o">=</span> <span class="s2">&quot;hello world again too&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">bar2</span><span class="p">);</span><span class="c1">//bar3是local</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span><span class="c1">//foo还是local</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>声明全局对象有什么问题？声明的全局对象共享同一个namespace,在同一个应用中的所有代码都可以访问
+和修改全局对象，如果应用程序变得庞大了，那么很有可能会声明相同名字的全局对象，但是声明的目的
+又不相同，那么就会导致访问这个全局对象不是程序所预期的。另外一种情况是使用多个第三方类库，而
+这些类库中出现同名的全局对象，这样也会导致全局对象冲突问题。还有一种情况是运行在别的JavaScript
+环境中，如Node.js运行在服务器上，如果这时声明的全局对象和内置的全局对象同名，还有一中情形是用测试的JS脚本去运行，如果测试脚本中包含了应用中相同的全局变量名，那么就有可能导致冲突。:D</p>
+
+<p>可以通过delete删除全局对象，在ECMAScript 5版本中，如果声明变量没有使用var,程序就会抛出错误。这里说明一些，有些文章说使用var声明的全局变量不可以使用delete删除，实践检验是可以删除的。</p>
+
+<figure class='code'><figcaption><span>Declare global object</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">global1</span> <span class="o">=</span> <span class="s2">&quot;foo&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">global2</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="nx">global3</span> <span class="o">=</span> <span class="s2">&quot;goo&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">global1</span><span class="p">);</span><span class="c1">//foo</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">global2</span><span class="p">);</span><span class="c1">//bar</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">global3</span><span class="p">);</span><span class="c1">//goo</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">delete</span> <span class="nx">global1</span><span class="p">);</span><span class="c1">//true</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">delete</span> <span class="nx">global2</span><span class="p">);</span><span class="c1">//true</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">delete</span> <span class="nx">global3</span><span class="p">);</span><span class="c1">//true</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">global1</span><span class="p">);</span><span class="c1">//undefined</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">global2</span><span class="p">);</span><span class="c1">//undefined</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">global3</span><span class="p">);</span><span class="c1">//undefined</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如何访问全局对象?</p>
+
+<figure class='code'><figcaption><span>Declare global object</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">global</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'><span class="p">}());</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">global</span><span class="p">)</span><span class="c1">// Window</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就不拘泥于是否是浏览器环境了，否则访问全局对象需要使用window.XXX
+但是这在ECMAScript 5中被废弃了，注意使用。</p>
+
+<p>在function中定义变量最好放在function顶端:
+在定义变量的同时最好做一些实质性的动作，例如赋值等等。</p>
+
+<figure class='code'><figcaption><span>Declare global object</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">declareVar</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">b</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">sum</span> <span class="o">=</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">result</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span><span class="k">return</span> <span class="mi">2</span><span class="p">};</span>
+</span><span class='line'>    <span class="c1">//...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样的好处就是不会漏掉var, 让变量成为全局对象。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dong</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-22T14:29:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>JavaScript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/07/21/mac-install-postgresql/" title="Previous Post:
+        Mac OS X Leopard 安装Postgresql和pg gem">&laquo; Mac OS X Leopard 安装Postgresql和pg gem</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/07/22/optimize-for-loops/"
+        title="Next Post: 如何优化for loops">如何优化for loops
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+ <h1>标签</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+<li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
+<li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
+<li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
+
+ </ul>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - Dong -
+  <span class="credit">Powered by <a href="http://dongtong.github.com">ME</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dong-way';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dongtong.github.com/blog/2012/07/22/global-object-in-javascript/';
+        var disqus_url = 'http://dongtong.github.com/blog/2012/07/22/global-object-in-javascript/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

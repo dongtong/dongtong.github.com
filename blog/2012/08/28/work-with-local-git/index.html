@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Git本地操作介绍 - Dong Way</title>
+  <meta name="author" content="Dong">
+
+  
+  <meta name="description" content="下面介绍本地化git库的一些相关操作: 创建本地git仓库
+添加文件
+提交修改
+查看历史
+查看差异
+工作空间copy, staging和仓库
+删除文件
+清理工作空间copy
+使用.gitignore忽略相关文件 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dongtong.github.com/blog/2012/08/28/work-with-local-git">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dong Way" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Dong Way</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss email">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+            <li><a href="chinatea.guy@gmail.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:dongtong.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Git本地操作介绍</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-28T23:37:00+08:00" pubdate data-updated="true">Aug 28<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>下面介绍本地化git库的一些相关操作:</p>
+
+<ol>
+<li>创建本地git仓库</li>
+<li>添加文件</li>
+<li>提交修改</li>
+<li>查看历史</li>
+<li>查看差异</li>
+<li>工作空间copy, staging和仓库</li>
+<li>删除文件</li>
+<li>清理工作空间copy</li>
+<li>使用.gitignore忽略相关文件</li>
+</ol>
+
+
+<!--More-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">init</span>  <span class="err">#初始化空的</span><span class="nx">git</span><span class="err">仓库</span><span class="p">,</span><span class="err">创建了</span><span class="p">.</span><span class="nx">git</span><span class="err">目录</span>
+</span><span class='line'><span class="err">#在</span><span class="nx">git</span><span class="err">仓库中添加文件</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#将会列出不在</span><span class="nx">git</span> <span class="nx">track</span><span class="err">范围内的文件</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">add</span> <span class="o">&lt;</span><span class="err">不在</span><span class="nx">track</span><span class="err">范围内的文件</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">add</span> <span class="o">-</span><span class="nx">A</span> <span class="err">#添加所有的不在</span><span class="nx">track</span><span class="err">中的新文件，当心使用，因为有一些是需要忽略的</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#刚刚添加的不在</span><span class="nx">track</span><span class="err">范围内的文件已经添加到</span><span class="nx">stage</span><span class="err">中了，但是没有提交到仓库中</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">commit</span> <span class="o">&lt;</span><span class="err">添加到</span><span class="nx">stage</span><span class="err">中的文件</span><span class="o">&gt;</span> <span class="err">#这里会调用配置中的编辑器添加提交历史，也可以直接制定</span> <span class="o">-</span><span class="nx">m</span><span class="err">选项</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">log</span> <span class="err">#查看提交的日志文件</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">#如果修改了文件</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">stauts</span> <span class="err">#提示修改了哪些文件，字体显示为红色。</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">add</span> <span class="o">-</span><span class="nx">u</span> <span class="err">#添加修改的文件到</span><span class="nx">stage</span><span class="err">中，这些文件必须是在</span><span class="nx">track</span><span class="err">当中的，新添加的文件不可以</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#显示</span><span class="nx">stage</span><span class="err">中需要提交的文件</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">commit</span> <span class="o">-</span><span class="nx">m</span> <span class="s1">&#39;XXX&#39;</span> <span class="err">#提交文件，并添加提交记录</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">diff</span> <span class="mi">61</span><span class="nx">a83</span><span class="p">..</span><span class="mi">96901</span> <span class="err">#比较这两个区间的差异，前</span><span class="mi">5</span><span class="err">位是</span><span class="nx">commit</span> <span class="nx">hash</span><span class="err">编码</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">diff</span> <span class="nx">HEAD</span><span class="o">~</span><span class="mi">1</span><span class="p">..</span><span class="nx">HEAD</span> <span class="err">#也可以制定从第一个版本到当前最新的版本比较</span>
+</span><span class='line'><span class="p">[</span><span class="nx">TODO</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">diff</span> <span class="nx">HEAD</span><span class="o">~</span><span class="mi">1</span><span class="p">..</span> <span class="err">#也可以制定从第一个版本到当前最新的版本比较</span>
+</span><span class='line'><span class="p">[</span><span class="nx">TODO</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">##############################################################</span>
+</span><span class='line'><span class="err">#如果修改了多个文件，那么运行以下命令</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#将会显示多个红色标记的文件</span><span class="p">(</span><span class="nx">modified</span><span class="o">:</span> <span class="nx">xxx</span><span class="p">,...)</span><span class="err">，这些文件都是被修改过的，但是没有提交到</span><span class="nx">stage</span><span class="err">中</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">add</span> <span class="nx">xxx</span>  <span class="err">#添加其中一个文件</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#发现添加的文件变成了绿色，说明这个文件已经提交到了</span><span class="nx">stage</span><span class="err">中，等待提交到库中</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">commit</span>  <span class="o">-</span><span class="nx">m</span> <span class="s2">&quot;Fix bug #2325&quot;</span> <span class="err">#将这个修改提交到本地库中</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">##############################################################</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">rm</span> <span class="nx">REDME</span><span class="p">.</span><span class="nx">txt</span> <span class="err">#如果不需要某个文件，将其从文件系统中删除</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#将会显示被删除的文件</span><span class="p">(</span><span class="err">红色</span> <span class="k">delete</span><span class="o">:</span><span class="nx">REDME</span><span class="p">.</span><span class="nx">txt</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">add</span> <span class="o">-</span><span class="nx">u</span> <span class="err">#将文件存入</span><span class="nx">stage</span><span class="err">中</span><span class="p">,</span><span class="err">准备提交到本地库中</span><span class="p">(</span><span class="err">红色变成绿色</span> <span class="k">delete</span><span class="o">:</span><span class="nx">REDME</span><span class="p">.</span><span class="nx">txt</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">#如果这时又添加了新的文件</span><span class="p">(</span><span class="nx">todo</span><span class="p">.</span><span class="nx">txt</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#将会显示新的文件没有被</span><span class="nx">tracked</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">add</span> <span class="nx">todo</span><span class="p">.</span><span class="nx">txt</span> <span class="err">#将新文件纳入</span><span class="nx">track</span><span class="err">行列</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">#如果将</span><span class="nx">A</span><span class="p">.</span><span class="nx">txt</span><span class="err">文件重命名为</span><span class="nx">B</span><span class="p">.</span><span class="nx">txt</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#将会显示</span><span class="nx">A</span><span class="err">被删除，并且新添加了</span><span class="nx">B</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">add</span> <span class="o">-</span><span class="nx">A</span> <span class="err">#将删除的文件和新建的文件都提交到</span><span class="nx">stage</span><span class="err">中等待提交到库中</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">##############################################################</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">#如果不小心修改了</span><span class="nx">todo</span><span class="p">.</span><span class="nx">txt</span><span class="err">文件，希望撤销这样的操作</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">checkout</span> <span class="nx">todo</span><span class="p">.</span><span class="nx">txt</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">#如果修改了多个文件，或者删除了多个文件</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">reset</span> <span class="o">--</span><span class="nx">hard</span> <span class="err">#将会撤销到最新的</span><span class="nx">HEAD</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">##############################################################</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">#如果发现最新提交的注释有问题</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">reset</span> <span class="o">--</span><span class="nx">soft</span> <span class="nx">HEAD</span><span class="o">~</span><span class="mi">1</span> <span class="err">#先让提交回退一个版本</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#发现要提交的修改正是上次的</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">commit</span> <span class="o">-</span><span class="nx">m</span> <span class="s2">&quot;新的注释&quot;</span> <span class="err">#添加新的注释</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">reset</span> <span class="o">--</span><span class="nx">hard</span> <span class="nx">HEAD</span><span class="o">~</span><span class="mi">1</span> <span class="err">#如果发现最新提交的这个版本有问题，想撤销到上一个版本</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">#</span> <span class="nx">HEAD</span><span class="err">就是一个堆栈，最先提交的在最底下，最新提交的在上面</span>
+</span><span class='line'><span class="err">#</span> <span class="nx">HEAD</span><span class="o">~</span><span class="mi">2</span><span class="err">是回撤两次提交</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">##############################################################</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">#有时候在我们的工作空间中有一些</span><span class="nx">log</span><span class="err">文件，或者临时文件是不需要被</span><span class="nx">track</span><span class="err">的</span>
+</span><span class='line'><span class="err">#例如</span> <span class="nx">development</span><span class="p">.</span><span class="nx">log</span><span class="p">,</span> <span class="nx">tmp</span><span class="p">.</span><span class="nx">txt</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">clean</span> <span class="o">-</span><span class="nx">f</span> <span class="err">#将会移除这些文件</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">##############################################################</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">#一些情况下我们需要忽略文件夹和文件被</span><span class="nx">track</span>
+</span><span class='line'><span class="err">#</span> <span class="nx">logs</span><span class="o">/</span>
+</span><span class='line'><span class="err">#</span> <span class="p">.</span><span class="nx">log</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">vim</span> <span class="p">.</span><span class="nx">gitignore</span>
+</span><span class='line'><span class="o">/</span><span class="nx">logs</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">status</span> <span class="err">#</span><span class="p">.</span><span class="nx">gitignore</span><span class="err">文件被修改了</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">add</span> <span class="p">.</span><span class="nx">gitignore</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">git</span> <span class="nx">commit</span> <span class="o">-</span><span class="nx">m</span> <span class="s2">&quot;ingore logs directory files&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dong</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-28T23:37:00+08:00" pubdate data-updated="true">Aug 28<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>Git</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/08/27/introduce-git/" title="Previous Post:
+        Git简要介绍">&laquo; Git简要介绍</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/09/05/work-with-remote-git/"
+        title="Next Post: Git远程操作介绍">Git远程操作介绍
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+ <h1>标签</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+<li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
+<li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
+<li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
+
+ </ul>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - Dong -
+  <span class="credit">Powered by <a href="http://dongtong.github.com">ME</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dong-way';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dongtong.github.com/blog/2012/08/28/work-with-local-git/';
+        var disqus_url = 'http://dongtong.github.com/blog/2012/08/28/work-with-local-git/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

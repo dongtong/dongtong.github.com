@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Sublime text 2使用介绍 - Dong Way</title>
+  <meta name="author" content="Dong">
+
+  
+  <meta name="description" content="注意&#8221;Preferences>Default&#8221;下面的&#8221;ignored_packages&#8221;选项。这个是在Sublime Text 2编辑器启动时需要忽略哪些package的。每次打开编辑器时，default都是会被重置的，会使用User中的配置。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dongtong.github.com/blog/2012/10/04/sublime-text2-usage">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dong Way" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Dong Way</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss email">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+            <li><a href="chinatea.guy@gmail.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:dongtong.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Sublime Text 2使用介绍</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-04T22:20:00+08:00" pubdate data-updated="true">Oct 4<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ol>
+<li><p>注意&#8221;Preferences>Default&#8221;下面的&#8221;ignored_packages&#8221;选项。这个是在Sublime Text 2编辑器启动时需要忽略哪些package的。每次打开编辑器时，default都是会被重置的，会使用User中的配置。所以如果需要根据个人喜好，应该修改user级别的，可以把default中的一些选项拷贝到user中。</p></li>
+<li><p>如果在编辑一个新文件，但是还没有保存，但是又希望代码能高亮，使用&#8221;Tools>Command Palette&#8221;中设置syntax为指定的语言。里面还有其它的一些选项。例如要显示或者隐藏sidebar。
+只要输入&#8221;sidebar&#8221;回车即可。如果想显示或隐藏右边的缩略图&#8221;toggle minimap&#8221;即可。</p></li>
+<li><p>快速定位文件，比如/views/home/index.html,那么可以control + p(command + p)然后
+在弹出的对话框中输入&#8221;viewshomeindex&#8221;, 或&#8221;homeindex&#8221;或&#8221;views/home/index&#8221;等等模糊匹配都可以。如果想导航到项目中的任何文件，这要使用这个快捷键模糊定位即可。</p></li>
+<li><p>快速定位&#8221;Symbols&#8221;。这里可以理解为快速定位方法或者函数名，或者其它块元素名。control + R(command + R)然后输入symbol的名字即可快速定位。如果想快速定位到某一个文件中的某一个symbol,那么可以可以control + p(command + P)然后输入类似于&#8221;post.rb@show&#8221;,如果当前在index.html文件中，想添加body这个元素式样，可以control + p(command + P)然后输入类似于&#8221;style.css@body&#8221;即可快速定位到相应的文件中指定的位置。</p></li>
+<li><p>添加或修改快捷键,首先打开&#8221;Preferences> Key Bindings Default&#8221;查找需要修改的快捷键定义，例如:</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span> <span class="nt">&quot;keys&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;super+k&quot;</span><span class="p">,</span> <span class="s2">&quot;super+b&quot;</span><span class="p">],</span> <span class="nt">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;toggle_side_bar&quot;</span> <span class="p">}</span><span class="err">,</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后打开&#8221;Preferences>Key Bindings User&#8221;将其修改为:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span> <span class="nt">&quot;keys&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;control+s&quot;</span><span class="p">],</span> <span class="nt">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;toggle_side_bar&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>保存后，control+s即可实现显示和隐藏左边项目导航栏的功能，也可以在这个文件中添加自定义的快捷键。</p>
+
+<ol>
+<li>安装package实现对语法的支持以及其他一些功能。首先访问&#8221;http://wbond.net/sublime_packages/package_control&#8221;打开sublime text 2的控制台输入:</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">import</span> <span class="err">urllib</span><span class="mi">2</span><span class="err">,os;</span> <span class="err">pf=&#39;Package</span> <span class="err">Control.sublime-package&#39;;</span> <span class="err">ipp=sublime.installed_packages_path();</span> <span class="err">os.makedirs(ipp)</span> <span class="err">if</span> <span class="err">not</span> <span class="err">os.path.exists(ipp)</span> <span class="err">else</span> <span class="err">None;</span> <span class="err">urllib</span><span class="mi">2</span><span class="err">.install_opener(urllib</span><span class="mi">2</span><span class="err">.build_opener(urllib</span><span class="mi">2</span><span class="err">.ProxyHandler()));</span> <span class="err">open(os.path.join(ipp,pf),&#39;wb&#39;).write(urllib</span><span class="mi">2</span><span class="err">.urlopen(&#39;http://sublime.wbond.net/&#39;+pf.replace(&#39;</span> <span class="err">&#39;,&#39;%</span><span class="mi">20</span><span class="err">&#39;)).read());</span> <span class="err">print</span> <span class="err">&#39;Please</span> <span class="err">restart</span> <span class="err">Sublime</span> <span class="err">Text</span> <span class="err">to</span> <span class="err">finish</span> <span class="err">installation&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后重启sublime text 2.然后进入&#8221;Preferences>Package Control>Install Package&#8221;稍等片刻后，输入&#8221;rspec&#8221;然后安装。然后检查&#8221;Preferences>Package Settings>Package Control>User&#8221;中发现已经添加Rspec支持:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;auto_upgrade_last_run&quot;</span><span class="p">:</span> <span class="mi">1349498917</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;installed_packages&quot;</span><span class="p">:</span>
+</span><span class='line'>  <span class="p">[</span>
+</span><span class='line'>      <span class="s2">&quot;RSpec (snippets and syntax)&quot;</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dong</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-04T22:20:00+08:00" pubdate data-updated="true">Oct 4<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/其它/'>其它</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/09/23/mountain-lion-install-mongodb/" title="Previous Post:
+        Mountain lion 安装 mongoDB">&laquo; Mountain lion 安装 mongoDB</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/10/26/add-new-page-in-octopress/"
+        title="Next Post: Add new page in Octopress">Add new page in Octopress
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+ <h1>标签</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+<li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
+<li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
+<li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
+
+ </ul>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - Dong -
+  <span class="credit">Powered by <a href="http://dongtong.github.com">ME</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dong-way';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dongtong.github.com/blog/2012/10/04/sublime-text2-usage/';
+        var disqus_url = 'http://dongtong.github.com/blog/2012/10/04/sublime-text2-usage/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

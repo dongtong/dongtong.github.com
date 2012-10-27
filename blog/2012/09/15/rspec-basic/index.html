@@ -1,0 +1,1081 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rspec基础 - Dong Way</title>
+  <meta name="author" content="Dong">
+
+  
+  <meta name="description" content="RSpec是BDD(行为驱动测试)的一种测试框架。按照BDD理念，应该是先写一些行为用例场景，
+运行测试用例，应该失败(Red),然后写实现代码，再次运行测试,让测试通过(Green),最后
+重构代码，再运行测试用例,保证成功(Green)。 每次写的测试用例要针对粒度比较小的代码实现， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dongtong.github.com/blog/2012/09/15/rspec-basic">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dong Way" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Dong Way</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss email">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+            <li><a href="chinatea.guy@gmail.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:dongtong.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Rspec基础</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-15T00:20:00+08:00" pubdate data-updated="true">Sep 15<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>RSpec是BDD(行为驱动测试)的一种测试框架。按照BDD理念，应该是先写一些行为用例场景，
+运行测试用例，应该失败(Red),然后写实现代码，再次运行测试,让测试通过(Green),最后
+重构代码，再运行测试用例,保证成功(Green)。</p>
+
+<p>每次写的测试用例要针对粒度比较小的代码实现，然后去一步步实现代码。例如测试RoR中Controller
+代码，要保证资源创建和保存这些涉及到数据库存取的action,要Mock这些数据，尽量少接触
+数据库。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@post</span> <span class="o">=</span> <span class="n">mock_model</span><span class="p">(</span><span class="no">Post</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Foo Bar&quot;</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>和数据库这种松耦合的关系可以保证数据的灵活性(可以根据业务逻辑代码去mock数据)，以及
+测试运行的效率。</p>
+
+<p>写测试有一个好处就是构建使用用例，在测试的同时其实也是在告诉使用者，应该如何使用你写的
+库或者工具。这个需要测试框架能够生成测试用例的文档，这一点Rspec可以实现。</p>
+
+<!--More-->
+
+
+<p>下面开始介绍一些Rspec如何测试.
+首先安装依赖的gem</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rvm</span> <span class="o">--</span><span class="n">create</span> <span class="n">use</span> <span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">2</span><span class="vi">@rails326</span>
+</span><span class='line'>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rspec</span> <span class="no">ZenTest</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建一个rails项目</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rails</span> <span class="kp">new</span> <span class="n">forecaster</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">mkdir</span> <span class="n">spec</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">vim</span> <span class="n">spec</span><span class="o">/</span><span class="n">simple_spec</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后在simple_spec.rb输入以下代码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be awesome&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>describe描述context的，这里表述的是class
+然后运行这个spec</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rspec</span> <span class="n">spec</span><span class="o">/</span><span class="n">simple_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'><span class="o">*</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Pending</span><span class="p">:</span>
+</span><span class='line'>  <span class="no">Post</span> <span class="n">should</span> <span class="n">be</span> <span class="n">awesome</span>
+</span><span class='line'>    <span class="c1"># Not yet implemented</span>
+</span><span class='line'>    <span class="c1"># ./spec/simple_spec.rb:5</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Finished</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="mo">00022</span> <span class="n">seconds</span>
+</span><span class='line'><span class="mi">1</span> <span class="n">example</span><span class="p">,</span> <span class="mi">0</span> <span class="n">failures</span><span class="p">,</span> <span class="mi">1</span> <span class="n">pending</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>说明上面的it没有实现完全</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be awesome&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">should</span> <span class="n">be_awesome</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>should是一个断言，这里也可以使用should_not。接下来可以使用的是matcher
+后面会介绍matcher的使用。这里运行一下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rspec</span> <span class="n">spec</span><span class="o">/</span><span class="n">simple_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'><span class="n">F</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Failures</span><span class="p">:</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="mi">1</span><span class="p">)</span> <span class="no">Post</span> <span class="n">should</span> <span class="n">be</span> <span class="n">awesome</span>
+</span><span class='line'>     <span class="no">Failure</span><span class="o">/</span><span class="no">Error</span><span class="p">:</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">should</span> <span class="n">be_awesome</span>
+</span><span class='line'>     <span class="no">NoMethodError</span><span class="p">:</span>
+</span><span class='line'>       <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`awesome?&#39; for #&lt;Post:0x0000010118bc38&gt;</span>
+</span><span class='line'><span class="sb">     # ./spec/simple_spec.rb:6:in `</span><span class="n">block</span> <span class="p">(</span><span class="mi">2</span> <span class="n">levels</span><span class="p">)</span> <span class="k">in</span> <span class="o">&lt;</span><span class="n">top</span> <span class="p">(</span><span class="n">required</span><span class="p">)</span><span class="o">&gt;</span><span class="err">&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Finished</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="mo">03062</span> <span class="n">seconds</span>
+</span><span class='line'><span class="mi">1</span> <span class="n">example</span><span class="p">,</span> <span class="mi">1</span> <span class="n">failure</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Failed</span> <span class="n">examples</span><span class="p">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">rspec</span> <span class="o">.</span><span class="n">/spec</span><span class="o">/</span><span class="n">simple_spec</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">5</span> <span class="c1"># Post should be awesome</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个说明Post的没有实现awesome?方法，should be_awesome被翻译成awesome?方法。
+下面实现Post的实例方法:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">awesome?</span>
+</span><span class='line'>      <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be awesome&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">should</span> <span class="n">be_awesome</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后在运行测试:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rspec</span> <span class="n">spec</span><span class="o">/</span><span class="n">simple_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Finished</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="mo">0032</span><span class="mi">9</span> <span class="n">seconds</span>
+</span><span class='line'><span class="mi">1</span> <span class="n">example</span><span class="p">,</span> <span class="mi">0</span> <span class="n">failures</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这就是一轮Red->Refactor->Green。
+context的&#8221;it do&#8221;之间如果没有description,这个context也是会执行的。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">awesome?</span>
+</span><span class='line'>      <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Book</span><span class="p">;</span><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be awesome&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">should</span> <span class="n">be_awesome</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">should</span> <span class="n">be_awesome</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_an_instance_of</span><span class="p">(</span><span class="no">Book</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rspec</span> <span class="n">spec</span><span class="o">/</span><span class="n">simple_spec</span><span class="o">.</span><span class="n">rb</span> <span class="o">--</span><span class="nb">format</span> <span class="n">h</span> <span class="o">&gt;&gt;</span> <span class="n">output</span><span class="o">.</span><span class="n">html</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将测试结果文档化，并将内容输出到output.html文件中。be_an_instance_of是
+一个matcher。</p>
+
+<p>在这里可以看出每次运行一个example block(it&#8230;do)时，都要创建一个Post实例。Rspec提供了
+before和after两个过滤器，在运行example之前或者之后运行before和after代码块，在这里可以
+初始化或者善后一些处理操作。</p>
+
+<p>before分为all和each，before(:all)是针对整个describe context，它只运行一次，这里是describe Post。
+另外一个是before(:each),它是在每个example(spec)运行前都会执行的。before默认的也是each。下面重构一下
+rspec测试代码:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be awesome&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">be_awesome</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">be_awesome</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_an_instance_of</span><span class="p">(</span><span class="no">Book</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>让我们再添加一个测试场景和响应的实现。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">awesome?</span>
+</span><span class='line'>      <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">comments</span>
+</span><span class='line'>      <span class="o">[</span><span class="s2">&quot;Foo&quot;</span><span class="p">,</span> <span class="s2">&quot;Bar&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Book</span><span class="p">;</span><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be awesome&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">be_awesome</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">be_awesome</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_an_instance_of</span><span class="p">(</span><span class="no">Book</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">have</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">comments</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意这里应该先写测试，然后运行测试，最后在实现代码，这就是一轮(Red->Refactor->Green)。
+这里.should have(2)是一种matcher其实可以看成省略，那么就成了@post.comments。
+想要查阅更多的Matcher信息，可以访问<a href="https://www.relishapp.com/rspec">https://www.relishapp.com/rspec</a>。</p>
+
+<p>下面介绍如何为Ruby on Rails安装Rspec相关的Gem</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rspec</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rspec</span><span class="o">-</span><span class="n">core</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rspec</span><span class="o">-</span><span class="n">expectations</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rspec</span><span class="o">-</span><span class="n">mocks</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rspec</span><span class="o">-</span><span class="n">rails</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后在Rails项目Gemfile添加以下代码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:test</span><span class="p">,</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s2">&quot;rspec-rails&quot;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.11&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就可以保证rspec不会干扰production环境。然后在项目中初始化和生成spec目录:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rails</span> <span class="n">g</span> <span class="n">rspec</span><span class="ss">:install</span>
+</span><span class='line'>      <span class="n">create</span>  <span class="o">.</span><span class="n">rspec</span>
+</span><span class='line'>       <span class="n">exist</span>  <span class="n">spec</span>
+</span><span class='line'>      <span class="n">create</span>  <span class="n">spec</span><span class="o">/</span><span class="n">spec_helper</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查阅rspec-rails文档[https://www.relishapp.com/rspec/rspec-rails/v/2-11/docs]https://www.relishapp.com/rspec/rspec-rails/v/2-11/docs
+查看spec有哪些rake工具可以使用:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rake</span> <span class="o">-</span><span class="n">T</span> <span class="n">spec</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span>              <span class="c1"># Run all specs in spec directory (excluding plugin specs)</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span><span class="ss">:controllers</span>  <span class="c1"># Run the code examples in spec/controllers</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span><span class="ss">:helpers</span>      <span class="c1"># Run the code examples in spec/helpers</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span><span class="ss">:lib</span>          <span class="c1"># Run the code examples in spec/lib</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span><span class="ss">:mailers</span>      <span class="c1"># Run the code examples in spec/mailers</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span><span class="ss">:models</span>       <span class="c1"># Run the code examples in spec/models</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span><span class="ss">:rcov</span>         <span class="c1"># Run all specs with rcov</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span><span class="ss">:requests</span>     <span class="c1"># Run the code examples in spec/requests</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span><span class="ss">:routing</span>      <span class="c1"># Run the code examples in spec/routing</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">spec</span><span class="ss">:views</span>        <span class="c1"># Run the code examples in spec/views</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面开始创建Rails model并尝试使用rspec测试</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rails</span> <span class="n">g</span> <span class="n">scaffold</span> <span class="no">Post</span> <span class="n">title</span><span class="ss">:string</span> <span class="n">content</span><span class="ss">:text</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>      <span class="n">invoke</span>    <span class="n">rspec</span>
+</span><span class='line'>      <span class="n">create</span>      <span class="n">spec</span><span class="o">/</span><span class="n">controllers</span><span class="o">/</span><span class="n">posts_controller_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'>      <span class="n">create</span>      <span class="n">spec</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">posts</span><span class="o">/</span><span class="n">edit</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'>      <span class="n">create</span>      <span class="n">spec</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">posts</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'>      <span class="n">create</span>      <span class="n">spec</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">posts</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'>      <span class="n">create</span>      <span class="n">spec</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">posts</span><span class="o">/</span><span class="n">show</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">erb_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'>      <span class="n">create</span>      <span class="n">spec</span><span class="o">/</span><span class="n">routing</span><span class="o">/</span><span class="n">posts_routing_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'>      <span class="n">invoke</span>      <span class="n">rspec</span>
+</span><span class='line'>      <span class="n">create</span>        <span class="n">spec</span><span class="o">/</span><span class="n">requests</span><span class="o">/</span><span class="n">posts_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'>      <span class="n">invoke</span>    <span class="n">helper</span>
+</span><span class='line'>      <span class="n">create</span>      <span class="n">app</span><span class="o">/</span><span class="n">helpers</span><span class="o">/</span><span class="n">posts_helper</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'>      <span class="n">invoke</span>      <span class="n">rspec</span>
+</span><span class='line'>      <span class="n">create</span>        <span class="n">spec</span><span class="o">/</span><span class="n">helpers</span><span class="o">/</span><span class="n">posts_helper_spec</span><span class="o">.</span><span class="n">rb</span>
+</span><span class='line'>      <span class="n">invoke</span>  <span class="n">assets</span>
+</span><span class='line'>      <span class="n">invoke</span>    <span class="n">coffee</span>
+</span><span class='line'>      <span class="n">create</span>      <span class="n">app</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">javascripts</span><span class="o">/</span><span class="n">posts</span><span class="o">.</span><span class="n">js</span><span class="o">.</span><span class="n">coffee</span>
+</span><span class='line'>      <span class="n">invoke</span>    <span class="n">scss</span>
+</span><span class='line'>      <span class="n">create</span>      <span class="n">app</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">stylesheets</span><span class="o">/</span><span class="n">posts</span><span class="o">.</span><span class="n">css</span><span class="o">.</span><span class="n">scss</span>
+</span><span class='line'>      <span class="n">invoke</span>  <span class="n">scss</span>
+</span><span class='line'>      <span class="n">create</span>    <span class="n">app</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">stylesheets</span><span class="o">/</span><span class="n">scaffolds</span><span class="o">.</span><span class="n">css</span><span class="o">.</span><span class="n">scss</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在spec目录中生成了controllers,helpers,models,requests,routing,views目录。
+下面迁移数据库并拷贝到测试数据库:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">rake</span> <span class="n">db</span><span class="ss">:migrate</span> <span class="o">&amp;&amp;</span> <span class="n">rake</span> <span class="n">db</span><span class="ss">:test:prepare</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后去spec生成的目录中看看默认生成的rspec测试内容，这些是针对对应的RoR Component
+测试。看一些spec_helper.rb</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># This file is copied to spec/ when you run &#39;rails generate rspec:install&#39;</span>
+</span><span class='line'><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RAILS_ENV&quot;</span><span class="o">]</span> <span class="o">||=</span> <span class="s1">&#39;test&#39;</span> <span class="c1">#这个是使用的是什么数据库，这里如果ENV[&quot;RAILS_ENV&quot;] 存在就</span>
+</span><span class='line'><span class="c1">#使用已经存在的，或者使用test</span>
+</span><span class='line'><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../../config/environment&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rspec/rails&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rspec/autorun&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Requires supporting ruby files with custom matchers and macros, etc,</span>
+</span><span class='line'><span class="c1"># in spec/support/ and its subdirectories.</span>
+</span><span class='line'><span class="no">Dir</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;spec/support/**/*.rb&quot;</span><span class="p">)</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="nb">require</span> <span class="n">f</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1"># ## Mock Framework</span>
+</span><span class='line'>  <span class="c1">#</span>
+</span><span class='line'>  <span class="c1"># If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:</span>
+</span><span class='line'>  <span class="c1">#</span>
+</span><span class='line'>  <span class="c1"># config.mock_with :mocha</span>
+</span><span class='line'>  <span class="c1"># config.mock_with :flexmock</span>
+</span><span class='line'>  <span class="c1"># config.mock_with :rr</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Remove this line if you&#39;re not using ActiveRecord or ActiveRecord fixtures</span>
+</span><span class='line'>  <span class="c1">#可以添加夹具测试数据</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">fixture_path</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="o">::</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/spec/fixtures&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># If you&#39;re not using ActiveRecord, or you&#39;d prefer not to run each of your</span>
+</span><span class='line'>  <span class="c1"># examples within a transaction, remove the following line or assign false</span>
+</span><span class='line'>  <span class="c1"># instead of true.</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">use_transactional_fixtures</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># If true, the base class of anonymous controllers will be inferred</span>
+</span><span class='line'>  <span class="c1"># automatically. This will be the default behavior in future versions of</span>
+</span><span class='line'>  <span class="c1"># rspec-rails.</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">infer_base_class_for_anonymous_controllers</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Run specs in random order to surface order dependencies. If you find an</span>
+</span><span class='line'>  <span class="c1"># order dependency and want to debug it, you can fix the order by providing</span>
+</span><span class='line'>  <span class="c1"># the seed, which is printed after each run.</span>
+</span><span class='line'>  <span class="c1">#     --seed 1234</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在运行一下默认的测试</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$&gt;</span> <span class="n">rake</span> <span class="n">spec</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">rake</span> <span class="n">spec</span><span class="ss">:controllers</span> <span class="c1">#测试controllers</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">rake</span> <span class="n">spec</span><span class="ss">:models</span> <span class="c1">#测试models</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">rake</span> <span class="n">spec</span><span class="ss">:views</span> <span class="c1">#测试views</span>
+</span><span class='line'><span class="vg">$&gt;</span> <span class="n">rake</span> <span class="n">spec</span><span class="ss">:helpers</span> <span class="c1">#测试helpers</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>开始写一些spec测试model</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be valid&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">be_valid</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行这个spec，发现能成功pass过去。再添加一些spec</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be valid&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">be_valid</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">have</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">error_on</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这次再运行测试发现运行失败，因为没有error。怎样才能让spec通过？
+首先@post的title是nil。可以添加一些验证条件到post.rb中。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">attr_accessible</span> <span class="ss">:content</span><span class="p">,</span> <span class="ss">:title</span>
+</span><span class='line'>  <span class="n">validates_presence_of</span> <span class="ss">:title</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行rake spec:models发现还是失败，因为第一个spec没有通过，通过修改post_spec.rb</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be valid&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;FooBar&quot;</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">be_valid</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">have</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">error_on</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在运行测试，通过。可以重构一些post_spec.rb</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">PostSpecHelper</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">valid_post_attributes</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="ss">:title</span><span class="o">=&gt;</span><span class="s2">&quot;FooBar Title&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">PostSpecHelper</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be valid&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">attributes</span> <span class="o">=</span> <span class="n">valid_post_attributes</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">be_valid</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@post</span><span class="o">.</span><span class="n">should</span> <span class="n">have</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">error_on</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样封装的好处是可以把case分类，并且重用。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dong</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-15T00:20:00+08:00" pubdate data-updated="true">Sep 15<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rspec/'>Rspec</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/09/09/less-is-good-than-more/" title="Previous Post:
+        做少没有什么不好">&laquo; 做少没有什么不好</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/09/16/introduce-nodejs/"
+        title="Next Post: Nodejs 介绍">Nodejs 介绍
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+ <h1>标签</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+<li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
+<li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
+<li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
+
+ </ul>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - Dong -
+  <span class="credit">Powered by <a href="http://dongtong.github.com">ME</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dong-way';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dongtong.github.com/blog/2012/09/15/rspec-basic/';
+        var disqus_url = 'http://dongtong.github.com/blog/2012/09/15/rspec-basic/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

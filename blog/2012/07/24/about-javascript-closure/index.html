@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>关于JavaScript闭包 - Dong Way</title>
+  <meta name="author" content="Dong">
+
+  
+  <meta name="description" content="首先看看大牛是怎么定义闭包的: “…一个内部函数可以访问外部函数的vars, 或者parameters.即使是外部函数已经返回”
+-“Douglas Crockford” 要想理解closure,最好是写一些代码，或是看一些例子。 1
+2
+3
+4
+5
+6
+7
+function myClosure &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dongtong.github.com/blog/2012/07/24/about-javascript-closure">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dong Way" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Dong Way</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss email">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+            <li><a href="chinatea.guy@gmail.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:dongtong.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">关于JavaScript闭包</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-24T22:25:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>首先看看大牛是怎么定义闭包的:</p>
+
+<p>“…一个内部函数可以访问外部函数的vars, 或者parameters.即使是外部函数已经返回”
+-“Douglas Crockford”</p>
+
+<p>要想理解closure,最好是写一些代码，或是看一些例子。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">myClosure</span><span class="p">(){</span>
+</span><span class='line'>     <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'>     <span class="c1">//nested function</span>
+</span><span class='line'>     <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>           <span class="k">return</span> <span class="nx">date</span><span class="p">.</span><span class="nx">getMilliseconds</span><span class="p">();</span>
+</span><span class='line'>     <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>即使是当myClosure中的匿名函数(即闭包)返回，但是date变量仍然驻留在内存中，而不
+像普通的函数执行完成后就随时可能被garbage collection回收了。闭包提供了封装
+(encapsulation)。这里把myClosure看作是一个容器，而date和nested function被看做
+是这个容器中的元素。</p>
+
+<p>另外一种实现方式:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myClosure2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>     <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</span><span class='line'>     <span class="kd">var</span> <span class="nx">myNestedFunc</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>           <span class="k">return</span> <span class="nx">date</span><span class="p">.</span><span class="nx">getMilliseconds</span><span class="p">();</span>
+</span><span class='line'>     <span class="p">}</span>
+</span><span class='line'>     <span class="k">return</span> <span class="p">{</span><span class="c1">// revealing modular pattern</span>
+</span><span class='line'>           <span class="nx">foo</span><span class="o">:</span> <span class="nx">myNestedFunc</span>
+</span><span class='line'>     <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">myClosure2</span><span class="p">();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">bar</span><span class="p">.</span><span class="nx">foo</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>在JavaScript的一些高级应用中常常用到了闭包，在面试前端工程师时，也常常会问及
+闭包相关问题。要想理解好闭包，首先必须弄清楚变量作用域。</p>
+
+<p>JavaScript变量作用域分为全局(global)和局部(local),在function局部作用域中可以
+访问全局变量，但是在function外部，不可以单纯地访问函数内部的局部变量，如果想
+要访问，那就需要借助闭包(closure)。下面看一些简单的实例。</p>
+
+<figure class='code'><figcaption><span>局部访问全局变量</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">printFooBar</span><span class="p">(){</span>
+</span><span class='line'>       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;foo &quot;</span> <span class="o">+</span> <span class="nx">bar</span><span class="p">);</span><span class="c1">//函数体内部访问全局变量bar</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>function外部访问内部局部变量</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getFoo</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s2">&quot;foo&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">str</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">getFoo</span><span class="p">();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于JavaScript中的链式作用域(chain scope)特性, getFoo中的匿名函数可以访问str, 但
+是这里如果匿名函数中有局部变量的话。getFoo不能访问匿名函数中的局部变量。</p>
+
+<p>这里通俗理解闭包为”能够访问其它函数变量的函数”或者是“函数内部定义函数，然后返回这
+个内部函数”。可以看出闭包是链接函数内部和函数外部的桥梁。</p>
+
+<p>闭包有两个直接用途: 一是访问function内部局部变量，二是让内部局部变量持续在内存中。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getNumber</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">numSum</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span><span class="c1">//注意这个匿名函数是全局的，并且也是一个closure</span>
+</span><span class='line'>        <span class="nx">num</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span><span class="c1">//返回closure</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">num</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">getNumber</span><span class="p">();</span><span class="c1">//指向返回的closure</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">());</span><span class="c1">//1</span>
+</span><span class='line'><span class="nx">numSum</span><span class="p">();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">());</span><span class="c1">//2,说明num一直驻留在内存中，不会因为getNumber调用结束就释放</span>
+</span><span class='line'><span class="nx">num</span><span class="p">,</span><span class="err">主要是有全局引用</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span><span class="err">引向</span><span class="nx">getNumber</span><span class="err">的闭包使得</span><span class="nx">num</span><span class="err">一直没有被</span><span class="nx">garbage</span> <span class="nx">collection</span>
+</span><span class='line'><span class="err">回收。</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用闭包需要注意的是，不能滥用，看项目的大小以及需求，否则会导致内存持续膨胀，性能
+下降，在IE环境中内存会泄露。最好是在用完闭包后，能手动释放局部变量。另外一种情况是
+如果闭包能改变容器函数(即包含闭包的函数)中的局部变量，使用时需要小心。</p>
+
+<p>下面看一个JavaScript闭包实例，听说能理解的话，基本闭包就没有问题了。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;The Window&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'><span class="err">　　　　</span><span class="nx">name</span> <span class="o">:</span> <span class="s2">&quot;My Object&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="err">　　　　</span><span class="nx">getNameFunc</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'><span class="err">　　　　　　</span><span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'><span class="err">　　　　　　　　</span><span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'><span class="err">　　　　　　</span><span class="p">};</span>
+</span><span class='line'><span class="err">　　　　</span><span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">object</span><span class="p">.</span><span class="nx">getNameFunc</span><span class="p">()());</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;The Window&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="err">　　</span><span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'><span class="err">　　　　</span><span class="nx">name</span> <span class="o">:</span> <span class="s2">&quot;My Object&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="err">　　　　</span><span class="nx">getNameFunc</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'><span class="err">　　　　　　</span><span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'><span class="err">　　　　　　</span><span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'><span class="err">　　　　　　　　</span><span class="k">return</span> <span class="nx">that</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'><span class="err">　　　　　　</span><span class="p">};</span>
+</span><span class='line'><span class="err">　　　　</span><span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">object</span><span class="p">.</span><span class="nx">getNameFunc</span><span class="p">()());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>放到firebug或者chrome中试试吧，如果在IE下，将console.log()换成alert()。</p>
+
+<p>站在巨人肩膀上学习 :D</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dong</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-24T22:25:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>JavaScript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/07/22/optimize-for-loops/" title="Previous Post:
+        如何优化for loops">&laquo; 如何优化for loops</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/07/26/about-for-in/"
+        title="Next Post: JavaScript中for..in循环">JavaScript中for..in循环
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+ <h1>标签</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+<li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
+<li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
+<li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
+
+ </ul>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - Dong -
+  <span class="credit">Powered by <a href="http://dongtong.github.com">ME</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dong-way';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dongtong.github.com/blog/2012/07/24/about-javascript-closure/';
+        var disqus_url = 'http://dongtong.github.com/blog/2012/07/24/about-javascript-closure/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

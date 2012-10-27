@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category:Programming | Dong Way]]></title>
+  <link href="http://dongtong.github.com/blog/categories/programming/atom.xml" rel="self"/>
+  <link href="http://dongtong.github.com/"/>
+  <updated>2012-10-27T13:19:25+08:00</updated>
+  <id>http://dongtong.github.com/</id>
+  <author>
+    <name><![CDATA[Dong]]></name>
+    <email><![CDATA[chinatea.guy@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[什么是可维护的JavaScript代码]]></title>
+    <link href="http://dongtong.github.com/blog/2012/08/25/write-maintainable-js-code/"/>
+    <updated>2012-08-25T14:37:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/08/25/write-maintainable-js-code</id>
+    <content type="html"><![CDATA[<p>最为一个开发人员，我们需要对自己编写的代码负责，对我们的解决方案负责。</p>
+
+<ol>
+<li><p>花时间重新温习和理解我们遇到的问题。</p></li>
+<li><p>重新理解我们的解决方案。</p></li>
+</ol>
+
+
+<p>可能过若干个月后，我们可能会再次遇到这些问题，似曾相识但又无法清晰地表达出来，
+所以当我们应该间歇性地回头回顾我们遇到的问题，总结我们的解决方案。</p>
+
+<!--More-->
+
+
+<p>如果静下心来写代码可能几个小时我们就可以堆积大量的代码，因为当时我们在实现
+我们的思路时，应该沉静在问题中，最终的解决方案可能也能解决我们的问题，但是回头
+认真地在看一次写过的代码，发现这里需要优化，那里觉得冗余等等。甚至如果在另外一
+中条件下再执行我们的解决方案发现就无法通过了。所以对自己实现的代码负责，最好的
+方法就是叫上几个同事多次回归审阅我们的代码。</p>
+
+<p>良好的代码应该具备至少以下一些特性：</p>
+
+<ol>
+<li><p>具有可读性。</p></li>
+<li><p>代码风格要保持一致性。</p></li>
+<li><p>代码要有详细注释。</p></li>
+<li><p>具有可扩展性。</p></li>
+<li><p>具有可测试性。</p></li>
+</ol>
+
+
+<p>你做到了吗? :)</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category:Python | Dong Way]]></title>
+  <link href="http://dongtong.github.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://dongtong.github.com/"/>
+  <updated>2012-10-27T13:19:25+08:00</updated>
+  <id>http://dongtong.github.com/</id>
+  <author>
+    <name><![CDATA[Dong]]></name>
+    <email><![CDATA[chinatea.guy@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Python简明教程]]></title>
+    <link href="http://dongtong.github.com/blog/2012/09/21/python-simple-tutorial/"/>
+    <updated>2012-09-21T21:01:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/09/21/python-simple-tutorial</id>
+    <content type="html"><![CDATA[<h2>1. 数字以及数学操作</h2>
+
+<p>这里Python使用的是2.6.5,后续将补充Python 3.x系列的一些新特性。</p>
+
+<p>```python</p>
+
+<blockquote><blockquote><blockquote><p>1 + 1
+2
+6 - 1
+5
+4 * 4
+16
+18 / 7 //如果整除不了就取整数
+2
+18 / 6
+3
+18.0 / 6 //除数和被除数只要有浮点数，结果就取浮点数
+3.0
+18.0 / 7
+2.5714285714285716
+18 / 7.0
+2.5714285714285716
+18.0/ 7.0
+2.5714285714285716
+18 / 7.
+2.5714285714285716
+9 % 4 //这是取余或是取模操作
+1
+8 % 4
+0
+8.25 % .5
+0.25
+4 * 4 * 4 //几次方的实现
+64
+4<strong>3
+64
+-4 </strong> 4 //乘积操作符的优先级高
+-256
+(-4) <strong> 4
+256
+4 </strong> -4 // 4累计乘4次，然后取倒数
+0.00390625
+1/256.
+0.00390625
+5 / 0 //抛出ZeroDivisionError
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ZeroDivisionError: integer division or modulo by zero</p></blockquote></blockquote></blockquote>
+
+<p>```</p>
+
+<!--More-->
+
+
+<h2>2. 变量</h2>
+
+<p>Python中的变量和其它语言中变量含义没有多大的差别，它主要用来存储对象。
+看看如何定义变量:
+```python</p>
+
+<blockquote><blockquote><blockquote><p>x = 20
+x + 2
+22
+x ** 2
+400
+```
+在这里x是变量名，20是变量存储的值。在有些语言中值如果是对象的话，那么x
+实际存储的是这个对象在内存中的地址，如果是普通类型的话，那么存储的就是
+内存中的值。在python也是这样的。</p></blockquote></blockquote></blockquote>
+
+<p>变量有时也可以理解为复用。如果不使用变量的话，这里20 + 2先在内存中开辟一块
+内存存储20，用完后，这块内存就被释放，下次 20 ** 2又重新开辟内存。如果用x
+指向20的话，下次可以复用。</p>
+
+<p>这里给变量赋值，也可以使用变量给变量赋值，或者函数给变量赋值等方式。
+```</p>
+
+<blockquote><blockquote><blockquote><p>y = 30
+x = y
+print x
+30
+x = input("Please enter a number:")
+Please enter a number:40
+print x
+40
+```
+input函数返回的结果就是用户输入的数值。这个值赋给了变量想x。</p></blockquote></blockquote></blockquote>
+
+<h2>3. 模块和函数</h2>
+
+<p>在python中一切皆是对象，不管是类，函数，模块，还是其他一些元素。函数就是把完成
+特定功能的语句块封装到一个可以独立运行的单位中，可供重复使用。
+```</p>
+
+<blockquote><blockquote><blockquote><p>5 ** 4
+625
+x = 5
+y = 4
+pow(x, y)
+625
+abs(-20)
+20
+<code>
+pow就是一个python的内建函数，这个函数可以重复使用，可以传递特定的参数给这个函数
+来求特定数的幂。下面看看如何自定义一个函数
+</code>python
+def echo(str):</p>
+
+<pre><code>print("You said: %s"% str)
+</code></pre></blockquote></blockquote></blockquote>
+
+<p>echo("Hello Python!")
+```
+刚开始在学习python时，可能是通过交互式命令行，但是在这里键入的代码一旦关闭交互式
+命令窗口后，这些代码就再也访问不到，所以程序变得复杂后，应该将代码输入到xx.py文件
+中，然后通过python xxx.py来运行代码。python提供了一种方法将python文件导入(import)
+,这样就能获取文件中的代码定义，在需要的时候就可以调用这些代码。这个文件就是一个模块。
+模块是包括python定义和声明的文件。文件名就是模块名加上.py后缀名。模块名可以由全局变量<strong>name</strong>获取。</p>
+
+<p>模块是python中的一种那个组织形式，模块将完成特定功能的代码组织到一个独立的文件中。模块
+可以包含可执行代码，函数，类或者是大家的混合。</p>
+
+<p>模块的调用使用import语句，在一个模块中可以调用另一个模块。
+```python</p>
+]]></content>
+  </entry>
+  
+</feed>

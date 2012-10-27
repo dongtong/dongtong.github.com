@@ -1,0 +1,9 @@
+/****************
+ * dong-way style.css
+ * *************/
+
+#categories li{
+	list-style: none;
+	margin-left: -15px;
+	border-bottom: 1px dotted #333;
+}

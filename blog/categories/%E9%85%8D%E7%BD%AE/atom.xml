@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category:配置 | Dong Way]]></title>
+  <link href="http://dongtong.github.com/blog/categories/%E9%85%8D%E7%BD%AE/atom.xml" rel="self"/>
+  <link href="http://dongtong.github.com/"/>
+  <updated>2012-10-27T13:19:25+08:00</updated>
+  <id>http://dongtong.github.com/</id>
+  <author>
+    <name><![CDATA[Dong]]></name>
+    <email><![CDATA[chinatea.guy@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mountain lion 安装 mongoDB]]></title>
+    <link href="http://dongtong.github.com/blog/2012/09/23/mountain-lion-install-mongodb/"/>
+    <updated>2012-09-23T23:06:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/09/23/mountain-lion-install-mongodb</id>
+    <content type="html"><![CDATA[<p>Mountain Lion通过Macport安装MongoDB报如下错误:
+```
+Error: mongodb 2.0.7 requires boost 1.49.0 or older but you have boost 1.50.0.
+Error: To downgrade boost, see https://trac.macports.org/wiki/howto/InstallingOlderPort
+Error: or more specifically https://trac.macports.org/ticket/35118#comment:12
+Error: After installing boost 1.49.0, install mongodb without upgrading dependencies, i.e.:
+Error:     sudo port -n install mongodb
+Error: org.macports.configure for port mongodb returned: boost 1.50.0 is too new
+Please see the log file for port mongodb for details:</p>
+
+<pre><code>/opt/local/var/macports/logs/_opt_local_var_macports_sources_rsync.macports.org_release_tarballs_ports_databases_mongodb/mongodb/main.log
+</code></pre>
+
+<p>To report a bug, follow the instructions in the guide:</p>
+
+<pre><code>http://guide.macports.org/#project.tickets
+</code></pre>
+
+<p>Error: Processing of port mongodb failed
+```</p>
+
+<!--More-->
+
+
+<p>这个说明在安装MongoDB时需要安装boost，但是安装的版本是1.50.0版本，需要降级安装MongDB:
+```
+$ svn co -r 93341 'http://svn.macports.org/repository/macports/trunk/dports/devel/boost/'
+$ cd boost
+$ sudo port install</p>
+
+<h1>安装好boost后安装mongodb</h1>
+
+<p>$ sudo port -n install mongodb</p>
+
+<h1>为mongodb设置文件保存目录：</h1>
+
+<p>$ sudo mkdir /data/db
+$ sudo chown <code>id -u</code> /data/db</p>
+
+<h1>启动MongoDB服务：</h1>
+
+<p>$ mongod</p>
+
+<h1>在另外一个Terminal窗口（或标签页）中运行mongo客户端：</h1>
+
+<p>$ mongo
+...
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[更新到Mountain Lion后，rake失效]]></title>
+    <link href="http://dongtong.github.com/blog/2012/08/26/rake-broken-after-update-to-mountain-lion/"/>
+    <updated>2012-08-26T22:53:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/08/26/rake-broken-after-update-to-mountain-lion</id>
+    <content type="html"><![CDATA[<p>如果使用Ruby on Rails开发的人员可能会遇到这样的问题，如果Mac OS X升级到
+Mountain Lion时，可能有时候rake 失效，会报告如下错误:
+<code>
+IOError: invalid Python installation: unable to open /usr/include/python2.7/pyconfig.h (No such file or directory)
+</code>
+特别是在用Octopress时，发现无法watch, preview等等。
+解决方法是建立软连接到Python的安装目录中的pyconfig.h
+<code>
+$&gt;sudo find / -name pyconfig.h  #首先找到文件
+$&gt;sudo mkdir -p /usr/include/python2.7/
+$&gt;sudo ln -s 找到的安装目录 /usr/include/python2.7/pyconfig.h
+</code>
+OK :D</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OS X Leopard 安装Postgresql和pg gem]]></title>
+    <link href="http://dongtong.github.com/blog/2012/07/21/mac-install-postgresql/"/>
+    <updated>2012-07-21T23:38:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/07/21/mac-install-postgresql</id>
+    <content type="html"><![CDATA[<p>这里安装Postgresql不是通过port,而是直接下载.dmg文件安装。</p>
+
+<p>第一步: 到Postgresql官网下载Postgresql.dmg文件
+想到http://www.postgresql.org/download/macosx/下点击"Download"，页面
+跳转到http://www.enterprisedb.com/products-services-training/pgdownload#osx
+这里下载的是9.1.4版本，下载完成后直接点击安装。</p>
+
+<p>第二步: 安装前先看一下README文件，里面说明了如何配置Postgresql的内存使用情况</p>
+
+<p>第三步: 安装过程中如果数据库使用了汉字的话，要选择zh的，不然数据库中无法存储汉字。</p>
+
+<!-- more -->
+
+
+<p>第四步: 做RoR开发的，可能要安装pg gem，用来连接Postgresql数据库
+```
+gem install pg
+Gem::Installer::ExtensionBuildError: ERROR: Failed to build gem native extension.</p>
+
+<pre><code>    /Users/ryan/.rvm/rubies/ruby-1.9.2-p290/bin/ruby extconf.rb 
+</code></pre>
+
+<p>checking for pg_config... no
+No pg_config... trying anyway. If building fails, please try again with
+ --with-pg-config=/path/to/pg_config
+checking for libpq-fe.h... no
+Can't find the 'libpq-fe.h header
+<strong><em> extconf.rb failed </em></strong>
+Could not create Makefile due to some reason, probably lack of
+necessary libraries and/or headers.  Check the mkmf.log file for more
+details.  You may need configuration options.</p>
+
+<p>Provided configuration options:</p>
+
+<pre><code>--with-opt-dir
+--without-opt-dir
+--with-opt-include
+--without-opt-include=${opt-dir}/include
+--with-opt-lib
+--without-opt-lib=${opt-dir}/lib
+--with-make-prog
+--without-make-prog
+--srcdir=.
+--curdir
+--ruby=/Users/ryan/.rvm/rubies/ruby-1.9.2-p290/bin/ruby
+--with-pg
+--without-pg
+--with-pg-dir
+--without-pg-dir
+--with-pg-include
+--without-pg-include=${pg-dir}/include
+--with-pg-lib
+--without-pg-lib=${pg-dir}/lib
+--with-pg-config
+--without-pg-config
+--with-pg_config
+--without-pg_config
+</code></pre>
+
+<p><code>
+解决办法是,首先找到pg_config的位置:
+</code>
+sudo find / -name pg_config
+<code>
+然后在安装时加上路径
+</code>
+gem install pg -- --with-pg-config=/Library/PostgreSQL/9.1/bin/pg_config
+```
+就OK了  :D</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OS X Leopard 安装mysql]]></title>
+    <link href="http://dongtong.github.com/blog/2012/07/21/mac-install-mysql/"/>
+    <updated>2012-07-21T23:23:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/07/21/mac-install-mysql</id>
+    <content type="html"><![CDATA[<p>在安装mysql之前必须要安装的是port, xcode(用它的工具包)</p>
+
+<p>第一步: 通过控制台安装MySQL 5
+<code>
+sudo port install mysql5 +server
+</code></p>
+
+<p>第二步: 让Mac OS X每次启动时启动MySQL服务
+<code>
+sudo launchctl load -w /Library/LaunchDaemons/org.macports.mysql5.plist
+</code></p>
+
+<!-- more -->
+
+
+<p>第三步: 查找MySQL的server socket
+<code>
+mysql_config5 --socket
+</code></p>
+
+<p>第四步: 配置server socket, 让PHP, RoR, Python,以及其他语言能够访问
+<code>
+sudo ln -s /opt/local/var/run/mysql5/mysqld.sock /tmp/mysql.sock
+sudo mkdir /var/mysql
+sudo ln -s /opt/local/var/run/mysql5/mysqld.sock /var/mysql/mysql.sock
+</code></p>
+
+<p>第五步: 要想配置生效，先停下MySQL服务
+<code>
+sudo launchctl unload -w /Library/LaunchDaemons/org.macports.mysql5.plist
+</code></p>
+
+<p>第六步: 设置root用户和MySQL的默认数据库,修改root密码并使之立刻生效
+<code>
+sudo /opt/local/lib/mysql5/bin/mysql_install_db --user=mysql
+sudo launchctl load -w /Library/LaunchDaemons/org.macports.mysql5.plist
+mysql5 -u root
+UPDATE mysql.user SET Password = PASSWORD('password') WHERE User = 'root';
+FLUSH PRIVILEGES;
+</code>
+OK...</p>
+]]></content>
+  </entry>
+  
+</feed>

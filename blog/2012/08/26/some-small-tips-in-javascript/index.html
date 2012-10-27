@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript语言中的一些小建议 - Dong Way</title>
+  <meta name="author" content="Dong">
+
+  
+  <meta name="description" content="下面列举一些JavaScript编程过程中的小建议，这些也可以编程项目开发中的
+一些约定，其实这些小建议可能大家有些地方不是很赞同，其实遵守一些约定比
+这些约定的内容更重要，即使是一些比较糟糕的约定，如果大家都去遵守了，我
+想这些糟糕的约定也就不会惹来话柄了。下面看看这些小建议: 在做比较的时候， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dongtong.github.com/blog/2012/08/26/some-small-tips-in-javascript">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dong Way" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Dong Way</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss email">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+            <li><a href="chinatea.guy@gmail.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:dongtong.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">JavaScript语言中的一些小建议</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-26T23:22:00+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>下面列举一些JavaScript编程过程中的小建议，这些也可以编程项目开发中的
+一些约定，其实这些小建议可能大家有些地方不是很赞同，其实遵守一些约定比
+这些约定的内容更重要，即使是一些比较糟糕的约定，如果大家都去遵守了，我
+想这些糟糕的约定也就不会惹来话柄了。下面看看这些小建议:</p>
+
+<!--More-->
+
+
+<ol>
+<li><p>在做比较的时候，为了避免隐式类型转换，请使用 &#8216;===&#8217;, &#8216;!===&#8217;而不是
+&#8217;==&#8217;和&#8217;!==&#8217;。
+因为 false == 0, &#8220;&#8221; == 0这些都是&#8221;真的&#8221;,你不会期望这样吧</p></li>
+<li><p>不要使用eval()函数。
+首先是不安全，可能会执行ajax获取的脚本，万一这些脚本被修改过，那么
+前台就可能存在危险。关于eval更深入的详述，以后再细说。</p></li>
+<li><p>使用parseInt()时，最好加上第二个参数指明转换成什么进制.
+parseInt(&#8216;09&#8217;)会转换成0,因为在转换过程中首先遇到了&#8217;0&#8217;，那么就把
+它当做八进制转换，但是八进制中没有9，所以非法，最后就得到了0.
+应该这样：parseInt(&#8216;09&#8217;, 10)</p>
+
+<p>+&#8217;09&#8217;和Number(&#8216;09&#8217;)其实更快，但是 Number(&#8216;09 foobar&#8217;)就得不到
+9了。</p></li>
+<li><p>关于代码缩进问题，很多程序员都不是很统一，有的使用tab,有的使用空格
+其实使用tab会有一些小麻烦，因为不同的编辑器对待tab的长度不全是一致的。
+所以建议使用空格，至于多少个空格，可以在项目约定中指出，个人偏好使用
+4个空格。</p></li>
+<li><p>语句块最好使用{}包围。</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span><span class="c1">//这样是正确的，但是如果以后添加语句呢？</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>{}最好第一个括号添加在语句末尾</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="kd">function</span> <span class="nx">print</span><span class="p">(){</span>
+</span><span class='line'>          <span class="k">return</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;foobar&#39;</span>
+</span><span class='line'>          <span class="p">};</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'>   <span class="c1">//你知道哪里出问题了吗?</span>
+</span><span class='line'>   <span class="kd">function</span> <span class="nx">print</span><span class="p">(){</span>
+</span><span class='line'>          <span class="k">return</span><span class="p">{</span>
+</span><span class='line'>              <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;foobar&#39;</span>
+</span><span class='line'>          <span class="p">};</span>
+</span><span class='line'>   <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>   这里牵涉到&#8221;分号插入机制&#8221;，第一种情形会return undefined;分号自动添加在return
+   后面。</p>
+
+<ol>
+<li>代码要有空格</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){...}</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">printFoo</span><span class="p">()</span> <span class="p">{...}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+</span><span class='line'><span class="nx">printBar</span><span class="p">(</span><span class="nx">str1</span><span class="p">,</span> <span class="nx">str2</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">myFunc</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{...};</span>
+</span><span class='line'><span class="c1">//等等</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>命名约定。
+ 函数名使用驼峰标志,如printFooBar().变量使用下划线 first_name, my_own_val.
+ 常量可以使用全是大写字母PI, WIDTH。私有方法前加一个下划线(_getName())。其实
+ JavaScript没有私有方法一说。似有属性使用两个下划线等等，这些都是可以在项目中约
+ 定的。</p></li>
+<li><p>代码一定要有注释(后面阐述如何使用YUI Doc注释工具)。</p></li>
+<li><p>代码一定需要review。在review中别人可以很容易发现我们的错误，所谓&#8221;旁观者清，当局者迷&#8221;。</p></li>
+<li><p>开发过程中，最好经常使用JSLint工具</p></li>
+<li><p>最终发布代码时，最好使用工具来压缩代码，精简代码，加快浏览器的加载速度。</p></li>
+</ol>
+
+
+<p>以后继续添加Tips  :D</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dong</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-26T23:22:00+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>JavaScript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/08/26/rake-broken-after-update-to-mountain-lion/" title="Previous Post:
+        更新到Mountain Lion后，rake失效">&laquo; 更新到Mountain Lion后，rake失效</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/08/27/introduce-git/"
+        title="Next Post: Git简要介绍">Git简要介绍
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+ <h1>标签</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+<li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
+<li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
+<li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
+
+ </ul>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - Dong -
+  <span class="credit">Powered by <a href="http://dongtong.github.com">ME</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dong-way';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dongtong.github.com/blog/2012/08/26/some-small-tips-in-javascript/';
+        var disqus_url = 'http://dongtong.github.com/blog/2012/08/26/some-small-tips-in-javascript/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

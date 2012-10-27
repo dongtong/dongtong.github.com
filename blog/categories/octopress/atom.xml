@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category:Octopress | Dong Way]]></title>
+  <link href="http://dongtong.github.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://dongtong.github.com/"/>
+  <updated>2012-10-27T13:19:25+08:00</updated>
+  <id>http://dongtong.github.com/</id>
+  <author>
+    <name><![CDATA[Dong]]></name>
+    <email><![CDATA[chinatea.guy@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Add new page in Octopress]]></title>
+    <link href="http://dongtong.github.com/blog/2012/10/26/add-new-page-in-octopress/"/>
+    <updated>2012-10-26T22:33:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/10/26/add-new-page-in-octopress</id>
+    <content type="html"><![CDATA[<p>If you want to add new page in Octopress, just like Octopress's build-in "Blog" and "Archives" link. Firstly, you should create new page that you
+want.
+<code>
+$&gt; rake new_page["about"]
+</code>
+Then, Octopress engine will create the following fold and file:
+<code>
+mkdir -p source/about
+Creating new page: source/about/index.markdown
+</code></p>
+
+<p>Secondly, you should edit "source/_includes/custom/navigation.html" file as
+following:
+```html</p>
+
+<ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+<p>```</p>
+
+<p>Last, you could add about informaton in "source/about/index.markdown" and run:
+<code>
+$rake generate
+$rake deploy
+</code>
+You will find "About" in navigation bar. :)</p>
+]]></content>
+  </entry>
+  
+</feed>
