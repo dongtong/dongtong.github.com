@@ -9,9 +9,17 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="RSpec是BDD(行为驱动测试)的一种测试框架。按照BDD理念，应该是先写一些行为用例场景，
-运行测试用例，应该失败(Red),然后写实现代码，再次运行测试,让测试通过(Green),最后
-重构代码，再运行测试用例,保证成功(Green)。 每次写的测试用例要针对粒度比较小的代码实现， &hellip;">
+  <meta name="description" content="开始 首先通过一个实例看看nodejs执行程序: 1
+2
+3
+4
+5
+6
+7
+8
+var fs = require(&quot;fs&quot;);//包含file system 模块
+console.log(&quot;开始读取文件...&quot;);//类似于浏览器环境
+// &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,6 +106,95 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-16T19:51:00+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/16/introduce-nodejs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>开始</h2>
+
+<p>首先通过一个实例看看nodejs执行程序:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fs&quot;</span><span class="p">);</span><span class="c1">//包含file system 模块</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;开始读取文件...&quot;</span><span class="p">);</span><span class="c1">//类似于浏览器环境</span>
+</span><span class='line'><span class="c1">//第一个参数是文件地址，第二个是callback</span>
+</span><span class='line'><span class="c1">//callback第一个参数是error,第二个参数文件的内容</span>
+</span><span class='line'><span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s2">&quot;file.txt&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">data</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;文件内容为:&quot;</span><span class="o">+</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;读取文件结束&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你认为执行的结果是不是应该是</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">开始读取文件</span><span class="p">...</span>
+</span><span class='line'><span class="c1">//文件内容</span>
+</span><span class='line'><span class="err">读取文件结束</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>实际上是:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">开始读取文件</span><span class="p">...</span>
+</span><span class='line'><span class="err">读取文件结束</span>
+</span><span class='line'><span class="c1">//文件内容</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原因是Nodejs是非阻塞执行地，一般语言都是一行一行阻塞执行代码。
+非阻塞执行是Nodejs一个特性。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/16/introduce-nodejs/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -323,62 +420,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/28/work-with-local-git/">Git本地操作介绍</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-28T23:37:00+08:00" pubdate data-updated="true">Aug 28<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/08/28/work-with-local-git/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>下面介绍本地化git库的一些相关操作:</p>
-
-<ol>
-<li>创建本地git仓库</li>
-<li>添加文件</li>
-<li>提交修改</li>
-<li>查看历史</li>
-<li>查看差异</li>
-<li>工作空间copy, staging和仓库</li>
-<li>删除文件</li>
-<li>清理工作空间copy</li>
-<li>使用.gitignore忽略相关文件</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/28/work-with-local-git/">详细 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/3/">&larr; Older</a></li>
@@ -394,7 +435,8 @@
     <section class="well">
  <h1>标签</h1>
  <ul id="categories">
- <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+ <li class='category'><a href=' /blog/categories/backbone-js/'>Backbone.js (1)</a></li>
+<li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
 <li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
@@ -413,6 +455,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
       </li>
     
@@ -426,10 +472,6 @@
     
       <li class="post">
         <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
       </li>
     
   </ul>

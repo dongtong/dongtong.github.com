@@ -4,7 +4,7 @@
   <title><![CDATA[Dong Way]]></title>
   <link href="http://dongtong.github.com/atom.xml" rel="self"/>
   <link href="http://dongtong.github.com/"/>
-  <updated>2012-10-27T13:37:49+08:00</updated>
+  <updated>2012-11-15T23:56:32+08:00</updated>
   <id>http://dongtong.github.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
@@ -12,6 +12,169 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Backbone.js之View介绍]]></title>
+    <link href="http://dongtong.github.com/blog/2012/11/15/intro-backbone-view/"/>
+    <updated>2012-11-15T23:49:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/11/15/intro-backbone-view</id>
+    <content type="html"><![CDATA[<ol>
+<li><p>使用jQuery，MooTools这些JavaScript库，构建SPA(Singal-Page Application)或者用户界面比较复杂的，实现起来比较困难，或者代码组织上看起来像&#8221;Spaghetti&#8221;</p></li>
+<li><p>如果在Binding一些DOM使用一些结构代码，那么程序维护起来将会比较清晰和简易。</p></li>
+<li><p>Backbone可以解决以上的忧虑。</p></li>
+<li><p>Backbone是一个比较小的JavaScript库(压缩后只有17K),这个库为了构建和组织富JavaScript界面提供了许多的接口以及优美的代码结构。</p></li>
+<li><p>Backbone提供了很多的接口来构建应用，但是它不能自动为你构建应用程序.Backbone需要你使用它提供的接口去构建你自己应用程序的skeleton。这个你也可以把它理解成为Backbone.js</p>
+
+<p> 的不完美的一面。</p></li>
+<li><p>Backbone其实不能准确说成JavaScript MVC框架， 它可以用来很好的表达MVC架构，你可以把它理解成为构建MVC的一种模式(pattern),或者是为构建你应用程序提供了一种模式。框架和     　库的最大区别就是框架调用的是你写的代码。而库我们可以理解为为构建你代码的一个工具。另外一个却别是框架可以为你设计应用提供一个思路，比如什么地方什么地方存放什么文件，做什   　么以及如何做。</p></li>
+<li><p>Backbone.js官方的文档定义：(http://documentcloud.github.com/backbone )</p>
+
+<p> Backbone.js gives structure to web applications by</p>
+
+<p> providing models with key-value binding and custom</p>
+
+<p> events, collections with a rich API of enumerable functions</p>
+
+<p>  , views with declarative event handing, and connects it</p>
+
+<p>  all to your existing API over a RESTful JSON interfaces.</p></li>
+</ol>
+
+
+<p>　　Backbone.js提供了一套web开发的结构，通过Models进行key-value绑定及</p>
+
+<p>　　custom事件处理,通过Collections提供一套丰富的API用于枚举功能,通过Views来进</p>
+
+<p>　　行事件处理及与现有的Application通过RESTful JSON接口进行交互.它是基于jquery</p>
+
+<p>　　和underscore的一个js库。</p>
+
+<ol>
+<li><p>Backbone的View用来显示Model的数据，以及侦听用户界面事件和做出相应。</p></li>
+<li><p>Backbone的View实现需要jQuery(官方推荐，但也可以使用MooTools), Underscore.js</p></li>
+<li><p>下面看一个简单例子</p></li>
+</ol>
+
+
+<!--More-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;title&gt;</span>Simple View<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;title&gt;</span>Simple View Demo<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;description&quot;</span> <span class="na">content=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;author&quot;</span> <span class="na">content=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="c">&lt;!--加载需要使用的JavaScript--&gt;</span>
+</span><span class='line'>       <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;jquery.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>       <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;underscore-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>       <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;backbone-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>         <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;search_container&quot;</span><span class="nt">&gt;</span>search...<span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>         <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;search_tmp&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>             <span class="o">&lt;</span><span class="nx">label</span><span class="o">&gt;&lt;%=</span> <span class="nx">search_label</span> <span class="o">%&gt;&lt;</span><span class="err">/label&gt;</span>
+</span><span class='line'>             <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;search_input&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>             <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;search_btn&quot;</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Search&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>         <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>             <span class="nx">SearchView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>                 <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search_container&quot;</span><span class="p">),</span><span class="c1">//引用页面上的DOM,每一个View都有一个el。如果不指定的话，Backbone会使用它自己默认构建的DOM</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>                     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Initialize...&#39;</span><span class="p">);</span>
+</span><span class='line'>                     <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+</span><span class='line'>                 <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="c1">//使用模板引擎渲染界面上的DOM显示</span>
+</span><span class='line'>                 <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>                     <span class="c1">//使用模板变量</span>
+</span><span class='line'>                     <span class="kd">var</span> <span class="nx">search_label</span> <span class="o">=</span> <span class="p">{</span><span class="nx">search_label</span><span class="o">:</span> <span class="s2">&quot;Search:&quot;</span><span class="p">};</span>
+</span><span class='line'>                     <span class="c1">//Backbone使用了Underscore.js的模板引擎</span>
+</span><span class='line'>                     <span class="kd">var</span> <span class="nx">tmpl</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search_tmp&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(),</span> <span class="nx">search_label</span><span class="p">);</span>
+</span><span class='line'>                     <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="nx">tmpl</span><span class="p">);</span>
+</span><span class='line'>                 <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="c1">//事件处理只能针对容器以下的DOM元素绑定</span>
+</span><span class='line'>                 <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="s2">&quot;click #search_btn&quot;</span><span class="o">:</span> <span class="s2">&quot;doSearch&quot;</span>
+</span><span class='line'>                 <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="nx">doSearch</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>                     <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;You clicked search button.&quot;</span><span class="p">);</span>
+</span><span class='line'>                 <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>             <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>             <span class="kd">var</span> <span class="nx">search_view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SearchView</span><span class="p">();</span><span class="c1">//这样就绑定了页面上的&quot;#search_container&quot;,接下来的事件触发都在这个容器内。可以理解成每一个View负责界面上特定区域的DOM的交互。这个特定区域可以整个页面，也可以是页面上的一小块区域</span>
+</span><span class='line'>         <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'> <span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Add new page in Octopress]]></title>
@@ -3764,207 +3927,6 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
 这里不是说for..in迭代对象就必须用hasOwnProperty方法去判断，这个需要根据项目情况而定。</p>
 
 <p>:D</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[关于JavaScript闭包]]></title>
-    <link href="http://dongtong.github.com/blog/2012/07/24/about-javascript-closure/"/>
-    <updated>2012-07-24T22:25:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/07/24/about-javascript-closure</id>
-    <content type="html"><![CDATA[<p>首先看看大牛是怎么定义闭包的:</p>
-
-<p>“…一个内部函数可以访问外部函数的vars, 或者parameters.即使是外部函数已经返回”
--“Douglas Crockford”</p>
-
-<p>要想理解closure,最好是写一些代码，或是看一些例子。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">myClosure</span><span class="p">(){</span>
-</span><span class='line'>     <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
-</span><span class='line'>     <span class="c1">//nested function</span>
-</span><span class='line'>     <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>           <span class="k">return</span> <span class="nx">date</span><span class="p">.</span><span class="nx">getMilliseconds</span><span class="p">();</span>
-</span><span class='line'>     <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>即使是当myClosure中的匿名函数(即闭包)返回，但是date变量仍然驻留在内存中，而不
-像普通的函数执行完成后就随时可能被garbage collection回收了。闭包提供了封装
-(encapsulation)。这里把myClosure看作是一个容器，而date和nested function被看做
-是这个容器中的元素。</p>
-
-<p>另外一种实现方式:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myClosure2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>     <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
-</span><span class='line'>     <span class="kd">var</span> <span class="nx">myNestedFunc</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>           <span class="k">return</span> <span class="nx">date</span><span class="p">.</span><span class="nx">getMilliseconds</span><span class="p">();</span>
-</span><span class='line'>     <span class="p">}</span>
-</span><span class='line'>     <span class="k">return</span> <span class="p">{</span><span class="c1">// revealing modular pattern</span>
-</span><span class='line'>           <span class="nx">foo</span><span class="o">:</span> <span class="nx">myNestedFunc</span>
-</span><span class='line'>     <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">myClosure2</span><span class="p">();</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">bar</span><span class="p">.</span><span class="nx">foo</span><span class="p">());</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<p>在JavaScript的一些高级应用中常常用到了闭包，在面试前端工程师时，也常常会问及
-闭包相关问题。要想理解好闭包，首先必须弄清楚变量作用域。</p>
-
-<p>JavaScript变量作用域分为全局(global)和局部(local),在function局部作用域中可以
-访问全局变量，但是在function外部，不可以单纯地访问函数内部的局部变量，如果想
-要访问，那就需要借助闭包(closure)。下面看一些简单的实例。</p>
-
-<figure class='code'><figcaption><span>局部访问全局变量</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">printFooBar</span><span class="p">(){</span>
-</span><span class='line'>       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;foo &quot;</span> <span class="o">+</span> <span class="nx">bar</span><span class="p">);</span><span class="c1">//函数体内部访问全局变量bar</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>function外部访问内部局部变量</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getFoo</span><span class="p">(){</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s2">&quot;foo&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nx">str</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">getFoo</span><span class="p">();</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">());</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>由于JavaScript中的链式作用域(chain scope)特性, getFoo中的匿名函数可以访问str, 但
-是这里如果匿名函数中有局部变量的话。getFoo不能访问匿名函数中的局部变量。</p>
-
-<p>这里通俗理解闭包为”能够访问其它函数变量的函数”或者是“函数内部定义函数，然后返回这
-个内部函数”。可以看出闭包是链接函数内部和函数外部的桥梁。</p>
-
-<p>闭包有两个直接用途: 一是访问function内部局部变量，二是让内部局部变量持续在内存中。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getNumber</span><span class="p">(){</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="nx">numSum</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span><span class="c1">//注意这个匿名函数是全局的，并且也是一个closure</span>
-</span><span class='line'>        <span class="nx">num</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span><span class="c1">//返回closure</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nx">num</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">getNumber</span><span class="p">();</span><span class="c1">//指向返回的closure</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">());</span><span class="c1">//1</span>
-</span><span class='line'><span class="nx">numSum</span><span class="p">();</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">());</span><span class="c1">//2,说明num一直驻留在内存中，不会因为getNumber调用结束就释放</span>
-</span><span class='line'><span class="nx">num</span><span class="p">,</span><span class="err">主要是有全局引用</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span><span class="err">引向</span><span class="nx">getNumber</span><span class="err">的闭包使得</span><span class="nx">num</span><span class="err">一直没有被</span><span class="nx">garbage</span> <span class="nx">collection</span>
-</span><span class='line'><span class="err">回收。</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用闭包需要注意的是，不能滥用，看项目的大小以及需求，否则会导致内存持续膨胀，性能
-下降，在IE环境中内存会泄露。最好是在用完闭包后，能手动释放局部变量。另外一种情况是
-如果闭包能改变容器函数(即包含闭包的函数)中的局部变量，使用时需要小心。</p>
-
-<p>下面看一个JavaScript闭包实例，听说能理解的话，基本闭包就没有问题了。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;The Window&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'><span class="err">　　　　</span><span class="nx">name</span> <span class="o">:</span> <span class="s2">&quot;My Object&quot;</span><span class="p">,</span>
-</span><span class='line'><span class="err">　　　　</span><span class="nx">getNameFunc</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'><span class="err">　　　　　　</span><span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'><span class="err">　　　　　　　　</span><span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-</span><span class='line'><span class="err">　　　　　　</span><span class="p">};</span>
-</span><span class='line'><span class="err">　　　　</span><span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">object</span><span class="p">.</span><span class="nx">getNameFunc</span><span class="p">()());</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;The Window&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="err">　　</span><span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'><span class="err">　　　　</span><span class="nx">name</span> <span class="o">:</span> <span class="s2">&quot;My Object&quot;</span><span class="p">,</span>
-</span><span class='line'><span class="err">　　　　</span><span class="nx">getNameFunc</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'><span class="err">　　　　　　</span><span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-</span><span class='line'><span class="err">　　　　　　</span><span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'><span class="err">　　　　　　　　</span><span class="k">return</span> <span class="nx">that</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-</span><span class='line'><span class="err">　　　　　　</span><span class="p">};</span>
-</span><span class='line'><span class="err">　　　　</span><span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">object</span><span class="p">.</span><span class="nx">getNameFunc</span><span class="p">()());</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>放到firebug或者chrome中试试吧，如果在IE下，将console.log()换成alert()。</p>
-
-<p>站在巨人肩膀上学习 :D</p>
 ]]></content>
   </entry>
   

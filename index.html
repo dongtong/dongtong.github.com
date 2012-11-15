@@ -9,7 +9,8 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="If you want to add new page in Octopress, just like Octopress&#8217;s build-in &#8220;Blog&#8221; and &#8220;Archives&#8221; link. Firstly, you &hellip;">
+  <meta name="description" content="使用jQuery，MooTools这些JavaScript库，构建SPA(Singal-Page Application)或者用户界面比较复杂的，实现起来比较困难，或者代码组织上看起来像&#8221;Spaghetti&#8221;
+如果在Binding一些DOM使用一些结构代码， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,6 +97,85 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-15T23:49:00+08:00" pubdate data-updated="true">Nov 15<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/15/intro-backbone-view/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li><p>使用jQuery，MooTools这些JavaScript库，构建SPA(Singal-Page Application)或者用户界面比较复杂的，实现起来比较困难，或者代码组织上看起来像&#8221;Spaghetti&#8221;</p></li>
+<li><p>如果在Binding一些DOM使用一些结构代码，那么程序维护起来将会比较清晰和简易。</p></li>
+<li><p>Backbone可以解决以上的忧虑。</p></li>
+<li><p>Backbone是一个比较小的JavaScript库(压缩后只有17K),这个库为了构建和组织富JavaScript界面提供了许多的接口以及优美的代码结构。</p></li>
+<li><p>Backbone提供了很多的接口来构建应用，但是它不能自动为你构建应用程序.Backbone需要你使用它提供的接口去构建你自己应用程序的skeleton。这个你也可以把它理解成为Backbone.js</p>
+
+<p> 的不完美的一面。</p></li>
+<li><p>Backbone其实不能准确说成JavaScript MVC框架， 它可以用来很好的表达MVC架构，你可以把它理解成为构建MVC的一种模式(pattern),或者是为构建你应用程序提供了一种模式。框架和     　库的最大区别就是框架调用的是你写的代码。而库我们可以理解为为构建你代码的一个工具。另外一个却别是框架可以为你设计应用提供一个思路，比如什么地方什么地方存放什么文件，做什   　么以及如何做。</p></li>
+<li><p>Backbone.js官方的文档定义：(http://documentcloud.github.com/backbone )</p>
+
+<p> Backbone.js gives structure to web applications by</p>
+
+<p> providing models with key-value binding and custom</p>
+
+<p> events, collections with a rich API of enumerable functions</p>
+
+<p>  , views with declarative event handing, and connects it</p>
+
+<p>  all to your existing API over a RESTful JSON interfaces.</p></li>
+</ol>
+
+
+<p>　　Backbone.js提供了一套web开发的结构，通过Models进行key-value绑定及</p>
+
+<p>　　custom事件处理,通过Collections提供一套丰富的API用于枚举功能,通过Views来进</p>
+
+<p>　　行事件处理及与现有的Application通过RESTful JSON接口进行交互.它是基于jquery</p>
+
+<p>　　和underscore的一个js库。</p>
+
+<ol>
+<li><p>Backbone的View用来显示Model的数据，以及侦听用户界面事件和做出相应。</p></li>
+<li><p>Backbone的View实现需要jQuery(官方推荐，但也可以使用MooTools), Underscore.js</p></li>
+<li><p>下面看一个简单例子</p></li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/15/intro-backbone-view/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -466,95 +546,6 @@ following:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-16T19:51:00+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/09/16/introduce-nodejs/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>开始</h2>
-
-<p>首先通过一个实例看看nodejs执行程序:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fs&quot;</span><span class="p">);</span><span class="c1">//包含file system 模块</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;开始读取文件...&quot;</span><span class="p">);</span><span class="c1">//类似于浏览器环境</span>
-</span><span class='line'><span class="c1">//第一个参数是文件地址，第二个是callback</span>
-</span><span class='line'><span class="c1">//callback第一个参数是error,第二个参数文件的内容</span>
-</span><span class='line'><span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s2">&quot;file.txt&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">data</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;文件内容为:&quot;</span><span class="o">+</span><span class="nx">data</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;读取文件结束&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>你认为执行的结果是不是应该是</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">开始读取文件</span><span class="p">...</span>
-</span><span class='line'><span class="c1">//文件内容</span>
-</span><span class='line'><span class="err">读取文件结束</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>实际上是:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">开始读取文件</span><span class="p">...</span>
-</span><span class='line'><span class="err">读取文件结束</span>
-</span><span class='line'><span class="c1">//文件内容</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>原因是Nodejs是非阻塞执行地，一般语言都是一行一行阻塞执行代码。
-非阻塞执行是Nodejs一个特性。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/16/introduce-nodejs/">详细 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/2/">&larr; Older</a></li>
@@ -568,7 +559,8 @@ following:</p>
     <section class="well">
  <h1>标签</h1>
  <ul id="categories">
- <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+ <li class='category'><a href=' /blog/categories/backbone-js/'>Backbone.js (1)</a></li>
+<li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
 <li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
@@ -587,6 +579,10 @@ following:</p>
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
       </li>
     
@@ -600,10 +596,6 @@ following:</p>
     
       <li class="post">
         <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
       </li>
     
   </ul>

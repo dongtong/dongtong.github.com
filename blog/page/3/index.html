@@ -9,11 +9,15 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="A. 首先介绍版本控制的历史: 第一代版本控制是单文件的，比如.c文件，没有网络的参与，例如使用到了SCCS, RCS。
-[TODO]
-第二代版本控制采用的是多文件，集中式，这里代表的有CVS,VSS, SVN, TFS,Perforce.
-[TODO]
-第三代版本控制采用的分布式，变体。 &hellip;">
+  <meta name="description" content="下面介绍本地化git库的一些相关操作: 创建本地git仓库
+添加文件
+提交修改
+查看历史
+查看差异
+工作空间copy, staging和仓库
+删除文件
+清理工作空间copy
+使用.gitignore忽略相关文件 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +104,62 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/08/28/work-with-local-git/">Git本地操作介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-28T23:37:00+08:00" pubdate data-updated="true">Aug 28<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/08/28/work-with-local-git/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>下面介绍本地化git库的一些相关操作:</p>
+
+<ol>
+<li>创建本地git仓库</li>
+<li>添加文件</li>
+<li>提交修改</li>
+<li>查看历史</li>
+<li>查看差异</li>
+<li>工作空间copy, staging和仓库</li>
+<li>删除文件</li>
+<li>清理工作空间copy</li>
+<li>使用.gitignore忽略相关文件</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/28/work-with-local-git/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -328,53 +388,6 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/25/do-not-extend-built-in-prototype/">不要擅自扩展内建对象原型</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-25T22:00:00+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/08/25/do-not-extend-built-in-prototype/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有时在特定的情形下，开发者需要扩展内建对象来达到自己的目的。但是如果别的
-开发者使用这个内建对象时，发现莫名奇妙地多了一个原型属性，这可能会扰乱内建
-对象的使用。</p>
-
-<p>什么时候可以考虑扩展内建对象呢?</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/25/do-not-extend-built-in-prototype/">详细 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/4/">&larr; Older</a></li>
@@ -390,7 +403,8 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
     <section class="well">
  <h1>标签</h1>
  <ul id="categories">
- <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+ <li class='category'><a href=' /blog/categories/backbone-js/'>Backbone.js (1)</a></li>
+<li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
 <li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
@@ -409,6 +423,10 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
       </li>
     
@@ -422,10 +440,6 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
     
       <li class="post">
         <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
       </li>
     
   </ul>

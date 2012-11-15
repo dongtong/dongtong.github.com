@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Backbone.js之View介绍 - Dong Way</title>
+  <meta name="author" content="Dong">
+
+  
+  <meta name="description" content="使用jQuery，MooTools这些JavaScript库，构建SPA(Singal-Page Application)或者用户界面比较复杂的，实现起来比较困难，或者代码组织上看起来像&#8221;Spaghetti&#8221;
+如果在Binding一些DOM使用一些结构代码， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dongtong.github.com/blog/2012/11/15/intro-backbone-view">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dong Way" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Dong Way</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss email">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+            <li><a href="chinatea.guy@gmail.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:dongtong.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Backbone.js之View介绍</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-15T23:49:00+08:00" pubdate data-updated="true">Nov 15<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ol>
+<li><p>使用jQuery，MooTools这些JavaScript库，构建SPA(Singal-Page Application)或者用户界面比较复杂的，实现起来比较困难，或者代码组织上看起来像&#8221;Spaghetti&#8221;</p></li>
+<li><p>如果在Binding一些DOM使用一些结构代码，那么程序维护起来将会比较清晰和简易。</p></li>
+<li><p>Backbone可以解决以上的忧虑。</p></li>
+<li><p>Backbone是一个比较小的JavaScript库(压缩后只有17K),这个库为了构建和组织富JavaScript界面提供了许多的接口以及优美的代码结构。</p></li>
+<li><p>Backbone提供了很多的接口来构建应用，但是它不能自动为你构建应用程序.Backbone需要你使用它提供的接口去构建你自己应用程序的skeleton。这个你也可以把它理解成为Backbone.js</p>
+
+<p> 的不完美的一面。</p></li>
+<li><p>Backbone其实不能准确说成JavaScript MVC框架， 它可以用来很好的表达MVC架构，你可以把它理解成为构建MVC的一种模式(pattern),或者是为构建你应用程序提供了一种模式。框架和     　库的最大区别就是框架调用的是你写的代码。而库我们可以理解为为构建你代码的一个工具。另外一个却别是框架可以为你设计应用提供一个思路，比如什么地方什么地方存放什么文件，做什   　么以及如何做。</p></li>
+<li><p>Backbone.js官方的文档定义：(http://documentcloud.github.com/backbone )</p>
+
+<p> Backbone.js gives structure to web applications by</p>
+
+<p> providing models with key-value binding and custom</p>
+
+<p> events, collections with a rich API of enumerable functions</p>
+
+<p>  , views with declarative event handing, and connects it</p>
+
+<p>  all to your existing API over a RESTful JSON interfaces.</p></li>
+</ol>
+
+
+<p>　　Backbone.js提供了一套web开发的结构，通过Models进行key-value绑定及</p>
+
+<p>　　custom事件处理,通过Collections提供一套丰富的API用于枚举功能,通过Views来进</p>
+
+<p>　　行事件处理及与现有的Application通过RESTful JSON接口进行交互.它是基于jquery</p>
+
+<p>　　和underscore的一个js库。</p>
+
+<ol>
+<li><p>Backbone的View用来显示Model的数据，以及侦听用户界面事件和做出相应。</p></li>
+<li><p>Backbone的View实现需要jQuery(官方推荐，但也可以使用MooTools), Underscore.js</p></li>
+<li><p>下面看一个简单例子</p></li>
+</ol>
+
+
+<!--More-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;title&gt;</span>Simple View<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;title&gt;</span>Simple View Demo<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;description&quot;</span> <span class="na">content=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;author&quot;</span> <span class="na">content=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="c">&lt;!--加载需要使用的JavaScript--&gt;</span>
+</span><span class='line'>       <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;jquery.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>       <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;underscore-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>       <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;backbone-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>         <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;search_container&quot;</span><span class="nt">&gt;</span>search...<span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>         <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;search_tmp&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>             <span class="o">&lt;</span><span class="nx">label</span><span class="o">&gt;&lt;%=</span> <span class="nx">search_label</span> <span class="o">%&gt;&lt;</span><span class="err">/label&gt;</span>
+</span><span class='line'>             <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;search_input&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>             <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;search_btn&quot;</span> <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Search&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>         <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>             <span class="nx">SearchView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>                 <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search_container&quot;</span><span class="p">),</span><span class="c1">//引用页面上的DOM,每一个View都有一个el。如果不指定的话，Backbone会使用它自己默认构建的DOM</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>                     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Initialize...&#39;</span><span class="p">);</span>
+</span><span class='line'>                     <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+</span><span class='line'>                 <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="c1">//使用模板引擎渲染界面上的DOM显示</span>
+</span><span class='line'>                 <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>                     <span class="c1">//使用模板变量</span>
+</span><span class='line'>                     <span class="kd">var</span> <span class="nx">search_label</span> <span class="o">=</span> <span class="p">{</span><span class="nx">search_label</span><span class="o">:</span> <span class="s2">&quot;Search:&quot;</span><span class="p">};</span>
+</span><span class='line'>                     <span class="c1">//Backbone使用了Underscore.js的模板引擎</span>
+</span><span class='line'>                     <span class="kd">var</span> <span class="nx">tmpl</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search_tmp&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(),</span> <span class="nx">search_label</span><span class="p">);</span>
+</span><span class='line'>                     <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="nx">tmpl</span><span class="p">);</span>
+</span><span class='line'>                 <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="c1">//事件处理只能针对容器以下的DOM元素绑定</span>
+</span><span class='line'>                 <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="s2">&quot;click #search_btn&quot;</span><span class="o">:</span> <span class="s2">&quot;doSearch&quot;</span>
+</span><span class='line'>                 <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="nx">doSearch</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>                     <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;You clicked search button.&quot;</span><span class="p">);</span>
+</span><span class='line'>                 <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>             <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>             <span class="kd">var</span> <span class="nx">search_view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SearchView</span><span class="p">();</span><span class="c1">//这样就绑定了页面上的&quot;#search_container&quot;,接下来的事件触发都在这个容器内。可以理解成每一个View负责界面上特定区域的DOM的交互。这个特定区域可以整个页面，也可以是页面上的一小块区域</span>
+</span><span class='line'>         <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>     <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'> <span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dong</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-15T23:49:00+08:00" pubdate data-updated="true">Nov 15<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/backbone-js/'>Backbone.js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/10/26/add-new-page-in-octopress/" title="Previous Post:
+        Add new page in Octopress">&laquo; Add new page in Octopress</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+ <h1>标签</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/backbone-js/'>Backbone.js (1)</a></li>
+<li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+<li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
+<li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
+<li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
+
+ </ul>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2012 - Dong -
+  <span class="credit">Powered by <a href="http://dongtong.github.com">ME</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'dong-way';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dongtong.github.com/blog/2012/11/15/intro-backbone-view/';
+        var disqus_url = 'http://dongtong.github.com/blog/2012/11/15/intro-backbone-view/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

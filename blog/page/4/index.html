@@ -9,9 +9,9 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="最为一个开发人员，我们需要对自己编写的代码负责，对我们的解决方案负责。 花时间重新温习和理解我们遇到的问题。
-重新理解我们的解决方案。 可能过若干个月后，我们可能会再次遇到这些问题，似曾相识但又无法清晰地表达出来，
-所以当我们应该间歇性地回头回顾我们遇到的问题，总结我们的解决方案。 ">
+  <meta name="description" content="有时在特定的情形下，开发者需要扩展内建对象来达到自己的目的。但是如果别的
+开发者使用这个内建对象时，发现莫名奇妙地多了一个原型属性，这可能会扰乱内建
+对象的使用。 什么时候可以考虑扩展内建对象呢? ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,6 +98,53 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/08/25/do-not-extend-built-in-prototype/">不要擅自扩展内建对象原型</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-25T22:00:00+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/08/25/do-not-extend-built-in-prototype/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有时在特定的情形下，开发者需要扩展内建对象来达到自己的目的。但是如果别的
+开发者使用这个内建对象时，发现莫名奇妙地多了一个原型属性，这可能会扰乱内建
+对象的使用。</p>
+
+<p>什么时候可以考虑扩展内建对象呢?</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/25/do-not-extend-built-in-prototype/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -404,103 +451,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/24/about-javascript-closure/">关于JavaScript闭包</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-24T22:25:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/24/about-javascript-closure/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>首先看看大牛是怎么定义闭包的:</p>
-
-<p>“…一个内部函数可以访问外部函数的vars, 或者parameters.即使是外部函数已经返回”
--“Douglas Crockford”</p>
-
-<p>要想理解closure,最好是写一些代码，或是看一些例子。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">myClosure</span><span class="p">(){</span>
-</span><span class='line'>     <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
-</span><span class='line'>     <span class="c1">//nested function</span>
-</span><span class='line'>     <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>           <span class="k">return</span> <span class="nx">date</span><span class="p">.</span><span class="nx">getMilliseconds</span><span class="p">();</span>
-</span><span class='line'>     <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>即使是当myClosure中的匿名函数(即闭包)返回，但是date变量仍然驻留在内存中，而不
-像普通的函数执行完成后就随时可能被garbage collection回收了。闭包提供了封装
-(encapsulation)。这里把myClosure看作是一个容器，而date和nested function被看做
-是这个容器中的元素。</p>
-
-<p>另外一种实现方式:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myClosure2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>     <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
-</span><span class='line'>     <span class="kd">var</span> <span class="nx">myNestedFunc</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>           <span class="k">return</span> <span class="nx">date</span><span class="p">.</span><span class="nx">getMilliseconds</span><span class="p">();</span>
-</span><span class='line'>     <span class="p">}</span>
-</span><span class='line'>     <span class="k">return</span> <span class="p">{</span><span class="c1">// revealing modular pattern</span>
-</span><span class='line'>           <span class="nx">foo</span><span class="o">:</span> <span class="nx">myNestedFunc</span>
-</span><span class='line'>     <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">myClosure2</span><span class="p">();</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">bar</span><span class="p">.</span><span class="nx">foo</span><span class="p">());</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/07/24/about-javascript-closure/">详细 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/5/">&larr; Older</a></li>
@@ -516,7 +466,8 @@
     <section class="well">
  <h1>标签</h1>
  <ul id="categories">
- <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
+ <li class='category'><a href=' /blog/categories/backbone-js/'>Backbone.js (1)</a></li>
+<li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
 <li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
@@ -535,6 +486,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
       </li>
     
@@ -548,10 +503,6 @@
     
       <li class="post">
         <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/16/introduce-nodejs/">Nodejs 介绍</a>
       </li>
     
   </ul>
