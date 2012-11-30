@@ -9,8 +9,8 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="使用jQuery，MooTools这些JavaScript库，构建SPA(Singal-Page Application)或者用户界面比较复杂的，实现起来比较困难，或者代码组织上看起来像&#8221;Spaghetti&#8221;
-如果在Binding一些DOM使用一些结构代码， &hellip;">
+  <meta name="description" content="在平时的JavaScript编码中，时常会发生一些不在意的错误，特别是刚开始接触
+JavaScript语言。现在介绍一下在JavaScript编码中的&#8221;十宗罪&#8221;。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +97,50 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/29/javascript-ten-mistakes/">JavaScript十宗罪</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-29T20:43:00+08:00" pubdate data-updated="true">Nov 29<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/29/javascript-ten-mistakes/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在平时的JavaScript编码中，时常会发生一些不在意的错误，特别是刚开始接触
+JavaScript语言。现在介绍一下在JavaScript编码中的&#8221;十宗罪&#8221;。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/29/javascript-ten-mistakes/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -414,138 +458,6 @@ following:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-21T21:01:00+08:00" pubdate data-updated="true">Sep 21<span>st</span>, 2012</time>
-        
-         | <a href="/blog/2012/09/21/python-simple-tutorial/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>1. 数字以及数学操作</h2>
-
-<p>这里Python使用的是2.6.5,后续将补充Python 3.x系列的一些新特性。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-</span><span class='line'><span class="mi">2</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">6</span> <span class="o">-</span> <span class="mi">1</span>
-</span><span class='line'><span class="mi">5</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span>
-</span><span class='line'><span class="mi">16</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">18</span> <span class="o">/</span> <span class="mi">7</span> <span class="o">//</span><span class="err">如果整除不了就取整数</span>
-</span><span class='line'><span class="mi">2</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">18</span> <span class="o">/</span> <span class="mi">6</span>
-</span><span class='line'><span class="mi">3</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mf">18.0</span> <span class="o">/</span> <span class="mi">6</span> <span class="o">//</span><span class="err">除数和被除数只要有浮点数，结果就取浮点数</span>
-</span><span class='line'><span class="mf">3.0</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mf">18.0</span> <span class="o">/</span> <span class="mi">7</span>
-</span><span class='line'><span class="mf">2.5714285714285716</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">18</span> <span class="o">/</span> <span class="mf">7.0</span>
-</span><span class='line'><span class="mf">2.5714285714285716</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mf">18.0</span><span class="o">/</span> <span class="mf">7.0</span>
-</span><span class='line'><span class="mf">2.5714285714285716</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">18</span> <span class="o">/</span> <span class="mf">7.</span>
-</span><span class='line'><span class="mf">2.5714285714285716</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">9</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">//</span><span class="err">这是取余或是取模操作</span>
-</span><span class='line'><span class="mi">1</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">8</span> <span class="o">%</span> <span class="mi">4</span>
-</span><span class='line'><span class="mi">0</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mf">8.25</span> <span class="o">%</span> <span class="o">.</span><span class="mi">5</span>
-</span><span class='line'><span class="mf">0.25</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">//</span><span class="err">几次方的实现</span>
-</span><span class='line'><span class="mi">64</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span><span class="o">**</span><span class="mi">3</span>
-</span><span class='line'><span class="mi">64</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="o">-</span><span class="mi">4</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">//</span><span class="err">乘积操作符的优先级高</span>
-</span><span class='line'><span class="o">-</span><span class="mi">256</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span>
-</span><span class='line'><span class="mi">256</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span> <span class="o">**</span> <span class="o">-</span><span class="mi">4</span> <span class="o">//</span> <span class="mi">4</span><span class="err">累计乘</span><span class="mi">4</span><span class="err">次，然后取倒数</span>
-</span><span class='line'><span class="mf">0.00390625</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">1</span><span class="o">/</span><span class="mf">256.</span>
-</span><span class='line'><span class="mf">0.00390625</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">5</span> <span class="o">/</span> <span class="mi">0</span> <span class="o">//</span><span class="err">抛出</span><span class="ne">ZeroDivisionError</span>
-</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-</span><span class='line'><span class="ne">ZeroDivisionError</span><span class="p">:</span> <span class="n">integer</span> <span class="n">division</span> <span class="ow">or</span> <span class="n">modulo</span> <span class="n">by</span> <span class="n">zero</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/21/python-simple-tutorial/">详细 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/2/">&larr; Older</a></li>
@@ -562,7 +474,7 @@ following:</p>
  <li class='category'><a href=' /blog/categories/backbone-js/'>Backbone.js (1)</a></li>
 <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
-<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (11)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
 <li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
@@ -579,6 +491,10 @@ following:</p>
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2012/11/29/javascript-ten-mistakes/">JavaScript十宗罪</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a>
       </li>
     
@@ -592,10 +508,6 @@ following:</p>
     
       <li class="post">
         <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
       </li>
     
   </ul>

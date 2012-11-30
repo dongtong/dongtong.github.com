@@ -4,7 +4,7 @@
   <title><![CDATA[Category:JavaScript | Dong Way]]></title>
   <link href="http://dongtong.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://dongtong.github.com/"/>
-  <updated>2012-11-15T23:56:32+08:00</updated>
+  <updated>2012-11-30T23:15:56+08:00</updated>
   <id>http://dongtong.github.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
@@ -12,6 +12,252 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[JavaScript十宗罪]]></title>
+    <link href="http://dongtong.github.com/blog/2012/11/29/javascript-ten-mistakes/"/>
+    <updated>2012-11-29T20:43:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/11/29/javascript-ten-mistakes</id>
+    <content type="html"><![CDATA[<p>在平时的JavaScript编码中，时常会发生一些不在意的错误，特别是刚开始接触
+JavaScript语言。现在介绍一下在JavaScript编码中的"十宗罪"。</p>
+
+<!--More-->
+
+
+<h2>No.1 不要创建全局变量</h2>
+
+<p>一般会在全局作用域下定义，比如在HTML页面下直接在HTML脚本中定义变量
+```html
+<html>
+...
+<body>
+...</p>
+
+<script type="text/javascript">
+    var price = 10,
+        num = 10;
+    var totalNum = 0;
+    totalNum = price * num;
+    ...
+</script>
+
+
+<p><body>
+</html>
+<code>
+但是这样很容易会覆盖已经存在的同名的全局变量。例如在最后出现
+</code>javascript
+var totalNum = function(){</p>
+
+<pre><code>return price * 20;
+</code></pre>
+
+<p>}
+<code>
+那么后者就会覆盖前者。
+另外一种情况是定义变量不使用var，这样也是在创建全局变量。
+避免这种情况，可以使用模块模式(Module Pattern):
+</code>javascript
+var calculateTotal = function(){</p>
+
+<pre><code>var total = 0,
+    num = 10,
+    price = 10;
+
+return {
+    totalNum: function(){
+        return price * 10;
+    }
+};
+</code></pre>
+
+<p>}();
+```
+这里使用立即执行(immediately execute)函数,并且是匿名的。
+当前比较流行的AMD(异步模块定义)的是requirejs。使用它可以很好地组织
+javascript程序。</p>
+
+<h2>No.2 一条完整的JavaScript语句要使用分号结束</h2>
+
+<p>每一条完整的JavaScript语句都需要有分号结束，如果不适用的话，那么JavaScript
+解析引擎会自行决定这条语句结束，那么可能会导致程序意料之外的结果。如下面的代码:
+```javascript
+function getName(person){</p>
+
+<pre><code>return        //这里相当于return;
+{
+    name: person.name
+};
+</code></pre>
+
+<p>}
+<code>
+以上代码运行后会得到undefined值，因为return之后，JavaScript解析引擎认为已经
+执行结束，会自行添加分号然后返回。可以使用以下方式来修正这个问题:
+</code>javascript
+function getName(person){</p>
+
+<pre><code>return {
+    name: person.name
+};
+</code></pre>
+
+<p>}
+```
+所以最好每条完整的javascript语句都使用分号结束。</p>
+
+<h2>No.3 比较操作符使用"=="</h2>
+
+<p>在使用"=="比较操作符会发生隐式类型转换。这可能不是程序所期待的。
+<code>javascript
+console.log(1 == 1); //true
+console.log(1 == "1"); //true
+console.log(1 === "1");//false
+</code>
+使用 "==="在比较时会同时比较两边操作对象的类型和值，如果有一项不满足，那么就返回
+false。下面是一些很诡异的结果:
+<code>javascript
+console.log('' == '0');//false
+console.log(false == '0');//true
+console.log(' \t\r\n' == 0);//true
+</code></p>
+
+<h2>No.4 使用包装对象</h2>
+
+<p>一般情况下我们使用的都是javascript基本类型，例如，Number, String等等，但是也可以
+使用包装类来创建对象:
+<code>javascript
+new Number(10);
+new String("foobar");
+new Boolean(false);
+new Object();
+new Array("hello", "world");
+new String("foo") == new String("foo") // false
+</code>
+但是通过包装类创建的对象永远是不会相同的，他们只是valueOf()的值相同。所以在平时的
+基本对象比较时，使用直接创建的对象，而不是通过包装器创建的对象:
+<code>javascript
+"foo" == "foo" //true
+"hello foo".replace("foo", "world"); //hello world
+</code>
+其实直接对象是没有方法的，因为它不是对象。它首先将直接对象转换为包装对象，然后使用包装类已有的方法。</p>
+
+<h2>No.5 使用for..in遍历对象</h2>
+
+<p>一般在实践中，我们会使用for或者while循环遍历数组，for..in循环遍历对象。在使用for..in遍历对象时，会查找对象原型链上(包含继承对象)的属性，如果没有则返回undefined。但是
+实际上我们只想获取当前对象的属性。
+```javascript
+function Person(name){</p>
+
+<pre><code>this.name = name;
+</code></pre>
+
+<p>}
+Person.prototype.printName = function(){</p>
+
+<pre><code>console.log(this.name);
+</code></pre>
+
+<p>}
+var p = new Person("foobar");
+for(var key in p){</p>
+
+<pre><code>console.log(key + "==&gt;" + p[key]);
+</code></pre>
+
+<p>}
+//name==>foobar
+//printName==>function (){
+//  console.log(this.name);
+//}
+for(var key in p){</p>
+
+<pre><code>if(p.hasOwnProperty(key)){
+    console.log(key + "==&gt;" + p[key]);
+}
+</code></pre>
+
+<p>}
+//name==>foobar
+```</p>
+
+<h2>No.6 使用with和eval</h2>
+
+<p>通过with访问对象，如果对象的属性不存在那么就会访问外层区域，这可不是程序期待的:
+```javascript
+var person = {name: "foo"};
+var test = "bar";</p>
+
+<p>with(person){</p>
+
+<pre><code>console.log(test);//bar
+job = "programmer";
+</code></pre>
+
+<p>}</p>
+
+<p>console.log(person.job);//undefined
+console.log(job);//programmer
+<code>
+使用eval可以动态运行javascript代码，这对于浏览器是不安全的，并且它运行效率也低:
+</code>javascript
+eval("console.log('foobar')");
+```
+with 和 eval是JavaScript糟粕，应该在实践中少用。但是Twitter工程师发表的一篇
+演讲中说道with和eval的可取之处，当然主要应用的不是在web开发中，而是在浏览器开发。</p>
+
+<h2>No.7 使用parseInt不传入十进制</h2>
+
+<p>使用parseInt如果不传入第二个参数制定转换进制的话，那么它会根据第一个参数的形式进行
+转换。如果是以"0"开始的，那么会转换为8进制
+<code>javascript
+console.log(parseInt("200")) //200
+console.log(parseInt("043")) //35
+console.log(parseInt("080", 10)) //80
+</code></p>
+
+<h2>No.8 if和while代码块不使用{}</h2>
+
+<p>如果if或while的语句块只有一条语句的话，可以不使用{}，但是如果有多条语句，不加{}的
+话，将会出现预料的事。
+```javascript
+if (true)</p>
+
+<pre><code>console.log("foo");
+console.log("bar");
+</code></pre>
+
+<p>```</p>
+
+<h2>No.9 添加元素到DOM对象</h2>
+
+<p>```javascript</p>
+
+<pre><code>var list = document.getElementById("list"),  
+    frag = document.createDocumentFragment(), //临时容器 
+    items = ["one", "two", "three", "four"],  
+    el;  
+
+for (var i = 0; items[i]; i++) {  
+  el = document.createElement("li");  
+  el.appendChild( document.createTextNode(items[i]) );  
+  frag.appendChild(el); // 临时容易装DOM对象，这样可以提高效率 
+}  
+
+list.appendChild(frag);  
+</code></pre>
+
+<p>```</p>
+
+<h2>No.10 会使用jQuery不等于熟悉JavaScript</h2>
+
+<p>jQuery只是JavaScript的一个库，封转了很多接口，开发效率比较高，而且使用方便。
+但是会使用jQuery不等同于熟悉JavaScript。如果有一天你使用Mootools那么将会有
+一些不习惯的地方。但是如果熟悉了JavaScript，那么很快可以上手。</p>
+
+<p>参考(The 11 JavaScript Mistakes You're Making&lt;<Andrew Burgess>>)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JavaScript语言中的一些小建议]]></title>
@@ -217,76 +463,6 @@ break;
 
 
 <p>你做到了吗? :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[关于扩展JavaScript内建对象]]></title>
-    <link href="http://dongtong.github.com/blog/2012/07/26/extend-javascript-builtin-object/"/>
-    <updated>2012-07-26T23:39:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/07/26/extend-javascript-builtin-object</id>
-    <content type="html"><![CDATA[<p>举个例子，如果内建的string没有capitalize方法，如果根据项目需求某处需要扩展string内建对象，比如添加了一个方法capitalize()将字符串首字母大写。</p>
-
-<p>在使用一个内建对象不存在的方法时，首先可以先查看一下ECMAScript 5有没有提供，其次查看一下prototype原型链上有没有已经定义的方法。最后查看文档中有没有定义对应的方法，以及和其它team成员沟通一下有没有定义对应的方法。如果这些都不能解决你的问题，那么可以考虑扩展prototype。</p>
-
-<p>可能第一时间会想到这样做:
-``` javascript
-if(!String.prototype.capitalize){</p>
-
-<pre><code>String.prototype.capitalize = function(){
-    return this.slice(0,1).toUpperCase() + this.slice(1).toLowerCase();
-}
-</code></pre>
-
-<p>}
-console.log("hello".capitalize())//Hello
-```</p>
-
-<!-- more -->
-
-
-<p>但是之后就会这样：
-``` javascript
-var str = "foo";
-for(var i in str){</p>
-
-<pre><code>console.log(i + ":" + str[i]);
-</code></pre>
-
-<p>}
-//0:f
-//1:o
-//2:o
-// capitalize:function () { return this.slice(0, 1).toUpperCase() + this.slice(1).toLowerCase(); }
-```</p>
-
-<p>因为for..in会一直在原型链上查找属性。String的capitalize枚举属性已经设置为true了，
-所以在原型链上就能查到capitalize().如果用for的话，就看不到capitalize()，但那不代
-表这个原型属性不存在。如何改变(添加，修改，删除)枚举属性？
-``` javascript
-if(!String.prototype.capitalize){</p>
-
-<pre><code>Object.defineProperty(String.prototype, 'capitalize',{
-    value: function(){
-        return this.slice(0,1).toUpperCase() + this.slice(1).toLowerCase();
-    },
-    enumerable: false
-})
-</code></pre>
-
-<p>}</p>
-
-<p>var str = "foo";
-for(var i in str){
-console.log(i + ":" + str[i]);
-}
-//0:f
-//1:o
-//2:o
-```
-以上这种方式也可以运用到我们自定义的对象中,但是又不影响原型链其它对象的使用。</p>
-
-<p>:D</p>
 ]]></content>
   </entry>
   

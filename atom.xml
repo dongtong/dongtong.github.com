@@ -4,7 +4,7 @@
   <title><![CDATA[Dong Way]]></title>
   <link href="http://dongtong.github.com/atom.xml" rel="self"/>
   <link href="http://dongtong.github.com/"/>
-  <updated>2012-11-15T23:56:32+08:00</updated>
+  <updated>2012-11-30T23:15:56+08:00</updated>
   <id>http://dongtong.github.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
@@ -12,6 +12,341 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[JavaScript十宗罪]]></title>
+    <link href="http://dongtong.github.com/blog/2012/11/29/javascript-ten-mistakes/"/>
+    <updated>2012-11-29T20:43:00+08:00</updated>
+    <id>http://dongtong.github.com/blog/2012/11/29/javascript-ten-mistakes</id>
+    <content type="html"><![CDATA[<p>在平时的JavaScript编码中，时常会发生一些不在意的错误，特别是刚开始接触
+JavaScript语言。现在介绍一下在JavaScript编码中的&#8221;十宗罪&#8221;。</p>
+
+<!--More-->
+
+
+<h2>No.1 不要创建全局变量</h2>
+
+<p>一般会在全局作用域下定义，比如在HTML页面下直接在HTML脚本中定义变量</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>...
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>...
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">price</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">num</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">totalNum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">totalNum</span> <span class="o">=</span> <span class="nx">price</span> <span class="o">*</span> <span class="nx">num</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'><span class="nt">&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是这样很容易会覆盖已经存在的同名的全局变量。例如在最后出现</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">totalNum</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">price</span> <span class="o">*</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么后者就会覆盖前者。
+另外一种情况是定义变量不使用var，这样也是在创建全局变量。
+避免这种情况，可以使用模块模式(Module Pattern):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">calculateTotal</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">num</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">price</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">totalNum</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>          <span class="k">return</span> <span class="nx">price</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">}();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里使用立即执行(immediately execute)函数,并且是匿名的。
+当前比较流行的AMD(异步模块定义)的是requirejs。使用它可以很好地组织
+javascript程序。</p>
+
+<h2>No.2 一条完整的JavaScript语句要使用分号结束</h2>
+
+<p>每一条完整的JavaScript语句都需要有分号结束，如果不适用的话，那么JavaScript
+解析引擎会自行决定这条语句结束，那么可能会导致程序意料之外的结果。如下面的代码:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getName</span><span class="p">(</span><span class="nx">person</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">return</span>        <span class="c1">//这里相当于return;</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nx">name</span><span class="o">:</span> <span class="nx">person</span><span class="p">.</span><span class="nx">name</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上代码运行后会得到undefined值，因为return之后，JavaScript解析引擎认为已经
+执行结束，会自行添加分号然后返回。可以使用以下方式来修正这个问题:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getName</span><span class="p">(</span><span class="nx">person</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">name</span><span class="o">:</span> <span class="nx">person</span><span class="p">.</span><span class="nx">name</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所以最好每条完整的javascript语句都使用分号结束。</p>
+
+<h2>No.3 比较操作符使用&#8221;==&#8221;</h2>
+
+<p>在使用&#8221;==&#8221;比较操作符会发生隐式类型转换。这可能不是程序所期待的。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">//true</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">);</span> <span class="c1">//true</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">===</span> <span class="s2">&quot;1&quot;</span><span class="p">);</span><span class="c1">//false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用 &#8220;===&#8221;在比较时会同时比较两边操作对象的类型和值，如果有一项不满足，那么就返回
+false。下面是一些很诡异的结果:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;&#39;</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">);</span><span class="c1">//false</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">false</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">);</span><span class="c1">//true</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39; \t\r\n&#39;</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span><span class="c1">//true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>No.4 使用包装对象</h2>
+
+<p>一般情况下我们使用的都是javascript基本类型，例如，Number, String等等，但是也可以
+使用包装类来创建对象:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">new</span> <span class="nb">Number</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span><span class='line'><span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&quot;foobar&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="k">new</span> <span class="nb">Boolean</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+</span><span class='line'><span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+</span><span class='line'><span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span> <span class="c1">// false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是通过包装类创建的对象永远是不会相同的，他们只是valueOf()的值相同。所以在平时的
+基本对象比较时，使用直接创建的对象，而不是通过包装器创建的对象:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="s2">&quot;foo&quot;</span> <span class="o">==</span> <span class="s2">&quot;foo&quot;</span> <span class="c1">//true</span>
+</span><span class='line'><span class="s2">&quot;hello foo&quot;</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">);</span> <span class="c1">//hello world</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其实直接对象是没有方法的，因为它不是对象。它首先将直接对象转换为包装对象，然后使用包装类已有的方法。</p>
+
+<h2>No.5 使用for..in遍历对象</h2>
+
+<p>一般在实践中，我们会使用for或者while循环遍历数组，for..in循环遍历对象。在使用for..in遍历对象时，会查找对象原型链上(包含继承对象)的属性，如果没有则返回undefined。但是
+实际上我们只想获取当前对象的属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">name</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">printName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s2">&quot;foobar&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">p</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">key</span> <span class="o">+</span> <span class="s2">&quot;==&gt;&quot;</span> <span class="o">+</span> <span class="nx">p</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//name==&gt;foobar</span>
+</span><span class='line'><span class="c1">//printName==&gt;function (){</span>
+</span><span class='line'><span class="c1">//   console.log(this.name);</span>
+</span><span class='line'><span class="c1">//}</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">p</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">key</span><span class="p">)){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">key</span> <span class="o">+</span> <span class="s2">&quot;==&gt;&quot;</span> <span class="o">+</span> <span class="nx">p</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//name==&gt;foobar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>No.6 使用with和eval</h2>
+
+<p>通过with访问对象，如果对象的属性不存在那么就会访问外层区域，这可不是程序期待的:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">};</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">test</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">with</span><span class="p">(</span><span class="nx">person</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">test</span><span class="p">);</span><span class="c1">//bar</span>
+</span><span class='line'>  <span class="nx">job</span> <span class="o">=</span> <span class="s2">&quot;programmer&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">person</span><span class="p">.</span><span class="nx">job</span><span class="p">);</span><span class="c1">//undefined</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">job</span><span class="p">);</span><span class="c1">//programmer</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用eval可以动态运行javascript代码，这对于浏览器是不安全的，并且它运行效率也低:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">eval</span><span class="p">(</span><span class="s2">&quot;console.log(&#39;foobar&#39;)&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>with 和 eval是JavaScript糟粕，应该在实践中少用。但是Twitter工程师发表的一篇
+演讲中说道with和eval的可取之处，当然主要应用的不是在web开发中，而是在浏览器开发。</p>
+
+<h2>No.7 使用parseInt不传入十进制</h2>
+
+<p>使用parseInt如果不传入第二个参数制定转换进制的话，那么它会根据第一个参数的形式进行
+转换。如果是以&#8221;0&#8221;开始的，那么会转换为8进制</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="s2">&quot;200&quot;</span><span class="p">))</span> <span class="c1">//200</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="s2">&quot;043&quot;</span><span class="p">))</span> <span class="c1">//35</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="s2">&quot;080&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="c1">//80</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>No.8 if和while代码块不使用{}</h2>
+
+<p>如果if或while的语句块只有一条语句的话，可以不使用{}，但是如果有多条语句，不加{}的
+话，将会出现预料的事。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>No.9 添加元素到DOM对象</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;list&quot;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nx">frag</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createDocumentFragment</span><span class="p">(),</span> <span class="c1">//临时容器 </span>
+</span><span class='line'>    <span class="nx">items</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="s2">&quot;three&quot;</span><span class="p">,</span> <span class="s2">&quot;four&quot;</span><span class="p">],</span>
+</span><span class='line'>    <span class="nx">el</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">items</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;li&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">el</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="nx">items</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">);</span>
+</span><span class='line'>  <span class="nx">frag</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span> <span class="c1">// 临时容易装DOM对象，这样可以提高效率 </span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">list</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">frag</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>No.10 会使用jQuery不等于熟悉JavaScript</h2>
+
+<p>jQuery只是JavaScript的一个库，封转了很多接口，开发效率比较高，而且使用方便。
+但是会使用jQuery不等同于熟悉JavaScript。如果有一天你使用Mootools那么将会有
+一些不习惯的地方。但是如果熟悉了JavaScript，那么很快可以上手。</p>
+
+<p>参考(The 11 JavaScript Mistakes You&#8217;re Making&lt;<Andrew Burgess>>)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Backbone.js之View介绍]]></title>
@@ -3827,104 +4162,6 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
 
 
 <p>以上这种方式也可以运用到我们自定义的对象中,但是又不影响原型链其它对象的使用。</p>
-
-<p>:D</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[JavaScript中for..in循环]]></title>
-    <link href="http://dongtong.github.com/blog/2012/07/26/about-for-in/"/>
-    <updated>2012-07-26T00:01:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/07/26/about-for-in</id>
-    <content type="html"><![CDATA[<p>for..in迭代应该用于迭代非数组对象，枚举对象属性。理论上也是可以迭代数组的，但是如果数组被扩展的话，
-在迭代的时候可能就会抛出内部错误。所以一般用for迭代数组，而for..in迭代对象。</p>
-
-<p>在使用for..in迭代对象时，最好加上判断hasOwnProperty,否则会顺着迭代对象的原型链一直查找属性。看一下下面的例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sayFoo</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
-</span><span class='line'>  <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sayFoo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;object.sayFoo&#39;</span><span class="p">)};</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">nextStr</span><span class="o">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">sayBar</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;foo.sayBar&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">foo</span><span class="p">){</span>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">)){</span>
-</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">){</span>
-</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span><span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-</span><span class='line'>      <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span><span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">foo</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span><span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!-- more -->
-
-
-<p>hasOwnProperty可以改善一下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">hasOwn</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">;</span>
-</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">foo</span><span class="p">){</span>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="nx">hasOwn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="nx">i</span><span class="p">)){</span>
-</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">){</span>
-</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span><span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-</span><span class='line'>      <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span><span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个是为了防止foo对象重新定义了hasOwnProperty方法。
-这里不是说for..in迭代对象就必须用hasOwnProperty方法去判断，这个需要根据项目情况而定。</p>
 
 <p>:D</p>
 ]]></content>

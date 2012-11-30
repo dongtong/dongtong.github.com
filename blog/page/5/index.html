@@ -9,15 +9,8 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="首先看看大牛是怎么定义闭包的: “…一个内部函数可以访问外部函数的vars, 或者parameters.即使是外部函数已经返回”
--“Douglas Crockford” 要想理解closure,最好是写一些代码，或是看一些例子。 1
-2
-3
-4
-5
-6
-7
-function myClosure &hellip;">
+  <meta name="description" content="for..in迭代应该用于迭代非数组对象，枚举对象属性。理论上也是可以迭代数组的，但是如果数组被扩展的话，
+在迭代的时候可能就会抛出内部错误。所以一般用for迭代数组，而for..in迭代对象。 在使用for..in迭代对象时，最好加上判断hasOwnProperty, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -104,6 +97,105 @@ function myClosure &hellip;">
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/26/about-for-in/">JavaScript中for..in循环</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-26T00:01:00+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/26/about-for-in/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>for..in迭代应该用于迭代非数组对象，枚举对象属性。理论上也是可以迭代数组的，但是如果数组被扩展的话，
+在迭代的时候可能就会抛出内部错误。所以一般用for迭代数组，而for..in迭代对象。</p>
+
+<p>在使用for..in迭代对象时，最好加上判断hasOwnProperty,否则会顺着迭代对象的原型链一直查找属性。看一下下面的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sayFoo</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
+</span><span class='line'>  <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sayFoo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;object.sayFoo&#39;</span><span class="p">)};</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">nextStr</span><span class="o">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">sayBar</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;foo.sayBar&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">foo</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">)){</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span><span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+</span><span class='line'>      <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span><span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">foo</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span><span class="nx">foo</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/07/26/about-for-in/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -430,61 +522,6 @@ function myClosure &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/21/mac-install-mysql/">Mac OS X Leopard 安装mysql</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-21T23:23:00+08:00" pubdate data-updated="true">Jul 21<span>st</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/21/mac-install-mysql/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在安装mysql之前必须要安装的是port, xcode(用它的工具包)</p>
-
-<p>第一步: 通过控制台安装MySQL 5</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo port install mysql5 +server</span></code></pre></td></tr></table></div></figure>
-
-
-<p>第二步: 让Mac OS X每次启动时启动MySQL服务</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo launchctl load -w /Library/LaunchDaemons/org.macports.mysql5.plist</span></code></pre></td></tr></table></div></figure>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/07/21/mac-install-mysql/">详细 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/6/">&larr; Older</a></li>
@@ -503,7 +540,7 @@ function myClosure &hellip;">
  <li class='category'><a href=' /blog/categories/backbone-js/'>Backbone.js (1)</a></li>
 <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
-<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (11)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
 <li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
@@ -520,6 +557,10 @@ function myClosure &hellip;">
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2012/11/29/javascript-ten-mistakes/">JavaScript十宗罪</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a>
       </li>
     
@@ -533,10 +574,6 @@ function myClosure &hellip;">
     
       <li class="post">
         <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
       </li>
     
   </ul>

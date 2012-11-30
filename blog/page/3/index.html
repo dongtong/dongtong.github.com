@@ -9,15 +9,13 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="下面介绍本地化git库的一些相关操作: 创建本地git仓库
-添加文件
-提交修改
-查看历史
-查看差异
-工作空间copy, staging和仓库
-删除文件
-清理工作空间copy
-使用.gitignore忽略相关文件 ">
+  <meta name="description" content="下面介绍git远程的一些相关操作： 1.Clone一个远程仓库
+2.列出远程仓库
+3.Fetch远程仓库中的更新
+4.Merge更新
+5.从远程仓库Pulling
+6.Pushing更新到远程仓库
+7.使用tags ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -104,6 +102,57 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/05/work-with-remote-git/">Git远程操作介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-05T23:53:00+08:00" pubdate data-updated="true">Sep 5<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/05/work-with-remote-git/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>下面介绍git远程的一些相关操作：</p>
+
+<p>1.Clone一个远程仓库
+2.列出远程仓库
+3.Fetch远程仓库中的更新
+4.Merge更新
+5.从远程仓库Pulling
+6.Pushing更新到远程仓库
+7.使用tags</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/05/work-with-remote-git/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -316,78 +365,6 @@ Mountain Lion时，可能有时候rake 失效，会报告如下错误:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/26/how-to-write-switch-sentence/">如何写出优美的switch</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-26T20:50:00+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/08/26/how-to-write-switch-sentence/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>当代码中出现多个条件分支时(if&#8230;else if&#8230;else if&#8230;else)时可以考虑使用
-switch语句。目前不同的浏览器针对到此是if..else效率高还是switch效率高没有
-基准。条件过多的话还是建议使用switch语句。为了提高条件匹配的效率，建议把命中
-率高的条件，或者经常出现的条件提升到最前面。</p>
-
-<p>下面看一段代码实例:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="k">switch</span> <span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'><span class="k">case</span> <span class="mi">0</span><span class="o">:</span><span class="c1">//case条件的缩进和switch一样</span>
-</span><span class='line'>  <span class="nx">result</span> <span class="o">+=</span> <span class="mi">0</span><span class="p">;</span><span class="c1">//case中的语句需要缩进</span>
-</span><span class='line'>  <span class="k">break</span><span class="p">;</span><span class="c1">//每一个case条件执行完成后要break,否则会继续执行剩下的case</span>
-</span><span class='line'><span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
-</span><span class='line'>  <span class="nx">result</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">break</span><span class="p">;</span>
-</span><span class='line'><span class="k">default</span><span class="o">:</span><span class="c1">//所有条件都不满足时执行默认的语句</span>
-</span><span class='line'>  <span class="nx">result</span> <span class="o">+=</span> <span class="nx">num</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果你确信自己的代码需要顺序执行剩下的语句，那么也可以不使用break。  :D</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/4/">&larr; Older</a></li>
@@ -406,7 +383,7 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
  <li class='category'><a href=' /blog/categories/backbone-js/'>Backbone.js (1)</a></li>
 <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
-<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (11)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
 <li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
@@ -423,6 +400,10 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2012/11/29/javascript-ten-mistakes/">JavaScript十宗罪</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a>
       </li>
     
@@ -436,10 +417,6 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
     
       <li class="post">
         <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
       </li>
     
   </ul>

@@ -9,8 +9,9 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="核心JavaScript编程语言,包括DOM,BOM,以及其它一些宿主对象都是基于ECMAScript标准的。第三版是1999年
-发布的，被作为标准版，基本被当前大多数浏览器实现，第四版被抛弃，第五版是2009年采纳。 第五版添加了一些新的内建对象，方法，和一些属性到语言中， &hellip;">
+  <meta name="description" content="在安装mysql之前必须要安装的是port, xcode(用它的工具包) 第一步: 通过控制台安装MySQL 5 1
+sudo port install mysql5 +server 第二步: 让Mac OS X每次启动时启动MySQL服务 1
+sudo launchctl load -w / &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,6 +104,61 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2012/07/21/mac-install-mysql/">Mac OS X Leopard 安装mysql</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-21T23:23:00+08:00" pubdate data-updated="true">Jul 21<span>st</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/21/mac-install-mysql/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在安装mysql之前必须要安装的是port, xcode(用它的工具包)</p>
+
+<p>第一步: 通过控制台安装MySQL 5</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo port install mysql5 +server</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第二步: 让Mac OS X每次启动时启动MySQL服务</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo launchctl load -w /Library/LaunchDaemons/org.macports.mysql5.plist</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/07/21/mac-install-mysql/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2012/07/17/about-ecmascript-5/">关于 ECMAScript 5</a></h1>
     
     
@@ -172,7 +228,7 @@
  <li class='category'><a href=' /blog/categories/backbone-js/'>Backbone.js (1)</a></li>
 <li class='category'><a href=' /blog/categories/getting-real记/'>Getting Real记 (2)</a></li>
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
-<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (10)</a></li>
+<li class='category'><a href=' /blog/categories/javascript/'>JavaScript (11)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
 <li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
@@ -189,6 +245,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2012/11/29/javascript-ten-mistakes/">JavaScript十宗罪</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/11/15/intro-backbone-view/">Backbone.js之View介绍</a>
       </li>
     
@@ -202,10 +262,6 @@
     
       <li class="post">
         <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/21/python-simple-tutorial/">Python简明教程</a>
       </li>
     
   </ul>
