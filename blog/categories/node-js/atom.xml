@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category:Node.js | Dong Way]]></title>
-  <link href="http://dongtong.github.com/blog/categories/node-js/atom.xml" rel="self"/>
-  <link href="http://dongtong.github.com/"/>
-  <updated>2012-12-17T23:08:36+08:00</updated>
-  <id>http://dongtong.github.com/</id>
+  <link href="www.dongjinhu.com/blog/categories/node-js/atom.xml" rel="self"/>
+  <link href="www.dongjinhu.com/"/>
+  <updated>2012-12-17T23:22:40+08:00</updated>
+  <id>www.dongjinhu.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
     <email><![CDATA[chinatea.guy@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Nodejs 介绍]]></title>
-    <link href="http://dongtong.github.com/blog/2012/09/16/introduce-nodejs/"/>
+    <link href="www.dongjinhu.com/blog/2012/09/16/introduce-nodejs/"/>
     <updated>2012-09-16T19:51:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/09/16/introduce-nodejs</id>
+    <id>www.dongjinhu.com/blog/2012/09/16/introduce-nodejs</id>
     <content type="html"><![CDATA[<h2>开始</h2>
 
 <p>首先通过一个实例看看nodejs执行程序:
@@ -965,9 +965,9 @@ db.open(function(error){//如果连接失败，或者server有问题，将会获
   
   <entry>
     <title type="html"><![CDATA[实现简单的Node聊天客户端]]></title>
-    <link href="http://dongtong.github.com/blog/2012/08/08/simple-nodejs-chat-server/"/>
+    <link href="www.dongjinhu.com/blog/2012/08/08/simple-nodejs-chat-server/"/>
     <updated>2012-08-08T00:02:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/08/08/simple-nodejs-chat-server</id>
+    <id>www.dongjinhu.com/blog/2012/08/08/simple-nodejs-chat-server</id>
     <content type="html"><![CDATA[<p>```javascript
 var net = require('net');
 var chatServer = net.createServer();

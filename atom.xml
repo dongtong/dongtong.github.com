@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Dong Way]]></title>
-  <link href="http://dongtong.github.com/atom.xml" rel="self"/>
-  <link href="http://dongtong.github.com/"/>
-  <updated>2012-12-17T23:08:36+08:00</updated>
-  <id>http://dongtong.github.com/</id>
+  <link href="www.dongjinhu.com/atom.xml" rel="self"/>
+  <link href="www.dongjinhu.com/"/>
+  <updated>2012-12-17T23:22:40+08:00</updated>
+  <id>www.dongjinhu.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
     <email><![CDATA[chinatea.guy@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[JavaScript十宗罪]]></title>
-    <link href="http://dongtong.github.com/blog/2012/11/29/javascript-ten-mistakes/"/>
+    <link href="www.dongjinhu.com/blog/2012/11/29/javascript-ten-mistakes/"/>
     <updated>2012-11-29T20:43:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/11/29/javascript-ten-mistakes</id>
+    <id>www.dongjinhu.com/blog/2012/11/29/javascript-ten-mistakes</id>
     <content type="html"><![CDATA[<p>在平时的JavaScript编码中，时常会发生一些不在意的错误，特别是刚开始接触
 JavaScript语言。现在介绍一下在JavaScript编码中的&#8221;十宗罪&#8221;。</p>
 
@@ -350,9 +350,9 @@ false。下面是一些很诡异的结果:</p>
   
   <entry>
     <title type="html"><![CDATA[Backbone.js之View介绍]]></title>
-    <link href="http://dongtong.github.com/blog/2012/11/15/intro-backbone-view/"/>
+    <link href="www.dongjinhu.com/blog/2012/11/15/intro-backbone-view/"/>
     <updated>2012-11-15T23:49:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/11/15/intro-backbone-view</id>
+    <id>www.dongjinhu.com/blog/2012/11/15/intro-backbone-view</id>
     <content type="html"><![CDATA[<ol>
 <li><p>使用jQuery，MooTools这些JavaScript库，构建SPA(Singal-Page Application)或者用户界面比较复杂的，实现起来比较困难，或者代码组织上看起来像&#8221;Spaghetti&#8221;</p></li>
 <li><p>如果在Binding一些DOM使用一些结构代码，那么程序维护起来将会比较清晰和简易。</p></li>
@@ -513,9 +513,9 @@ false。下面是一些很诡异的结果:</p>
   
   <entry>
     <title type="html"><![CDATA[Add new page in Octopress]]></title>
-    <link href="http://dongtong.github.com/blog/2012/10/26/add-new-page-in-octopress/"/>
+    <link href="www.dongjinhu.com/blog/2012/10/26/add-new-page-in-octopress/"/>
     <updated>2012-10-26T22:33:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/10/26/add-new-page-in-octopress</id>
+    <id>www.dongjinhu.com/blog/2012/10/26/add-new-page-in-octopress</id>
     <content type="html"><![CDATA[<p>If you want to add new page in Octopress, just like Octopress&#8217;s build-in &#8220;Blog&#8221; and &#8220;Archives&#8221; link. Firstly, you should create new page that you
 want.</p>
 
@@ -562,9 +562,9 @@ following:</p>
   
   <entry>
     <title type="html"><![CDATA[Sublime text 2使用介绍]]></title>
-    <link href="http://dongtong.github.com/blog/2012/10/04/sublime-text2-usage/"/>
+    <link href="www.dongjinhu.com/blog/2012/10/04/sublime-text2-usage/"/>
     <updated>2012-10-04T22:20:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/10/04/sublime-text2-usage</id>
+    <id>www.dongjinhu.com/blog/2012/10/04/sublime-text2-usage</id>
     <content type="html"><![CDATA[<ol>
 <li><p>注意&#8221;Preferences>Default&#8221;下面的&#8221;ignored_packages&#8221;选项。这个是在Sublime Text 2编辑器启动时需要忽略哪些package的。每次打开编辑器时，default都是会被重置的，会使用User中的配置。所以如果需要根据个人喜好，应该修改user级别的，可以把default中的一些选项拷贝到user中。</p></li>
 <li><p>如果在编辑一个新文件，但是还没有保存，但是又希望代码能高亮，使用&#8221;Tools>Command Palette&#8221;中设置syntax为指定的语言。里面还有其它的一些选项。例如要显示或者隐藏sidebar。
@@ -625,9 +625,9 @@ following:</p>
   
   <entry>
     <title type="html"><![CDATA[Mountain lion 安装 mongoDB]]></title>
-    <link href="http://dongtong.github.com/blog/2012/09/23/mountain-lion-install-mongodb/"/>
+    <link href="www.dongjinhu.com/blog/2012/09/23/mountain-lion-install-mongodb/"/>
     <updated>2012-09-23T23:06:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/09/23/mountain-lion-install-mongodb</id>
+    <id>www.dongjinhu.com/blog/2012/09/23/mountain-lion-install-mongodb</id>
     <content type="html"><![CDATA[<p>Mountain Lion通过Macport安装MongoDB报如下错误:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -691,9 +691,9 @@ following:</p>
   
   <entry>
     <title type="html"><![CDATA[Python简明教程]]></title>
-    <link href="http://dongtong.github.com/blog/2012/09/21/python-simple-tutorial/"/>
+    <link href="www.dongjinhu.com/blog/2012/09/21/python-simple-tutorial/"/>
     <updated>2012-09-21T21:01:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/09/21/python-simple-tutorial</id>
+    <id>www.dongjinhu.com/blog/2012/09/21/python-simple-tutorial</id>
     <content type="html"><![CDATA[<h2>1. 数字以及数学操作</h2>
 
 <p>这里Python使用的是2.6.5,后续将补充Python 3.x系列的一些新特性。</p>
@@ -891,9 +891,9 @@ following:</p>
   
   <entry>
     <title type="html"><![CDATA[Nodejs 介绍]]></title>
-    <link href="http://dongtong.github.com/blog/2012/09/16/introduce-nodejs/"/>
+    <link href="www.dongjinhu.com/blog/2012/09/16/introduce-nodejs/"/>
     <updated>2012-09-16T19:51:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/09/16/introduce-nodejs</id>
+    <id>www.dongjinhu.com/blog/2012/09/16/introduce-nodejs</id>
     <content type="html"><![CDATA[<h2>开始</h2>
 
 <p>首先通过一个实例看看nodejs执行程序:</p>
@@ -2355,9 +2355,9 @@ express在解析时，将your_world当做params中的一个key,如果你的值�
   
   <entry>
     <title type="html"><![CDATA[Rspec基础]]></title>
-    <link href="http://dongtong.github.com/blog/2012/09/15/rspec-basic/"/>
+    <link href="www.dongjinhu.com/blog/2012/09/15/rspec-basic/"/>
     <updated>2012-09-15T00:20:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/09/15/rspec-basic</id>
+    <id>www.dongjinhu.com/blog/2012/09/15/rspec-basic</id>
     <content type="html"><![CDATA[<p>RSpec是BDD(行为驱动测试)的一种测试框架。按照BDD理念，应该是先写一些行为用例场景，
 运行测试用例，应该失败(Red),然后写实现代码，再次运行测试,让测试通过(Green),最后
 重构代码，再运行测试用例,保证成功(Green)。</p>
@@ -3157,9 +3157,9 @@ rspec测试代码:</p>
   
   <entry>
     <title type="html"><![CDATA[做少没有什么不好]]></title>
-    <link href="http://dongtong.github.com/blog/2012/09/09/less-is-good-than-more/"/>
+    <link href="www.dongjinhu.com/blog/2012/09/09/less-is-good-than-more/"/>
     <updated>2012-09-09T23:35:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/09/09/less-is-good-than-more</id>
+    <id>www.dongjinhu.com/blog/2012/09/09/less-is-good-than-more</id>
     <content type="html"><![CDATA[<h2>做得比竟争对手少</h2>
 
 <p>常规的思维方式告诉我们,不管竞争对手做什么你总是要比他们加多一些。<br/>
@@ -3199,9 +3199,9 @@ rspec测试代码:</p>
   
   <entry>
     <title type="html"><![CDATA[什么是Getting Real?]]></title>
-    <link href="http://dongtong.github.com/blog/2012/09/09/what-is-getting-real/"/>
+    <link href="www.dongjinhu.com/blog/2012/09/09/what-is-getting-real/"/>
     <updated>2012-09-09T23:17:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/09/09/what-is-getting-real</id>
+    <id>www.dongjinhu.com/blog/2012/09/09/what-is-getting-real</id>
     <content type="html"><![CDATA[<p>Getting Real 是一种更小规模,更快速,更高质量的软件构建方法。</p>
 
 <ul>
@@ -3251,9 +3251,9 @@ rspec测试代码:</p>
   
   <entry>
     <title type="html"><![CDATA[Git远程操作介绍]]></title>
-    <link href="http://dongtong.github.com/blog/2012/09/05/work-with-remote-git/"/>
+    <link href="www.dongjinhu.com/blog/2012/09/05/work-with-remote-git/"/>
     <updated>2012-09-05T23:53:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/09/05/work-with-remote-git</id>
+    <id>www.dongjinhu.com/blog/2012/09/05/work-with-remote-git</id>
     <content type="html"><![CDATA[<p>下面介绍git远程的一些相关操作：</p>
 
 <p>1.Clone一个远程仓库
@@ -3301,9 +3301,9 @@ rspec测试代码:</p>
   
   <entry>
     <title type="html"><![CDATA[Git本地操作介绍]]></title>
-    <link href="http://dongtong.github.com/blog/2012/08/28/work-with-local-git/"/>
+    <link href="www.dongjinhu.com/blog/2012/08/28/work-with-local-git/"/>
     <updated>2012-08-28T23:37:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/08/28/work-with-local-git</id>
+    <id>www.dongjinhu.com/blog/2012/08/28/work-with-local-git</id>
     <content type="html"><![CDATA[<p>下面介绍本地化git库的一些相关操作:</p>
 
 <ol>
@@ -3545,9 +3545,9 @@ rspec测试代码:</p>
   
   <entry>
     <title type="html"><![CDATA[Git简要介绍]]></title>
-    <link href="http://dongtong.github.com/blog/2012/08/27/introduce-git/"/>
+    <link href="www.dongjinhu.com/blog/2012/08/27/introduce-git/"/>
     <updated>2012-08-27T22:33:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/08/27/introduce-git</id>
+    <id>www.dongjinhu.com/blog/2012/08/27/introduce-git</id>
     <content type="html"><![CDATA[<p>A. 首先介绍版本控制的历史:</p>
 
 <ol>
@@ -3702,9 +3702,9 @@ clone版本。  采用分布式可以轻松地建立分支，以及合并分支�
   
   <entry>
     <title type="html"><![CDATA[JavaScript语言中的一些小建议]]></title>
-    <link href="http://dongtong.github.com/blog/2012/08/26/some-small-tips-in-javascript/"/>
+    <link href="www.dongjinhu.com/blog/2012/08/26/some-small-tips-in-javascript/"/>
     <updated>2012-08-26T23:22:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/08/26/some-small-tips-in-javascript</id>
+    <id>www.dongjinhu.com/blog/2012/08/26/some-small-tips-in-javascript</id>
     <content type="html"><![CDATA[<p>下面列举一些JavaScript编程过程中的小建议，这些也可以编程项目开发中的
 一些约定，其实这些小建议可能大家有些地方不是很赞同，其实遵守一些约定比
 这些约定的内容更重要，即使是一些比较糟糕的约定，如果大家都去遵守了，我
@@ -3824,9 +3824,9 @@ parseInt(&#8216;09&#8217;)会转换成0,因为在转换过程中首先遇到了&
   
   <entry>
     <title type="html"><![CDATA[更新到Mountain Lion后，rake失效]]></title>
-    <link href="http://dongtong.github.com/blog/2012/08/26/rake-broken-after-update-to-mountain-lion/"/>
+    <link href="www.dongjinhu.com/blog/2012/08/26/rake-broken-after-update-to-mountain-lion/"/>
     <updated>2012-08-26T22:53:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/08/26/rake-broken-after-update-to-mountain-lion</id>
+    <id>www.dongjinhu.com/blog/2012/08/26/rake-broken-after-update-to-mountain-lion</id>
     <content type="html"><![CDATA[<p>如果使用Ruby on Rails开发的人员可能会遇到这样的问题，如果Mac OS X升级到
 Mountain Lion时，可能有时候rake 失效，会报告如下错误:</p>
 
@@ -3851,9 +3851,9 @@ Mountain Lion时，可能有时候rake 失效，会报告如下错误:</p>
   
   <entry>
     <title type="html"><![CDATA[如何写出优美的switch]]></title>
-    <link href="http://dongtong.github.com/blog/2012/08/26/how-to-write-switch-sentence/"/>
+    <link href="www.dongjinhu.com/blog/2012/08/26/how-to-write-switch-sentence/"/>
     <updated>2012-08-26T20:50:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/08/26/how-to-write-switch-sentence</id>
+    <id>www.dongjinhu.com/blog/2012/08/26/how-to-write-switch-sentence</id>
     <content type="html"><![CDATA[<p>当代码中出现多个条件分支时(if&#8230;else if&#8230;else if&#8230;else)时可以考虑使用
 switch语句。目前不同的浏览器针对到此是if..else效率高还是switch效率高没有
 基准。条件过多的话还是建议使用switch语句。为了提高条件匹配的效率，建议把命中
@@ -3894,9 +3894,9 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
   
   <entry>
     <title type="html"><![CDATA[不要擅自扩展内建对象原型]]></title>
-    <link href="http://dongtong.github.com/blog/2012/08/25/do-not-extend-built-in-prototype/"/>
+    <link href="www.dongjinhu.com/blog/2012/08/25/do-not-extend-built-in-prototype/"/>
     <updated>2012-08-25T22:00:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/08/25/do-not-extend-built-in-prototype</id>
+    <id>www.dongjinhu.com/blog/2012/08/25/do-not-extend-built-in-prototype</id>
     <content type="html"><![CDATA[<p>有时在特定的情形下，开发者需要扩展内建对象来达到自己的目的。但是如果别的
 开发者使用这个内建对象时，发现莫名奇妙地多了一个原型属性，这可能会扰乱内建
 对象的使用。</p>
@@ -3924,9 +3924,9 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
   
   <entry>
     <title type="html"><![CDATA[什么是可维护的JavaScript代码]]></title>
-    <link href="http://dongtong.github.com/blog/2012/08/25/write-maintainable-js-code/"/>
+    <link href="www.dongjinhu.com/blog/2012/08/25/write-maintainable-js-code/"/>
     <updated>2012-08-25T14:37:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/08/25/write-maintainable-js-code</id>
+    <id>www.dongjinhu.com/blog/2012/08/25/write-maintainable-js-code</id>
     <content type="html"><![CDATA[<p>最为一个开发人员，我们需要对自己编写的代码负责，对我们的解决方案负责。</p>
 
 <ol>
@@ -3964,9 +3964,9 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
   
   <entry>
     <title type="html"><![CDATA[实现简单的Node聊天客户端]]></title>
-    <link href="http://dongtong.github.com/blog/2012/08/08/simple-nodejs-chat-server/"/>
+    <link href="www.dongjinhu.com/blog/2012/08/08/simple-nodejs-chat-server/"/>
     <updated>2012-08-08T00:02:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/08/08/simple-nodejs-chat-server</id>
+    <id>www.dongjinhu.com/blog/2012/08/08/simple-nodejs-chat-server</id>
     <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -4074,9 +4074,9 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
   
   <entry>
     <title type="html"><![CDATA[关于扩展JavaScript内建对象]]></title>
-    <link href="http://dongtong.github.com/blog/2012/07/26/extend-javascript-builtin-object/"/>
+    <link href="www.dongjinhu.com/blog/2012/07/26/extend-javascript-builtin-object/"/>
     <updated>2012-07-26T23:39:00+08:00</updated>
-    <id>http://dongtong.github.com/blog/2012/07/26/extend-javascript-builtin-object</id>
+    <id>www.dongjinhu.com/blog/2012/07/26/extend-javascript-builtin-object</id>
     <content type="html"><![CDATA[<p>举个例子，如果内建的string没有capitalize方法，如果根据项目需求某处需要扩展string内建对象，比如添加了一个方法capitalize()将字符串首字母大写。</p>
 
 <p>在使用一个内建对象不存在的方法时，首先可以先查看一下ECMAScript 5有没有提供，其次查看一下prototype原型链上有没有已经定义的方法。最后查看文档中有没有定义对应的方法，以及和其它team成员沟通一下有没有定义对应的方法。如果这些都不能解决你的问题，那么可以考虑扩展prototype。</p>

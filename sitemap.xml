@@ -1,133 +1,131 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/07/17/about-ecmascript-5/</loc>
+        <loc>www.dongjinhu.com/blog/2012/07/17/about-ecmascript-5/</loc>
         <lastmod>2012-07-21T23:19:17+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/07/21/mac-install-mysql/</loc>
+        <loc>www.dongjinhu.com/blog/2012/07/21/mac-install-mysql/</loc>
         <lastmod>2012-07-21T23:57:50+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/07/21/mac-install-postgresql/</loc>
+        <loc>www.dongjinhu.com/blog/2012/07/21/mac-install-postgresql/</loc>
         <lastmod>2012-07-21T23:58:15+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/07/22/global-object-in-javascript/</loc>
+        <loc>www.dongjinhu.com/blog/2012/07/22/global-object-in-javascript/</loc>
         <lastmod>2012-08-25T15:26:19+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/07/22/optimize-for-loops/</loc>
+        <loc>www.dongjinhu.com/blog/2012/07/22/optimize-for-loops/</loc>
         <lastmod>2012-07-22T22:17:04+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/07/24/about-javascript-closure/</loc>
+        <loc>www.dongjinhu.com/blog/2012/07/24/about-javascript-closure/</loc>
         <lastmod>2012-07-24T22:56:49+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/07/26/about-for-in/</loc>
+        <loc>www.dongjinhu.com/blog/2012/07/26/about-for-in/</loc>
         <lastmod>2012-07-26T00:06:22+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/07/26/extend-javascript-builtin-object/</loc>
+        <loc>www.dongjinhu.com/blog/2012/07/26/extend-javascript-builtin-object/</loc>
         <lastmod>2012-07-26T23:48:08+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/08/08/simple-nodejs-chat-server/</loc>
+        <loc>www.dongjinhu.com/blog/2012/08/08/simple-nodejs-chat-server/</loc>
         <lastmod>2012-08-08T00:05:28+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/08/25/write-maintainable-js-code/</loc>
+        <loc>www.dongjinhu.com/blog/2012/08/25/write-maintainable-js-code/</loc>
         <lastmod>2012-08-25T14:53:25+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/08/25/do-not-extend-built-in-prototype/</loc>
+        <loc>www.dongjinhu.com/blog/2012/08/25/do-not-extend-built-in-prototype/</loc>
         <lastmod>2012-08-25T22:10:32+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/08/26/how-to-write-switch-sentence/</loc>
+        <loc>www.dongjinhu.com/blog/2012/08/26/how-to-write-switch-sentence/</loc>
         <lastmod>2012-08-26T21:03:51+08:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://dongtong.github.com/blog/2012/08/26/rake-broken-after-update-to-mountain-lion/
-        </loc>
+        <loc>www.dongjinhu.com/blog/2012/08/26/rake-broken-after-update-to-mountain-lion/</loc>
         <lastmod>2012-08-26T22:59:43+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/08/26/some-small-tips-in-javascript/</loc>
+        <loc>www.dongjinhu.com/blog/2012/08/26/some-small-tips-in-javascript/</loc>
         <lastmod>2012-08-27T00:01:05+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/08/27/introduce-git/</loc>
+        <loc>www.dongjinhu.com/blog/2012/08/27/introduce-git/</loc>
         <lastmod>2012-08-29T00:32:10+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/08/28/work-with-local-git/</loc>
+        <loc>www.dongjinhu.com/blog/2012/08/28/work-with-local-git/</loc>
         <lastmod>2012-09-05T23:54:09+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/09/05/work-with-remote-git/</loc>
+        <loc>www.dongjinhu.com/blog/2012/09/05/work-with-remote-git/</loc>
         <lastmod>2012-09-09T23:33:07+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/09/09/what-is-getting-real/</loc>
+        <loc>www.dongjinhu.com/blog/2012/09/09/what-is-getting-real/</loc>
         <lastmod>2012-09-09T23:34:20+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/09/09/less-is-good-than-more/</loc>
+        <loc>www.dongjinhu.com/blog/2012/09/09/less-is-good-than-more/</loc>
         <lastmod>2012-09-09T23:44:49+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/09/15/rspec-basic/</loc>
+        <loc>www.dongjinhu.com/blog/2012/09/15/rspec-basic/</loc>
         <lastmod>2012-09-15T19:14:55+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/09/16/introduce-nodejs/</loc>
+        <loc>www.dongjinhu.com/blog/2012/09/16/introduce-nodejs/</loc>
         <lastmod>2012-09-23T23:15:43+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/09/21/python-simple-tutorial/</loc>
+        <loc>www.dongjinhu.com/blog/2012/09/21/python-simple-tutorial/</loc>
         <lastmod>2012-09-22T10:57:47+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/09/23/mountain-lion-install-mongodb/</loc>
+        <loc>www.dongjinhu.com/blog/2012/09/23/mountain-lion-install-mongodb/</loc>
         <lastmod>2012-09-23T23:13:15+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/10/04/sublime-text2-usage/</loc>
+        <loc>www.dongjinhu.com/blog/2012/10/04/sublime-text2-usage/</loc>
         <lastmod>2012-10-25T09:34:41+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/10/26/add-new-page-in-octopress/</loc>
+        <loc>www.dongjinhu.com/blog/2012/10/26/add-new-page-in-octopress/</loc>
         <lastmod>2012-10-26T23:01:07+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/11/15/intro-backbone-view/</loc>
+        <loc>www.dongjinhu.com/blog/2012/11/15/intro-backbone-view/</loc>
         <lastmod>2012-11-15T23:56:11+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/2012/11/29/javascript-ten-mistakes/</loc>
+        <loc>www.dongjinhu.com/blog/2012/11/29/javascript-ten-mistakes/</loc>
         <lastmod>2012-11-30T23:15:32+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/404.html</loc>
+        <loc>www.dongjinhu.com/404.html</loc>
         <lastmod>2012-07-05T23:21:55+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/about/</loc>
+        <loc>www.dongjinhu.com/about/</loc>
         <lastmod>2012-10-26T22:47:16+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/blog/archives/</loc>
+        <loc>www.dongjinhu.com/blog/archives/</loc>
         <lastmod>2012-11-30T23:15:32+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/</loc>
+        <loc>www.dongjinhu.com/</loc>
         <lastmod>2012-11-30T23:15:32+08:00</lastmod>
     </url>
     <url>
-        <loc>http://dongtong.github.com/learn-japanese/</loc>
+        <loc>www.dongjinhu.com/learn-japanese/</loc>
         <lastmod>2012-10-26T22:57:49+08:00</lastmod>
     </url>
 </urlset>
