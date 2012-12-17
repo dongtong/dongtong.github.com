@@ -4,7 +4,7 @@
   <title><![CDATA[Category:Octopress | Dong Way]]></title>
   <link href="http://dongtong.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://dongtong.github.com/"/>
-  <updated>2012-12-16T17:39:55+08:00</updated>
+  <updated>2012-12-17T23:08:36+08:00</updated>
   <id>http://dongtong.github.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
@@ -34,9 +34,9 @@ following:
 ```html</p>
 
 <ul class="nav">
-  <li><a href="{{ root_url }}/">Blog</a></li>
-  <li><a href="{{ root_url }}/blog/archives">Archives</a></li>
-  <li><a href="{{ root_url }}/about">About</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
 </ul>
 
 
