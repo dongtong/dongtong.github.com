@@ -9,8 +9,7 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="for..in迭代应该用于迭代非数组对象，枚举对象属性。理论上也是可以迭代数组的，但是如果数组被扩展的话，
-在迭代的时候可能就会抛出内部错误。所以一般用for迭代数组，而for..in迭代对象。 在使用for..in迭代对象时，最好加上判断hasOwnProperty, &hellip;">
+  <meta name="description" content="举个例子，如果内建的string没有capitalize方法，如果根据项目需求某处需要扩展string内建对象，比如添加了一个方法capitalize()将字符串首字母大写。 在使用一个内建对象不存在的方法时，首先可以先查看一下ECMAScript 5有没有提供， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +96,68 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/26/extend-javascript-builtin-object/">关于扩展JavaScript内建对象</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-26T23:39:00+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/26/extend-javascript-builtin-object/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>举个例子，如果内建的string没有capitalize方法，如果根据项目需求某处需要扩展string内建对象，比如添加了一个方法capitalize()将字符串首字母大写。</p>
+
+<p>在使用一个内建对象不存在的方法时，首先可以先查看一下ECMAScript 5有没有提供，其次查看一下prototype原型链上有没有已经定义的方法。最后查看文档中有没有定义对应的方法，以及和其它team成员沟通一下有没有定义对应的方法。如果这些都不能解决你的问题，那么可以考虑扩展prototype。</p>
+
+<p>可能第一时间会想到这样做:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">){</span>
+</span><span class='line'>  <span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">capitalize</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">toLowerCase</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">())</span><span class="c1">//Hello</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/07/26/extend-javascript-builtin-object/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -470,58 +531,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/21/mac-install-postgresql/">Mac OS X Leopard 安装Postgresql和pg Gem</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-21T23:38:00+08:00" pubdate data-updated="true">Jul 21<span>st</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/21/mac-install-postgresql/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这里安装Postgresql不是通过port,而是直接下载.dmg文件安装。</p>
-
-<p>第一步: 到Postgresql官网下载Postgresql.dmg文件
-想到http://www.postgresql.org/download/macosx/下点击&#8221;Download&#8221;，页面
-跳转到http://www.enterprisedb.com/products-services-training/pgdownload#osx
-这里下载的是9.1.4版本，下载完成后直接点击安装。</p>
-
-<p>第二步: 安装前先看一下README文件，里面说明了如何配置Postgresql的内存使用情况</p>
-
-<p>第三步: 安装过程中如果数据库使用了汉字的话，要选择zh的，不然数据库中无法存储汉字。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/07/21/mac-install-postgresql/">详细 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/6/">&larr; Older</a></li>
@@ -546,6 +555,7 @@
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/jquery/'>jQuery (1)</a></li>
 <li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
 <li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
 <li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
@@ -555,6 +565,10 @@
 <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/26/how-to-create-jquery-plugin/">如何创建一个jQuery插件</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/11/29/javascript-ten-mistakes/">JavaScript十宗罪</a>
@@ -570,10 +584,6 @@
     
       <li class="post">
         <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
       </li>
     
   </ul>

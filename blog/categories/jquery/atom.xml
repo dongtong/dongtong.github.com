@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category:jQuery | Dong Way]]></title>
+  <link href="www.dongjinhu.com/blog/categories/jquery/atom.xml" rel="self"/>
+  <link href="www.dongjinhu.com/"/>
+  <updated>2013-03-04T23:41:56+08:00</updated>
+  <id>www.dongjinhu.com/</id>
+  <author>
+    <name><![CDATA[Dong]]></name>
+    <email><![CDATA[chinatea.guy@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[如何创建一个jQuery插件]]></title>
+    <link href="www.dongjinhu.com/blog/2013/02/26/how-to-create-jquery-plugin/"/>
+    <updated>2013-02-26T23:39:00+08:00</updated>
+    <id>www.dongjinhu.com/blog/2013/02/26/how-to-create-jquery-plugin</id>
+    <content type="html"><![CDATA[<p>当前JavaScript比较流行的库有jQuery, ExtJs, Dojo, Mootools, YUI等等。这些当中
+jQuery当属最火热的。现在一些公司招聘Web开发的要求中，基本上都会附上"熟悉jQuery框架"。
+其实准确来说不应该叫做"框架"，而应该称作JavaScript库，这里就不在闲扯字面上的区别。</p>
+
+<p>如果你jQuery用得很熟练，但是这并不代表你JavaScript精通，反之则成立。所以在日常中JavaScript开发当中，如果能创建一个jQuery插件供其它项目复用，那么心里会产生一丝丝的优越感。当然这只是在一些不是很精通JavaScript人面前，如果在大牛面前，还是低调一些。下面将会讲解如何开发一个简单的jQuery插件。</p>
+
+<!--More-->
+
+
+<p>jQuery Plugin可以让你与你的同事和其他同行朋友交流一些心得。</p>
+
+<p>http://blog.jquery.com/2011/12/08/what-is-happening-to-the-jquery-plugins-site。</p>
+
+<p>可以把开发好的plugin托管在github上，这样一方面可以供别人使用，另一方面在别人使用的同时，可以提出一些意见或者bug以便改善plugin。下面我们将创建一个jquery选择插件，现在github上也
+托管了一些类似的plugin，这里只是简单地开发一个选择题插件，熟悉jquery插件开发的流程。</p>
+
+<p>第一步，首先创建一个目录jquery.choice目录，里面包含js/jquery.js文件。然后就是js/jquery.choose.js文件。一般上jquery插件的命名是jquery.plugin-name.js, 然后就是css/choose.css给插件添加样式,最后就是index.html提供示例。</p>
+
+<p>第二步，创建jquery plugin的最佳实践首先就是将plugin放在闭包(closure)中。</p>
+
+<p>```javascript
+;(function($, document, window, undefined){// <em>1, </em>3, *5</p>
+
+<pre><code>$.fn.choose = function(){// *2, *6
+
+};
+</code></pre>
+
+<p>}(jQuery, document, window));// *4
+```</p>
+
+<p>*1 => ;是为了防止在引入这个plugin后，合并javascript时，上一个javascript最后一句没有使用;结束，那么可能在浏览器中报告javascript错误。</p>
+
+<p>*2 => 将plugin代码放入闭包中是为了保证plugin中的变量的私有性，这样闭包以外的代码就不可以访问闭包内的变量。</p>
+
+<p>*3 => 保证plugin在jQuery命名空间下，应该传递jQuery->($)给闭包函数，
+这样就不会导致其他的javascript库或者自定义库的命名空间干扰plugin。</p>
+
+<p>*4 => (jQuery)紧跟在匿名函数后面或者;()(jQuery)有一些细微的去边但是没有什么特别不同，一种是匿名函数定义结束后立即执行，一个是匿名函数下载结束后执行。所以可以选择不同的方式。</p>
+
+<p>*5 => 一般匿名函数会传递四个参数($, window, document, undefined)。因为undefined可能在老的
+ECMAScript标准中被重写。不过现在现在浏览器基本上都不会出现这种情况。这里只需要传递三个参数。</p>
+
+<p>*6 => jQuery插件开发分为两种方式，一种是定义在jQuery原型链上($.fn)，一种是定义在jQuery对象上($)。大多数情况下会定义在jQuery原型连上。</p>
+
+<p>第三步, 理解this对象
+首先看一下示例文件index.html
+```html
+&lt;!DOCTYPE html></p>
+
+<p><html lang="en">
+<head></p>
+
+<pre><code>&lt;meta charset="utf-8"/&gt;
+&lt;title&gt;Choice - jChoice 0.0.1&lt;/title&gt;
+&lt;script type="text/javascript" src="js/jquery-1.8.2.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="js/jquery.choose.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p></head>
+<body></p>
+
+<pre><code>&lt;div id="choice_item"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+    $(function(){
+        $('#choice_item').choose();
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p></body>
+</html>
+```
+然后看一下jquery.choose.js文件</p>
+
+<p>```javascript
+;(function($, document, window, undefined){</p>
+
+<pre><code>$.fn.choose = function(){
+    console.log(this);
+};
+</code></pre>
+
+<p>}(jQuery, document, window));
+```
+打开浏览器查看控制台，将会发现this已经指向DOM中div对象并且已经被jQuery包装成jQuery对象。所以就不需要在代码中重复包装这个对象($(this))。如果它已经是jQuery对象，那么就可以对这个对象调用jQuery的方法，例如this.width()等等。</p>
+
+<p>下面将个plugin的DOM容器(<div id="choice_item"></div>)添加内容。
+```javascript</p>
+
+<pre><code>$.fn.choose = function(){
+    $("&lt;h2&gt;", {
+        text: "你最喜欢什么编程语言?"
+    }).appendTo(this); //添加问题描述
+
+    var form = $('&lt;form /&gt;').appendTo(this);//问题放在一个form中提交
+    var choices = ["JavaScript", "Ruby", "Python", "C"];
+    var choice_len = choices.length;
+    while(choice_len--){
+        $("&lt;input /&gt;", {
+            type: 'radio',
+            name: 'choices',
+            id: choices[choice_len],
+            value: choices[choice_len]
+        }).appendTo(form);
+
+        $("&lt;label /&gt;", {
+            text: choices[choice_len],
+            "for": choices[choice_len]
+        }).appendTo(form);
+    }
+
+    $("&lt;button /&gt;", {
+        text: "提交"
+    }).appendTo(form);
+};
+</code></pre>
+
+<p>```
+刷新一下你的浏览器页面，看现在有什么变化?</p>
+
+<p>第四步, 让Plugin插件保持链式调用(chaining)</p>
+
+<p>如果打算给plugin添加式样的话:
+<code>javascript
+$('#choice_item').choose().addClass('selector');
+</code>
+在控制台将会报以下错误
+"Uncaught TypeError: Cannot call method 'addClass' of undefined"
+因为plugin没有返回任何jQuery对象。如果一个function没有返回任何对象，那么这个function默认地返回undefined, undefined是不可以进行链式调用的，如果想让jQuery对象链式调用，那么就必须返回一个jQuery对象。</p>
+
+<p>这里需要回顾一下第三步中plugin匿名函数中的this已经是jQuery对象，所以这里在plugin最后一行直接返回这个对象即可。
+```javascript
+$.fn.choose = function(){</p>
+
+<pre><code>//...
+return this;
+</code></pre>
+
+<p>}
+<code>
+这里只是简单的实现返回一个jQuery对象，在真实项目中jQuery选择器器应该返回的是一个集合，那么就要在集合操作结束后，返回当前操作的对象，这样才能让链式调用继续下去。一般我们看到的plugin都是这样返回集合jQuery对象的:
+</code>javascript
+$.fn.choose = function(){</p>
+
+<pre><code>return this.each(function(){
+    //...
+});
+</code></pre>
+
+<p>};
+```
+让plugin保持链式调用是jQuery plugin的一个重要环节,因为对操作完的对象可能会需要实现其他操作，而这些操作使用的是jQuery工具方法。</p>
+
+<p>第五步 使Plugin可以配置</p>
+
+<p>到目前为止，我们的plugin里面的变量还是硬编码的，要想摆脱硬编码，那么需要plugin可以配置。首先将plugin中变量抽离出来放到一个对象中:
+```javascript</p>
+
+<pre><code>var setting = {
+    question: "你最喜欢什么编程语言?",
+    url: "", //用于提交的地址
+    buttonText: "提交",
+    choices: ["JavaScript", "Ruby", "Python", "C"]
+};
+</code></pre>
+
+<p><code>
+下面就是如果初始化插件时，传入参数，那么这些参数可以覆盖默认的配置参数(setting), 如果没有的话将会使用默认参数。
+</code>javascript</p>
+
+<pre><code>$.fn.choose = function(options){
+    var config = $.extend({}, settings, options);
+
+    $("&lt;h2&gt;", {
+        text: config.question
+    }).appendTo(this); //添加问题描述
+
+    var form = $('&lt;form /&gt;').appendTo(this);//问题放在一个form中提交
+    var choices = config.choices;
+    var choice_len = choices.length;
+    while(choice_len--){
+        $("&lt;input /&gt;", {
+            type: 'radio',
+            name: 'choices',
+            id: choices[choice_len],
+            value: choices[choice_len]
+        }).appendTo(form);
+
+        $("&lt;label /&gt;", {
+            text: choices[choice_len],
+            "for": choices[choice_len]
+        }).appendTo(form);
+    }
+
+    $("&lt;button /&gt;", {
+        text: config.buttonText
+    }).appendTo(form);
+};
+</code></pre>
+
+<p><code>
+接下来就使用自定义的参数来设置plugin:
+</code>javascript</p>
+
+<pre><code>$(function(){
+    $('#choice_item').choose({
+        question: "你最喜欢那种JavaScript库?",
+        choices: ["jQuery", "ExtJS", "Mootools", "Dojo"],
+    });
+</code></pre>
+
+<p>});
+```
+打开浏览器将会发现问题和选项已经改变。</p>
+
+<p>第六步 组织plugin代码结构</p>
+
+<p>现在plugin已经可以创建一个模板，换句话说现在的plugin只是显示，没有行为。如何组织plugin行为代码(给plugin添加方法)?</p>
+
+<p>首先我么可以简单地将plugin初始的功能封装到一个方法里:
+```javascript</p>
+
+<pre><code>    var selectedObj = this;
+    selectedObj.init = function(){
+        $("&lt;h2&gt;", {
+            text: config.question
+        }).appendTo(selectedObj); //添加问题描述
+
+        var form = $('&lt;form /&gt;').appendTo(this);//问题放在一个form中提交
+        var choices = config.choices;
+        var choice_len = choices.length;
+        while(choice_len--){
+            $("&lt;input /&gt;", {
+                type: 'radio',
+                name: 'choices',
+                id: choices[choice_len],
+                value: choices[choice_len]
+            }).appendTo(form);
+
+            $("&lt;label /&gt;", {
+                text: choices[choice_len],
+                "for": choices[choice_len]
+            }).appendTo(form);
+        }
+
+        $("&lt;button /&gt;", {
+            text: config.buttonText
+        }).appendTo(form);
+    };
+
+    selectedObj.init();
+</code></pre>
+
+<p>```
+但是这个方法还是在匿名函数中，如果plugin复杂地话，将会有许多方法，基本不太可能将这些方法都放在匿名函数中。那么这里有一种方法，将plugin定义成一个类对象(注:不是真正意义上的对象),然后使用原型连方式给类添加行为(即方法)。</p>
+
+<p>```javascript</p>
+
+<pre><code>function Choose(element, options){
+    this.config = $.extend({}, settings, options);//定义属性config,存储配置参数
+    this.element = element;//定义属性element,存储jQuery对象
+    this.init();//初始化plugin
+}   
+</code></pre>
+
+<p><code>
+接下来就是使用原型链方式定义方法init
+</code>javascript</p>
+
+<pre><code>Choose.prototype.init = function(){
+    var config = this.config,
+        selectedObj = this.element;
+
+    $("&lt;h2&gt;", {
+        text: config.question
+    }).appendTo(selectedObj); //添加问题描述
+
+    var form = $('&lt;form /&gt;').appendTo(selectedObj);//问题放在一个form中提交
+    var choices = config.choices;
+    var choice_len = choices.length;
+    while(choice_len--){
+        $("&lt;input /&gt;", {
+            type: 'radio',
+            name: 'choices',
+            id: choices[choice_len],
+            value: choices[choice_len]
+        }).appendTo(form);
+
+        $("&lt;label /&gt;", {
+            text: choices[choice_len],
+            "for": choices[choice_len]
+        }).appendTo(form);
+    }
+
+    $("&lt;button /&gt;", {
+        text: config.buttonText
+    }).appendTo(form);
+}
+</code></pre>
+
+<p><code>
+最后就是实例化plugin,并返回jQuery对象
+</code>javascript</p>
+
+<pre><code>$.fn.choose = function(options){
+    new Choose(this.first(), options);
+    return this.first();//保持链式调用
+};
+</code></pre>
+
+<p>```
+这里介绍了使用原型链方式组织plugin行为，还有其他方式组织plugin行为。这里就不在阐述，可以阅读&lt;&lt; Professional jQuery >>这本书中开发插件章节。</p>
+]]></content>
+  </entry>
+  
+</feed>

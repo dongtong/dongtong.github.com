@@ -9,9 +9,9 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="当代码中出现多个条件分支时(if&#8230;else if&#8230;else if&#8230;else)时可以考虑使用
-switch语句。目前不同的浏览器针对到此是if..else效率高还是switch效率高没有
-基准。条件过多的话还是建议使用switch语句。为了提高条件匹配的效率， &hellip;">
+  <meta name="description" content="如果使用Ruby on Rails开发的人员可能会遇到这样的问题，如果Mac OS X升级到
+Mountain Lion时，可能有时候rake 失效，会报告如下错误: 1
+IOError: invalid Python installation: unable to open /usr/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,6 +98,62 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/08/26/rake-broken-after-update-to-mountain-lion/">更新到Mountain Lion后，rake失效</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-26T22:53:00+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/08/26/rake-broken-after-update-to-mountain-lion/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>如果使用Ruby on Rails开发的人员可能会遇到这样的问题，如果Mac OS X升级到
+Mountain Lion时，可能有时候rake 失效，会报告如下错误:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IOError: invalid Python installation: unable to open /usr/include/python2.7/pyconfig.h (No such file or directory)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>特别是在用Octopress时，发现无法watch, preview等等。
+解决方法是建立软连接到Python的安装目录中的pyconfig.h</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt;sudo find / -name pyconfig.h  #首先找到文件
+</span><span class='line'>$&gt;sudo mkdir -p /usr/include/python2.7/
+</span><span class='line'>$&gt;sudo ln -s 找到的安装目录 /usr/include/python2.7/pyconfig.h</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK :D</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -362,68 +418,6 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/26/extend-javascript-builtin-object/">关于扩展JavaScript内建对象</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-26T23:39:00+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/26/extend-javascript-builtin-object/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>举个例子，如果内建的string没有capitalize方法，如果根据项目需求某处需要扩展string内建对象，比如添加了一个方法capitalize()将字符串首字母大写。</p>
-
-<p>在使用一个内建对象不存在的方法时，首先可以先查看一下ECMAScript 5有没有提供，其次查看一下prototype原型链上有没有已经定义的方法。最后查看文档中有没有定义对应的方法，以及和其它team成员沟通一下有没有定义对应的方法。如果这些都不能解决你的问题，那么可以考虑扩展prototype。</p>
-
-<p>可能第一时间会想到这样做:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">){</span>
-</span><span class='line'>  <span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">capitalize</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">toLowerCase</span><span class="p">();</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">())</span><span class="c1">//Hello</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/07/26/extend-javascript-builtin-object/">详细 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/5/">&larr; Older</a></li>
@@ -448,6 +442,7 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/jquery/'>jQuery (1)</a></li>
 <li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
 <li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
 <li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
@@ -457,6 +452,10 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
 <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/26/how-to-create-jquery-plugin/">如何创建一个jQuery插件</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/11/29/javascript-ten-mistakes/">JavaScript十宗罪</a>
@@ -472,10 +471,6 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
     
       <li class="post">
         <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
       </li>
     
   </ul>

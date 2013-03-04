@@ -9,9 +9,8 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="在安装mysql之前必须要安装的是port, xcode(用它的工具包) 第一步: 通过控制台安装MySQL 5 1
-sudo port install mysql5 +server 第二步: 让Mac OS X每次启动时启动MySQL服务 1
-sudo launchctl load -w / &hellip;">
+  <meta name="description" content="这里安装Postgresql不是通过port,而是直接下载.dmg文件安装。 第一步: 到Postgresql官网下载Postgresql.dmg文件
+想到http://www.postgresql.org/download/macosx/下点击&#8221;Download&#8221;，页面 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,6 +97,58 @@ sudo launchctl load -w / &hellip;">
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/21/mac-install-postgresql/">Mac OS X Leopard 安装Postgresql和pg Gem</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-21T23:38:00+08:00" pubdate data-updated="true">Jul 21<span>st</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/21/mac-install-postgresql/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这里安装Postgresql不是通过port,而是直接下载.dmg文件安装。</p>
+
+<p>第一步: 到Postgresql官网下载Postgresql.dmg文件
+想到http://www.postgresql.org/download/macosx/下点击&#8221;Download&#8221;，页面
+跳转到http://www.enterprisedb.com/products-services-training/pgdownload#osx
+这里下载的是9.1.4版本，下载完成后直接点击安装。</p>
+
+<p>第二步: 安装前先看一下README文件，里面说明了如何配置Postgresql的内存使用情况</p>
+
+<p>第三步: 安装过程中如果数据库使用了汉字的话，要选择zh的，不然数据库中无法存储汉字。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/07/21/mac-install-postgresql/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -234,6 +285,7 @@ sudo launchctl load -w / &hellip;">
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
+<li class='category'><a href=' /blog/categories/jquery/'>jQuery (1)</a></li>
 <li class='category'><a href=' /blog/categories/其它/'>其它 (1)</a></li>
 <li class='category'><a href=' /blog/categories/安装/'>安装 (3)</a></li>
 <li class='category'><a href=' /blog/categories/配置/'>配置 (4)</a></li>
@@ -243,6 +295,10 @@ sudo launchctl load -w / &hellip;">
 <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/26/how-to-create-jquery-plugin/">如何创建一个jQuery插件</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/11/29/javascript-ten-mistakes/">JavaScript十宗罪</a>
@@ -258,10 +314,6 @@ sudo launchctl load -w / &hellip;">
     
       <li class="post">
         <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/23/mountain-lion-install-mongodb/">Mountain lion 安装 mongoDB</a>
       </li>
     
   </ul>
