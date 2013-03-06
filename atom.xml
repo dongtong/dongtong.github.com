@@ -4,7 +4,7 @@
   <title><![CDATA[Dong Way]]></title>
   <link href="www.dongjinhu.com/atom.xml" rel="self"/>
   <link href="www.dongjinhu.com/"/>
-  <updated>2013-03-05T23:40:44+08:00</updated>
+  <updated>2013-03-07T00:18:56+08:00</updated>
   <id>www.dongjinhu.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
@@ -698,6 +698,478 @@ ECMAScript标准中被重写。不过现在现在浏览器基本上都不会出�
 <p>现在打开浏览器看看式样是否已经改变</p>
 
 <p>这里也可以让plugin使用jqueryui的theme。只要plugin中添加class符合jqueryui theme的规则，这样有一个好处就是开发者可以不用考虑浏览器CSS兼容问题，这些问题基本都交给jqueryui(jQuery ui的式样有时也会出一些问题)。例如给plugin的容器添加&#8221;ui-widget-content&#8221;, &#8220;ui-corner-all&#8221;等等。</p>
+
+<p>第八步 Plugin中捕捉事件</p>
+
+<p>choose插件主要流程就是让用户选择选项然后提交，所以这里应该侦听的是button的提交事件。下面看一下代码实现</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>        <span class="nx">form</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span><span class="c1">//阻止浏览器的默认行为</span>
+</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;submit form&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打开浏览器，选择选线后提交，发现调试窗口显示&#8221;submit form&#8221;。这样是正确的，但是用户可以hack这一行为。用户可以在plugin插件初始化后unbind这个form,那么提交将没有什么效果。这里可以利用javascript事件冒泡机制，给form的容器绑定submit事件，一般用户可能会unbind form的事件，而不太注意到unbind容器的事件。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">Choose</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">options</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">config</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">settings</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span><span class="c1">//定义属性config,存储配置参数</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">element</span><span class="p">;</span><span class="c1">//定义属性element,存储jQuery对象</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+</span><span class='line'>      <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span><span class="c1">//阻止浏览器的默认行为</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;submit form&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span><span class="c1">//初始化plugin</span>
+</span><span class='line'><span class="p">}</span>  
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来就是如果用户没有选择任何选项的话，button默认是不可用的，如果用户选择一个选项的话，button将可用，当用户提交后button将再次变为不可用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//首先给button添加属性</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;button /&gt;&quot;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">text</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">buttonText</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">btnClass</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">disabled</span><span class="o">:</span> <span class="s2">&quot;disabled&quot;</span>
+</span><span class='line'>      <span class="p">}).</span><span class="nx">appendTo</span><span class="p">(</span><span class="nx">form</span><span class="p">);</span>
+</span><span class='line'><span class="c1">//然后在构造函数中添加处理</span>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">Choose</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">options</span><span class="p">){</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">widget</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>      <span class="nx">widget</span><span class="p">.</span><span class="nx">config</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">settings</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span><span class="c1">//定义属性config,存储配置参数</span>
+</span><span class='line'>      <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">element</span><span class="p">;</span><span class="c1">//定义属性element,存储jQuery对象</span>
+</span><span class='line'>      <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span><span class="c1">//阻止浏览器的默认行为</span>
+</span><span class='line'>          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;submit form&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="c1">//JSON.stringify仅在现代浏览器中支持，比如老一些的IE浏览器就不支持，但是可以使用json2这个库来实现</span>
+</span><span class='line'>          <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>              <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">url</span><span class="o">:</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">contentType</span><span class="o">:</span> <span class="s2">&quot;application/json; charset=utf-8&quot;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">data</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="nx">chosen</span><span class="o">:</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;:checked&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">()}),</span>
+</span><span class='line'>              <span class="nx">dataType</span><span class="o">:</span> <span class="s2">&quot;json&quot;</span>
+</span><span class='line'>          <span class="p">}).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span><span class="c1">//请求成功后调用的回调函数</span>
+</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">}).</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="c1">//请求失败后调用的回调函数</span>
+</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;ajax request failed&quot;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">})</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>      <span class="c1">//当用户选择一个选项时，将会触发change事件</span>
+</span><span class='line'>      <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>          <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;button&quot;</span><span class="p">).</span><span class="nx">removeProp</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span><span class="c1">//初始化plugin</span>
+</span><span class='line'>  <span class="p">}</span>    
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第九步 添加用户自定义事件的API</p>
+
+<p>上一步plugin只是侦听了form容器的submit事件，这在较为复杂的插件中远远不够的，应该是用户自定义事件API, 通过捕获不同的事件来做不同的处理。首先看一下简单地在配置参数中添加事件处理配置:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//首先定义默认配置参数</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">settings</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">question</span><span class="o">:</span> <span class="s2">&quot;你最喜欢什么编程语言?&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="c1">//用于提交的地址</span>
+</span><span class='line'>  <span class="nx">buttonText</span><span class="o">:</span> <span class="s2">&quot;提交&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">choices</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;JavaScript&quot;</span><span class="p">,</span> <span class="s2">&quot;Ruby&quot;</span><span class="p">,</span> <span class="s2">&quot;Python&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">],</span>
+</span><span class='line'>  <span class="nx">containerClass</span><span class="o">:</span> <span class="s2">&quot;chooser&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">formClass</span><span class="o">:</span> <span class="s2">&quot;chooser-form&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">btnClass</span><span class="o">:</span> <span class="s2">&quot;chooser-btn&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">onCreated</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="c1">//...</span>
+</span><span class='line'><span class="c1">//然后在init函数底部调用这个函数</span>
+</span><span class='line'><span class="c1">//传入当前容器的jQuery对象</span>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">onCreated</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">);</span>
+</span><span class='line'><span class="c1">//...</span>
+</span><span class='line'><span class="c1">//最后在初始化plugin时自定义这个事件处理函数</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#choice_item&#39;</span><span class="p">).</span><span class="nx">choose</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">question</span><span class="o">:</span> <span class="s2">&quot;你最喜欢那种JavaScript库?&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">choices</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;jQuery&quot;</span><span class="p">,</span> <span class="s2">&quot;ExtJS&quot;</span><span class="p">,</span> <span class="s2">&quot;Mootools&quot;</span><span class="p">,</span> <span class="s2">&quot;Dojo&quot;</span><span class="p">],</span>
+</span><span class='line'>  <span class="nx">onCreated</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这种自定义事件以及处理不是很灵活。我们可以通过trigger()在需要的时候触发自定义事件。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="c1">//自定义事件处理</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">widget</span><span class="p">.</span><span class="nx">config</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">val</span><span class="p">){</span><span class="c1">//遍历配置参数</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">val</span><span class="p">)){</span>
+</span><span class='line'>          <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;chooser.&quot;</span> <span class="o">+</span> <span class="nx">key</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="nx">val</span><span class="p">(</span><span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">);</span><span class="c1">//这里其实调用的是自定义事件处理函数</span>
+</span><span class='line'>          <span class="p">})</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//... </span>
+</span><span class='line'>  <span class="c1">// init()</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">&quot;chooser.onCreated&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>比如这里我自定义一个事件处理函数，这个在默认配置参数中是没有的:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>       <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#choice_item&#39;</span><span class="p">).</span><span class="nx">choose</span><span class="p">({</span>
+</span><span class='line'>          <span class="nx">question</span><span class="o">:</span> <span class="s2">&quot;你最喜欢那种JavaScript库?&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">choices</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;jQuery&quot;</span><span class="p">,</span> <span class="s2">&quot;ExtJS&quot;</span><span class="p">,</span> <span class="s2">&quot;Mootools&quot;</span><span class="p">,</span> <span class="s2">&quot;Dojo&quot;</span><span class="p">],</span>
+</span><span class='line'>          <span class="nx">onCreated</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">){</span>
+</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">beforeRequest</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;before request occurred&quot;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'><span class="c1">//在ajax请求前触发</span>
+</span><span class='line'><span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">&quot;chooser.beforeRequest&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第十步 将AJAX请求参数封装</p>
+
+<p>现在plugin中的ajax请求的参数还是hard-coding,应该把这部分封装到配置参数中，用户在使用的时候可以定制这些参数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">settings</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">question</span><span class="o">:</span> <span class="s2">&quot;你最喜欢什么编程语言?&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="c1">//用于提交的地址</span>
+</span><span class='line'>      <span class="nx">buttonText</span><span class="o">:</span> <span class="s2">&quot;提交&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">choices</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;JavaScript&quot;</span><span class="p">,</span> <span class="s2">&quot;Ruby&quot;</span><span class="p">,</span> <span class="s2">&quot;Python&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">],</span>
+</span><span class='line'>      <span class="nx">containerClass</span><span class="o">:</span> <span class="s2">&quot;chooser&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">formClass</span><span class="o">:</span> <span class="s2">&quot;chooser-form&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">btnClass</span><span class="o">:</span> <span class="s2">&quot;chooser-btn&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">onCreated</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){},</span>
+</span><span class='line'>      <span class="nx">ajaxOptions</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">contentType</span><span class="o">:</span> <span class="s2">&quot;application/json; charset=utf-8&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">dataType</span><span class="o">:</span> <span class="s2">&quot;json&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="c1">//...</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">widget</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>      <span class="nx">widget</span><span class="p">.</span><span class="nx">config</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="p">{},</span> <span class="nx">settings</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span><span class="c1">//定义属性config,存储配置参数, true代表deep clone, 这里能clone到ajaxOptions</span>
+</span><span class='line'>      <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">element</span><span class="p">;</span><span class="c1">//定义属性element,存储jQuery对象</span>
+</span><span class='line'>      <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span><span class="c1">//阻止浏览器的默认行为</span>
+</span><span class='line'>          <span class="c1">//widget.element.trigger(&quot;chooser.beforeRequest&quot;)</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">dataObj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>                  <span class="nx">data</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="nx">chosen</span><span class="o">:</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;:checked&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">()})</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">ajaxSettings</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">ajaxOptions</span><span class="p">,</span> <span class="nx">dataObj</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="c1">//JSON.stringify仅在现代浏览器中支持，比如老一些的IE浏览器就不支持，但是可以使用json2这个库来实现</span>
+</span><span class='line'>          <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span><span class="nx">ajaxSettings</span><span class="p">).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span><span class="c1">//请求成功后调用的回调函数</span>
+</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">}).</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="c1">//请求失败后调用的回调函数</span>
+</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;ajax request failed&quot;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">})</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>  <span class="c1">//...</span>
+</span><span class='line'><span class="c1">//调用的时候</span>
+</span><span class='line'>          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#choice_item&#39;</span><span class="p">).</span><span class="nx">choose</span><span class="p">({</span>
+</span><span class='line'>              <span class="nx">question</span><span class="o">:</span> <span class="s2">&quot;你最喜欢那种JavaScript库?&quot;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">choices</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;jQuery&quot;</span><span class="p">,</span> <span class="s2">&quot;ExtJS&quot;</span><span class="p">,</span> <span class="s2">&quot;Mootools&quot;</span><span class="p">,</span> <span class="s2">&quot;Dojo&quot;</span><span class="p">],</span>
+</span><span class='line'>              <span class="nx">onCreated</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">){</span>
+</span><span class='line'>                  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
+</span><span class='line'>              <span class="p">},</span>
+</span><span class='line'>              <span class="nx">ajaxOptions</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>                  <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;http://localhost:3000/test&quot;</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第十一步 处理AJAX失败</p>
+
+<p>这里plugin可以通过显示错误消息来简单的处理ajax失败情况(大多数情况是返回服务端抛出的错误)。为了使处理更加灵活，这里给配置参数添加错误消息内容(errorMessage)和式样(errorClass)。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="kd">var</span> <span class="nx">settings</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">question</span><span class="o">:</span> <span class="s2">&quot;你最喜欢什么编程语言?&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="c1">//用于提交的地址</span>
+</span><span class='line'>      <span class="nx">buttonText</span><span class="o">:</span> <span class="s2">&quot;提交&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">choices</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;JavaScript&quot;</span><span class="p">,</span> <span class="s2">&quot;Ruby&quot;</span><span class="p">,</span> <span class="s2">&quot;Python&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">],</span>
+</span><span class='line'>      <span class="nx">containerClass</span><span class="o">:</span> <span class="s2">&quot;chooser&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">formClass</span><span class="o">:</span> <span class="s2">&quot;chooser-form&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">btnClass</span><span class="o">:</span> <span class="s2">&quot;chooser-btn&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">onCreated</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){},</span>
+</span><span class='line'>      <span class="nx">ajaxOptions</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">contentType</span><span class="o">:</span> <span class="s2">&quot;application/json; charset=utf-8&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">dataType</span><span class="o">:</span> <span class="s2">&quot;json&quot;</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>      <span class="nx">errorMessage</span><span class="o">:</span> <span class="s2">&quot;Oops, error happened, please contact manager or try it later again&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">errorClass</span><span class="o">:</span> <span class="s2">&quot;chooser-error-message&quot;</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//...</span>
+</span><span class='line'>      <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span><span class="c1">//阻止浏览器的默认行为</span>
+</span><span class='line'>          <span class="c1">//widget.element.trigger(&quot;chooser.beforeRequest&quot;)</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">dataObj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>                  <span class="nx">data</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="nx">chosen</span><span class="o">:</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;:checked&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">()})</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">ajaxSettings</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({},</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">ajaxOptions</span><span class="p">,</span> <span class="nx">dataObj</span><span class="p">);</span>
+</span><span class='line'>          <span class="c1">//JSON.stringify仅在现代浏览器中支持，比如老一些的IE浏览器就不支持，但是可以使用json2这个库来实现</span>
+</span><span class='line'>          <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span><span class="nx">ajaxSettings</span><span class="p">).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span><span class="c1">//请求成功后调用的回调函数</span>
+</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">}).</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span><span class="c1">//请求失败后调用的回调函数</span>
+</span><span class='line'>              <span class="c1">//trigger返回的是jQuery对象，而triggerHandler返回的是函数返回的对象</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">funcReturnVal</span> <span class="o">=</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">triggerHandler</span><span class="p">(</span><span class="s2">&quot;chooser.onError&quot;</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>              <span class="k">if</span> <span class="p">(</span><span class="nx">funcReturnVal</span> <span class="o">===</span> <span class="kc">false</span><span class="p">){</span><span class="c1">//这里通过返回false让开发者更好地控制plugin的行为</span>
+</span><span class='line'>                  <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;p/&gt;&quot;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>                      <span class="nx">text</span><span class="o">:</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">errorMessage</span><span class="p">,</span>
+</span><span class='line'>                      <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">errorClass</span>
+</span><span class='line'>                  <span class="p">}));</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              
+</span><span class='line'>          <span class="p">})</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//...</span>
+</span><span class='line'>      <span class="c1">//自定义事件处理</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">widget</span><span class="p">.</span><span class="nx">config</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">val</span><span class="p">){</span><span class="c1">//遍历配置参数</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">val</span><span class="p">)){</span>
+</span><span class='line'>              <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;chooser.&quot;</span> <span class="o">+</span> <span class="nx">key</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">params</span><span class="p">){</span>
+</span><span class='line'>                  <span class="k">return</span> <span class="nx">val</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">widget</span><span class="p">.</span><span class="nx">element</span><span class="p">,</span> <span class="nx">params</span><span class="p">);</span><span class="c1">//这里其实调用的是自定义事件处理函数</span>
+</span><span class='line'>              <span class="p">})</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//最后调用</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#choice_item&#39;</span><span class="p">).</span><span class="nx">choose</span><span class="p">({</span>
+</span><span class='line'>          <span class="nx">question</span><span class="o">:</span> <span class="s2">&quot;你最喜欢那种JavaScript库?&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">choices</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;jQuery&quot;</span><span class="p">,</span> <span class="s2">&quot;ExtJS&quot;</span><span class="p">,</span> <span class="s2">&quot;Mootools&quot;</span><span class="p">,</span> <span class="s2">&quot;Dojo&quot;</span><span class="p">],</span>
+</span><span class='line'>          <span class="nx">onCreated</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">el</span><span class="p">){</span>
+</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">ajaxOptions</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>              <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;http://localhost:4000/test&quot;</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">onError</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">el</span><span class="p">,</span> <span class="nx">response</span><span class="p">){</span>
+</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+</span><span class='line'>              <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   

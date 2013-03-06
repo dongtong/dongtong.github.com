@@ -4,7 +4,7 @@
   <title><![CDATA[Category:jQuery | Dong Way]]></title>
   <link href="www.dongjinhu.com/blog/categories/jquery/atom.xml" rel="self"/>
   <link href="www.dongjinhu.com/"/>
-  <updated>2013-03-05T23:40:44+08:00</updated>
+  <updated>2013-03-07T00:18:56+08:00</updated>
   <id>www.dongjinhu.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
@@ -484,6 +484,291 @@ background-color: #97EE97;
 现在打开浏览器看看式样是否已经改变</p>
 
 <p>这里也可以让plugin使用jqueryui的theme。只要plugin中添加class符合jqueryui theme的规则，这样有一个好处就是开发者可以不用考虑浏览器CSS兼容问题，这些问题基本都交给jqueryui(jQuery ui的式样有时也会出一些问题)。例如给plugin的容器添加"ui-widget-content", "ui-corner-all"等等。</p>
+
+<p>第八步 Plugin中捕捉事件</p>
+
+<p>choose插件主要流程就是让用户选择选项然后提交，所以这里应该侦听的是button的提交事件。下面看一下代码实现
+```javascript</p>
+
+<pre><code>    form.bind('submit', function(e){
+        e.preventDefault();//阻止浏览器的默认行为
+        console.log("submit form");
+    });
+</code></pre>
+
+<p><code>
+打开浏览器，选择选线后提交，发现调试窗口显示"submit form"。这样是正确的，但是用户可以hack这一行为。用户可以在plugin插件初始化后unbind这个form,那么提交将没有什么效果。这里可以利用javascript事件冒泡机制，给form的容器绑定submit事件，一般用户可能会unbind form的事件，而不太注意到unbind容器的事件。
+</code>javascript</p>
+
+<pre><code>function Choose(element, options){
+    this.config = $.extend({}, settings, options);//定义属性config,存储配置参数
+    this.element = element;//定义属性element,存储jQuery对象
+    this.element.bind('submit', function(e){
+        e.preventDefault();//阻止浏览器的默认行为
+        console.log("submit form");
+    });
+    this.init();//初始化plugin
+}   
+</code></pre>
+
+<p><code>
+接下来就是如果用户没有选择任何选项的话，button默认是不可用的，如果用户选择一个选项的话，button将可用，当用户提交后button将再次变为不可用。
+</code>javascript
+//首先给button添加属性</p>
+
+<pre><code>    $("&lt;button /&gt;", {
+        text: config.buttonText,
+        "class": config.btnClass,
+        disabled: "disabled"
+    }).appendTo(form);
+</code></pre>
+
+<p>//然后在构造函数中添加处理</p>
+
+<pre><code>function Choose(element, options){
+    var widget = this;
+    widget.config = $.extend({}, settings, options);//定义属性config,存储配置参数
+    widget.element = element;//定义属性element,存储jQuery对象
+    widget.element.bind('submit', function(e){
+        e.preventDefault();//阻止浏览器的默认行为
+        console.log("submit form");
+        //JSON.stringify仅在现代浏览器中支持，比如老一些的IE浏览器就不支持，但是可以使用json2这个库来实现
+        $.ajax({
+            type: "POST",
+            url: widget.config.url,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({chosen: widget.element.find(":checked").val()}), 
+            dataType: "json"
+        }).done(function(data){//请求成功后调用的回调函数
+            console.log(data)
+        }).fail(function(){//请求失败后调用的回调函数
+            console.log("ajax request failed")
+        })
+    });
+    //当用户选择一个选项时，将会触发change事件
+    widget.element.one("change", function(){
+        widget.element.find("button").removeProp("disabled")
+    });
+    this.init();//初始化plugin
+}   
+</code></pre>
+
+<p>```</p>
+
+<p>第九步 添加用户自定义事件的API</p>
+
+<p>上一步plugin只是侦听了form容器的submit事件，这在较为复杂的插件中远远不够的，应该是用户自定义事件API, 通过捕获不同的事件来做不同的处理。首先看一下简单地在配置参数中添加事件处理配置:
+```javascript</p>
+
+<pre><code>//首先定义默认配置参数
+var settings = {
+    question: "你最喜欢什么编程语言?",
+    url: "", //用于提交的地址
+    buttonText: "提交",
+    choices: ["JavaScript", "Ruby", "Python", "C"],
+    containerClass: "chooser",
+    formClass: "chooser-form",
+    btnClass: "chooser-btn",
+    onCreated: function(){}
+};
+//...
+//然后在init函数底部调用这个函数
+//传入当前容器的jQuery对象
+this.config.onCreated(this.element);
+//...
+//最后在初始化plugin时自定义这个事件处理函数
+$('#choice_item').choose({
+    question: "你最喜欢那种JavaScript库?",
+    choices: ["jQuery", "ExtJS", "Mootools", "Dojo"],
+    onCreated: function(el){
+        console.log(el.attr("id"))
+    }
+});
+</code></pre>
+
+<p>```</p>
+
+<p>这种自定义事件以及处理不是很灵活。我们可以通过trigger()在需要的时候触发自定义事件。
+```javascript</p>
+
+<pre><code>    //自定义事件处理
+    $.each(widget.config, function(key, val){//遍历配置参数
+        if($.isFunction(val)){
+            widget.element.on("chooser." + key, function(){
+                val(widget.element);//这里其实调用的是自定义事件处理函数
+            })
+        }
+    });
+
+    //... 
+    // init()
+    this.element.trigger("chooser.onCreated");
+</code></pre>
+
+<p><code>
+比如这里我自定义一个事件处理函数，这个在默认配置参数中是没有的:
+</code>javascript</p>
+
+<pre><code>        $('#choice_item').choose({
+            question: "你最喜欢那种JavaScript库?",
+            choices: ["jQuery", "ExtJS", "Mootools", "Dojo"],
+            onCreated: function(el){
+                console.log(el.attr("id"))
+            },
+            beforeRequest: function(){
+                console.log("before request occurred")
+            }
+        });
+//在ajax请求前触发
+widget.element.trigger("chooser.beforeRequest")
+</code></pre>
+
+<p>```</p>
+
+<p>第十步 将AJAX请求参数封装</p>
+
+<p>现在plugin中的ajax请求的参数还是hard-coding,应该把这部分封装到配置参数中，用户在使用的时候可以定制这些参数。
+```javascript
+var settings = {</p>
+
+<pre><code>    question: "你最喜欢什么编程语言?",
+    url: "", //用于提交的地址
+    buttonText: "提交",
+    choices: ["JavaScript", "Ruby", "Python", "C"],
+    containerClass: "chooser",
+    formClass: "chooser-form",
+    btnClass: "chooser-btn",
+    onCreated: function(){},
+    ajaxOptions: {
+        type: "POST",
+        url: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    }
+};
+//...
+var widget = this;
+    widget.config = $.extend(true, {}, settings, options);//定义属性config,存储配置参数, true代表deep clone, 这里能clone到ajaxOptions
+    widget.element = element;//定义属性element,存储jQuery对象
+    widget.element.bind('submit', function(e){
+        e.preventDefault();//阻止浏览器的默认行为
+        //widget.element.trigger("chooser.beforeRequest")
+        var dataObj = {
+                data: JSON.stringify({chosen: widget.element.find(":checked").val()})
+            }
+
+        var ajaxSettings = $.extend({}, widget.config.ajaxOptions, dataObj);
+
+        //JSON.stringify仅在现代浏览器中支持，比如老一些的IE浏览器就不支持，但是可以使用json2这个库来实现
+        $.ajax(ajaxSettings).done(function(data){//请求成功后调用的回调函数
+            console.log(data)
+        }).fail(function(){//请求失败后调用的回调函数
+            console.log("ajax request failed")
+        })
+    });
+//...
+</code></pre>
+
+<p>//调用的时候</p>
+
+<pre><code>        $('#choice_item').choose({
+            question: "你最喜欢那种JavaScript库?",
+            choices: ["jQuery", "ExtJS", "Mootools", "Dojo"],
+            onCreated: function(el){
+                console.log(el.attr("id"))
+            },
+            ajaxOptions: {
+                url: "http://localhost:3000/test"
+            }
+        });
+</code></pre>
+
+<p>```</p>
+
+<p>第十一步 处理AJAX失败</p>
+
+<p>这里plugin可以通过显示错误消息来简单的处理ajax失败情况(大多数情况是返回服务端抛出的错误)。为了使处理更加灵活，这里给配置参数添加错误消息内容(errorMessage)和式样(errorClass)。</p>
+
+<p>```javascript</p>
+
+<pre><code>var settings = {
+    question: "你最喜欢什么编程语言?",
+    url: "", //用于提交的地址
+    buttonText: "提交",
+    choices: ["JavaScript", "Ruby", "Python", "C"],
+    containerClass: "chooser",
+    formClass: "chooser-form",
+    btnClass: "chooser-btn",
+    onCreated: function(){},
+    ajaxOptions: {
+        type: "POST",
+        url: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    },
+    errorMessage: "Oops, error happened, please contact manager or try it later again",
+    errorClass: "chooser-error-message"
+};
+</code></pre>
+
+<p>//...</p>
+
+<pre><code>    widget.element.bind('submit', function(e){
+        e.preventDefault();//阻止浏览器的默认行为
+        //widget.element.trigger("chooser.beforeRequest")
+        var dataObj = {
+                data: JSON.stringify({chosen: widget.element.find(":checked").val()})
+            }
+
+        var ajaxSettings = $.extend({}, widget.config.ajaxOptions, dataObj);
+        //JSON.stringify仅在现代浏览器中支持，比如老一些的IE浏览器就不支持，但是可以使用json2这个库来实现
+        $.ajax(ajaxSettings).done(function(data){//请求成功后调用的回调函数
+            console.log(data)
+        }).fail(function(data){//请求失败后调用的回调函数
+            //trigger返回的是jQuery对象，而triggerHandler返回的是函数返回的对象
+            var funcReturnVal = widget.element.triggerHandler("chooser.onError", data);
+            if (funcReturnVal === false){//这里通过返回false让开发者更好地控制plugin的行为
+                widget.element.find('form').replaceWith($("&lt;p/&gt;", {
+                    text: widget.config.errorMessage,
+                    "class": widget.config.errorClass
+                }));
+            }
+
+        })
+    });
+</code></pre>
+
+<p>//...</p>
+
+<pre><code>    //自定义事件处理
+    $.each(widget.config, function(key, val){//遍历配置参数
+        if($.isFunction(val)){
+            widget.element.on("chooser." + key, function(e, params){
+                return val(e, widget.element, params);//这里其实调用的是自定义事件处理函数
+            })
+        }
+    });
+</code></pre>
+
+<p>//最后调用</p>
+
+<pre><code>    $('#choice_item').choose({
+        question: "你最喜欢那种JavaScript库?",
+        choices: ["jQuery", "ExtJS", "Mootools", "Dojo"],
+        onCreated: function(event, el){
+            console.log(el.attr("id"))
+        },
+        ajaxOptions: {
+            url: "http://localhost:4000/test"
+        },
+        onError: function(event, el, response){
+            console.log(response);
+            return false;
+        }
+    });
+</code></pre>
+
+<p>```</p>
 ]]></content>
   </entry>
   
