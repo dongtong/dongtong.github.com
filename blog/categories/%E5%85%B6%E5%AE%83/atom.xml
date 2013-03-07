@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category:其它 | Dong Way]]></title>
-  <link href="www.dongjinhu.com/blog/categories/%E5%85%B6%E5%AE%83/atom.xml" rel="self"/>
-  <link href="www.dongjinhu.com/"/>
-  <updated>2013-03-07T00:18:56+08:00</updated>
-  <id>www.dongjinhu.com/</id>
+  <link href="http://www.dongjinhu.com/blog/categories/%E5%85%B6%E5%AE%83/atom.xml" rel="self"/>
+  <link href="http://www.dongjinhu.com/"/>
+  <updated>2013-03-07T23:17:36+08:00</updated>
+  <id>http://www.dongjinhu.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
     <email><![CDATA[chinatea.guy@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Sublime text 2使用介绍]]></title>
-    <link href="www.dongjinhu.com/blog/2012/10/04/sublime-text2-usage/"/>
+    <link href="http://www.dongjinhu.com/blog/2012/10/04/sublime-text2-usage/"/>
     <updated>2012-10-04T22:20:00+08:00</updated>
-    <id>www.dongjinhu.com/blog/2012/10/04/sublime-text2-usage</id>
+    <id>http://www.dongjinhu.com/blog/2012/10/04/sublime-text2-usage</id>
     <content type="html"><![CDATA[<ol>
 <li><p>注意"Preferences>Default"下面的"ignored_packages"选项。这个是在Sublime Text 2编辑器启动时需要忽略哪些package的。每次打开编辑器时，default都是会被重置的，会使用User中的配置。所以如果需要根据个人喜好，应该修改user级别的，可以把default中的一些选项拷贝到user中。</p></li>
 <li><p>如果在编辑一个新文件，但是还没有保存，但是又希望代码能高亮，使用"Tools>Command Palette"中设置syntax为指定的语言。里面还有其它的一些选项。例如要显示或者隐藏sidebar。

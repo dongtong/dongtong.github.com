@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category:Python | Dong Way]]></title>
-  <link href="www.dongjinhu.com/blog/categories/python/atom.xml" rel="self"/>
-  <link href="www.dongjinhu.com/"/>
-  <updated>2013-03-07T00:18:56+08:00</updated>
-  <id>www.dongjinhu.com/</id>
+  <link href="http://www.dongjinhu.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://www.dongjinhu.com/"/>
+  <updated>2013-03-07T23:17:36+08:00</updated>
+  <id>http://www.dongjinhu.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
     <email><![CDATA[chinatea.guy@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Python简明教程]]></title>
-    <link href="www.dongjinhu.com/blog/2012/09/21/python-simple-tutorial/"/>
+    <link href="http://www.dongjinhu.com/blog/2012/09/21/python-simple-tutorial/"/>
     <updated>2012-09-21T21:01:00+08:00</updated>
-    <id>www.dongjinhu.com/blog/2012/09/21/python-simple-tutorial</id>
+    <id>http://www.dongjinhu.com/blog/2012/09/21/python-simple-tutorial</id>
     <content type="html"><![CDATA[<h2>1. 数字以及数学操作</h2>
 
 <p>这里Python使用的是2.6.5,后续将补充Python 3.x系列的一些新特性。</p>
