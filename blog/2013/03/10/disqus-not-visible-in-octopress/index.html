@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category:JavaScript - Dong Way</title>
+  <title>Disqus 评论功能无法显示 - Dong Way</title>
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="Category: JavaScript">
+  <meta name="description" content="Disqus评论功能无法显示 刚开始使用Octopress这个博客引擎时，把它部署到github上，我们得到的域名是http://xxx.github.com。后来申请了一个域名，把这个域名绑定到http://xxx.github.com后发现disqus的评论功能显示不了，一直报错， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.dongjinhu.comblog/categories/javascript">
+  <link rel="canonical" href="http://www.dongjinhu.com/blog/2013/03/10/disqus-not-visible-in-octopress">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -95,198 +95,125 @@
   <div class="container">
     <div class="row-fluid">
       
-<article role="article" class="span9">
+<article class="hentry span9" role="article">
 
   
   <header class="page-header">
-    <h1 class="entry-title">Category:JavaScript</h1>
+    
+      <h1 class="entry-title">Disqus 评论功能无法显示</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T14:24:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
+
+
+<div class="entry-content"><h3>Disqus评论功能无法显示</h3>
+
+<p>刚开始使用Octopress这个博客引擎时，把它部署到github上，我们得到的域名是http://xxx.github.com。后来申请了一个域名，把这个域名绑定到http://xxx.github.com后发现disqus的评论功能显示不了，一直报错，起初以为是不是被墙了，所以Octopress访问不了disqus的接口，后来发现是配置文件_config.yml需要修改。</p>
+
+<!--More-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">xxxx</span>
+</span><span class='line'><span class="c1">#改成</span>
+</span><span class='line'><span class="l-Scalar-Plain">url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http://www.dongjinhu.com</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原因是source/_includes/disqus.html 中:</p>
+
+<p>&#8230;
+var disqus_url = &#8216;http://www.dongjinhu.com/blog/2013/03/10/disqus-not-visible-in-octopress/&#8217;;
+…</p>
+
+<p>site.url出现了两个&#8221;//&#8221;</p>
+
+<p>改完之后重新部署一下</p>
+
+<p>&gt; rake generate</p>
+
+<p>&gt; rake deploy</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <div id="blog-archives" class="category">
 
+<span class="byline author vcard">Posted by <span class="fn">Dong</span></span>
 
+      
 
-  
-  <h1>2012</h1>
 
-<article>
-  <div class="well">
 
-<h2><a href="/blog/2012/11/29/javascript-ten-mistakes/">JavaScript十宗罪</a></h2>
-<time datetime="2012-11-29T20:43:00+08:00" pubdate><span class='month'>Nov</span> <span class='day'>29</span> <span class='year'>2012</span></time>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
 
-</div>
 
-</article>
 
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/08/26/some-small-tips-in-javascript/">JavaScript语言中的一些小建议</a></h2>
-<time datetime="2012-08-26T23:22:00+08:00" pubdate><span class='month'>Aug</span> <span class='day'>26</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/08/26/how-to-write-switch-sentence/">如何写出优美的switch</a></h2>
-<time datetime="2012-08-26T20:50:00+08:00" pubdate><span class='month'>Aug</span> <span class='day'>26</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/08/25/do-not-extend-built-in-prototype/">不要擅自扩展内建对象原型</a></h2>
-<time datetime="2012-08-25T22:00:00+08:00" pubdate><span class='month'>Aug</span> <span class='day'>25</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/08/25/write-maintainable-js-code/">什么是可维护的JavaScript代码</a></h2>
-<time datetime="2012-08-25T14:37:00+08:00" pubdate><span class='month'>Aug</span> <span class='day'>25</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a>, <a class='category' href='/blog/categories/programming/'>Programming</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/07/26/extend-javascript-builtin-object/">关于扩展JavaScript内建对象</a></h2>
-<time datetime="2012-07-26T23:39:00+08:00" pubdate><span class='month'>Jul</span> <span class='day'>26</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/07/26/about-for-in/">JavaScript中for..in循环</a></h2>
-<time datetime="2012-07-26T00:01:00+08:00" pubdate><span class='month'>Jul</span> <span class='day'>26</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/07/24/about-javascript-closure/">关于JavaScript闭包</a></h2>
-<time datetime="2012-07-24T22:25:00+08:00" pubdate><span class='month'>Jul</span> <span class='day'>24</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/07/22/optimize-for-loops/">如何优化for loops</a></h2>
-<time datetime="2012-07-22T21:46:00+08:00" pubdate><span class='month'>Jul</span> <span class='day'>22</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/07/22/global-object-in-javascript/">JavaScript中的全局对象</a></h2>
-<time datetime="2012-07-22T14:29:00+08:00" pubdate><span class='month'>Jul</span> <span class='day'>22</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2012/07/17/about-ecmascript-5/">关于 ECMAScript 5</a></h2>
-<time datetime="2012-07-17T23:39:00+08:00" pubdate><span class='month'>Jul</span> <span class='day'>17</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>JavaScript</a></span>
-</footer>
-
-</div>
-
-</article>
-
-</div>
 
   
+
+
+<time datetime="2013-03-10T14:24:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>Octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2013/02/26/how-to-create-jquery-plugin/" title="Previous Post:
+        如何创建一个jQuery插件">&laquo; 如何创建一个jQuery插件</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
 </article>
 
 <aside class="sidebar-nav span3">
@@ -361,7 +288,10 @@
       var disqus_shortname = 'dong-way';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.dongjinhu.com/blog/2013/03/10/disqus-not-visible-in-octopress/';
+        var disqus_url = 'http://www.dongjinhu.com/blog/2013/03/10/disqus-not-visible-in-octopress/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

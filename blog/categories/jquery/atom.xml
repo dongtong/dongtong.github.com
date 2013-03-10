@@ -4,7 +4,7 @@
   <title><![CDATA[Category:jQuery | Dong Way]]></title>
   <link href="http://www.dongjinhu.com/blog/categories/jquery/atom.xml" rel="self"/>
   <link href="http://www.dongjinhu.com/"/>
-  <updated>2013-03-07T23:17:36+08:00</updated>
+  <updated>2013-03-10T15:00:04+08:00</updated>
   <id>http://www.dongjinhu.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
@@ -769,6 +769,10 @@ var widget = this;
 </code></pre>
 
 <p>```</p>
+
+<p>PS:</p>
+
+<p>git repo: <a href="http://github.com/dongtong/choice">https://github.com/dongtong/choice</a></p>
 ]]></content>
   </entry>
   

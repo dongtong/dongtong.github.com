@@ -9,9 +9,7 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="当前JavaScript比较流行的库有jQuery, ExtJs, Dojo, Mootools, YUI等等。这些当中
-jQuery当属最火热的。现在一些公司招聘Web开发的要求中，基本上都会附上&#8221;熟悉jQuery框架&#8221;。
-其实准确来说不应该叫做&#8221;框架&# &hellip;">
+  <meta name="description" content="Disqus评论功能无法显示 刚开始使用Octopress这个博客引擎时，把它部署到github上，我们得到的域名是http://xxx.github.com。后来申请了一个域名，把这个域名绑定到http://xxx.github.com后发现disqus的评论功能显示不了，一直报错， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,6 +96,51 @@ jQuery当属最火热的。现在一些公司招聘Web开发的要求中，基�
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/10/disqus-not-visible-in-octopress/">Disqus 评论功能无法显示</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T14:24:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/10/disqus-not-visible-in-octopress/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Disqus评论功能无法显示</h3>
+
+<p>刚开始使用Octopress这个博客引擎时，把它部署到github上，我们得到的域名是http://xxx.github.com。后来申请了一个域名，把这个域名绑定到http://xxx.github.com后发现disqus的评论功能显示不了，一直报错，起初以为是不是被墙了，所以Octopress访问不了disqus的接口，后来发现是配置文件_config.yml需要修改。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/10/disqus-not-visible-in-octopress/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -347,98 +390,6 @@ following:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/10/04/sublime-text2-usage/">Sublime Text 2使用介绍</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-04T22:20:00+08:00" pubdate data-updated="true">Oct 4<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/10/04/sublime-text2-usage/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ol>
-<li><p>注意&#8221;Preferences>Default&#8221;下面的&#8221;ignored_packages&#8221;选项。这个是在Sublime Text 2编辑器启动时需要忽略哪些package的。每次打开编辑器时，default都是会被重置的，会使用User中的配置。所以如果需要根据个人喜好，应该修改user级别的，可以把default中的一些选项拷贝到user中。</p></li>
-<li><p>如果在编辑一个新文件，但是还没有保存，但是又希望代码能高亮，使用&#8221;Tools>Command Palette&#8221;中设置syntax为指定的语言。里面还有其它的一些选项。例如要显示或者隐藏sidebar。
-只要输入&#8221;sidebar&#8221;回车即可。如果想显示或隐藏右边的缩略图&#8221;toggle minimap&#8221;即可。</p></li>
-<li><p>快速定位文件，比如/views/home/index.html,那么可以control + p(command + p)然后
-在弹出的对话框中输入&#8221;viewshomeindex&#8221;, 或&#8221;homeindex&#8221;或&#8221;views/home/index&#8221;等等模糊匹配都可以。如果想导航到项目中的任何文件，这要使用这个快捷键模糊定位即可。</p></li>
-<li><p>快速定位&#8221;Symbols&#8221;。这里可以理解为快速定位方法或者函数名，或者其它块元素名。control + R(command + R)然后输入symbol的名字即可快速定位。如果想快速定位到某一个文件中的某一个symbol,那么可以可以control + p(command + P)然后输入类似于&#8221;post.rb@show&#8221;,如果当前在index.html文件中，想添加body这个元素式样，可以control + p(command + P)然后输入类似于&#8221;style.css@body&#8221;即可快速定位到相应的文件中指定的位置。</p></li>
-<li><p>添加或修改快捷键,首先打开&#8221;Preferences> Key Bindings Default&#8221;查找需要修改的快捷键定义，例如:</p></li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span> <span class="nt">&quot;keys&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;super+k&quot;</span><span class="p">,</span> <span class="s2">&quot;super+b&quot;</span><span class="p">],</span> <span class="nt">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;toggle_side_bar&quot;</span> <span class="p">}</span><span class="err">,</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后打开&#8221;Preferences>Key Bindings User&#8221;将其修改为:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span> <span class="nt">&quot;keys&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;control+s&quot;</span><span class="p">],</span> <span class="nt">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;toggle_side_bar&quot;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>保存后，control+s即可实现显示和隐藏左边项目导航栏的功能，也可以在这个文件中添加自定义的快捷键。</p>
-
-<ol>
-<li>安装package实现对语法的支持以及其他一些功能。首先访问&#8221;http://wbond.net/sublime_packages/package_control&#8221;打开sublime text 2的控制台输入:</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">import</span> <span class="err">urllib</span><span class="mi">2</span><span class="err">,os;</span> <span class="err">pf=&#39;Package</span> <span class="err">Control.sublime-package&#39;;</span> <span class="err">ipp=sublime.installed_packages_path();</span> <span class="err">os.makedirs(ipp)</span> <span class="err">if</span> <span class="err">not</span> <span class="err">os.path.exists(ipp)</span> <span class="err">else</span> <span class="err">None;</span> <span class="err">urllib</span><span class="mi">2</span><span class="err">.install_opener(urllib</span><span class="mi">2</span><span class="err">.build_opener(urllib</span><span class="mi">2</span><span class="err">.ProxyHandler()));</span> <span class="err">open(os.path.join(ipp,pf),&#39;wb&#39;).write(urllib</span><span class="mi">2</span><span class="err">.urlopen(&#39;http://sublime.wbond.net/&#39;+pf.replace(&#39;</span> <span class="err">&#39;,&#39;%</span><span class="mi">20</span><span class="err">&#39;)).read());</span> <span class="err">print</span> <span class="err">&#39;Please</span> <span class="err">restart</span> <span class="err">Sublime</span> <span class="err">Text</span> <span class="err">to</span> <span class="err">finish</span> <span class="err">installation&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后重启sublime text 2.然后进入&#8221;Preferences>Package Control>Install Package&#8221;稍等片刻后，输入&#8221;rspec&#8221;然后安装。然后检查&#8221;Preferences>Package Settings>Package Control>User&#8221;中发现已经添加Rspec支持:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nt">&quot;auto_upgrade_last_run&quot;</span><span class="p">:</span> <span class="mi">1349498917</span><span class="p">,</span>
-</span><span class='line'>  <span class="nt">&quot;installed_packages&quot;</span><span class="p">:</span>
-</span><span class='line'>  <span class="p">[</span>
-</span><span class='line'>      <span class="s2">&quot;RSpec (snippets and syntax)&quot;</span>
-</span><span class='line'>  <span class="p">]</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/2/">&larr; Older</a></li>
@@ -457,7 +408,7 @@ following:</p>
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
 <li class='category'><a href=' /blog/categories/javascript/'>JavaScript (11)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
-<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (2)</a></li>
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
@@ -473,6 +424,10 @@ following:</p>
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/03/10/disqus-not-visible-in-octopress/">Disqus 评论功能无法显示</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/26/how-to-create-jquery-plugin/">如何创建一个jQuery插件</a>
       </li>
     
@@ -486,10 +441,6 @@ following:</p>
     
       <li class="post">
         <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
       </li>
     
   </ul>

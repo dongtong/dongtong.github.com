@@ -9,19 +9,7 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="Mountain Lion通过Macport安装MongoDB报如下错误: 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-Error: mongodb 2.0.7 requires boost 1.49.0 or older but you have boost 1.50.0.
-Error: &hellip;">
+  <meta name="description" content="注意&#8221;Preferences>Default&#8221;下面的&#8221;ignored_packages&#8221;选项。这个是在Sublime Text 2编辑器启动时需要忽略哪些package的。每次打开编辑器时，default都是会被重置的，会使用User中的配置。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -108,6 +96,98 @@ Error: &hellip;">
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/04/sublime-text2-usage/">Sublime Text 2使用介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-04T22:20:00+08:00" pubdate data-updated="true">Oct 4<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/10/04/sublime-text2-usage/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li><p>注意&#8221;Preferences>Default&#8221;下面的&#8221;ignored_packages&#8221;选项。这个是在Sublime Text 2编辑器启动时需要忽略哪些package的。每次打开编辑器时，default都是会被重置的，会使用User中的配置。所以如果需要根据个人喜好，应该修改user级别的，可以把default中的一些选项拷贝到user中。</p></li>
+<li><p>如果在编辑一个新文件，但是还没有保存，但是又希望代码能高亮，使用&#8221;Tools>Command Palette&#8221;中设置syntax为指定的语言。里面还有其它的一些选项。例如要显示或者隐藏sidebar。
+只要输入&#8221;sidebar&#8221;回车即可。如果想显示或隐藏右边的缩略图&#8221;toggle minimap&#8221;即可。</p></li>
+<li><p>快速定位文件，比如/views/home/index.html,那么可以control + p(command + p)然后
+在弹出的对话框中输入&#8221;viewshomeindex&#8221;, 或&#8221;homeindex&#8221;或&#8221;views/home/index&#8221;等等模糊匹配都可以。如果想导航到项目中的任何文件，这要使用这个快捷键模糊定位即可。</p></li>
+<li><p>快速定位&#8221;Symbols&#8221;。这里可以理解为快速定位方法或者函数名，或者其它块元素名。control + R(command + R)然后输入symbol的名字即可快速定位。如果想快速定位到某一个文件中的某一个symbol,那么可以可以control + p(command + P)然后输入类似于&#8221;post.rb@show&#8221;,如果当前在index.html文件中，想添加body这个元素式样，可以control + p(command + P)然后输入类似于&#8221;style.css@body&#8221;即可快速定位到相应的文件中指定的位置。</p></li>
+<li><p>添加或修改快捷键,首先打开&#8221;Preferences> Key Bindings Default&#8221;查找需要修改的快捷键定义，例如:</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span> <span class="nt">&quot;keys&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;super+k&quot;</span><span class="p">,</span> <span class="s2">&quot;super+b&quot;</span><span class="p">],</span> <span class="nt">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;toggle_side_bar&quot;</span> <span class="p">}</span><span class="err">,</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后打开&#8221;Preferences>Key Bindings User&#8221;将其修改为:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span> <span class="nt">&quot;keys&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;control+s&quot;</span><span class="p">],</span> <span class="nt">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;toggle_side_bar&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>保存后，control+s即可实现显示和隐藏左边项目导航栏的功能，也可以在这个文件中添加自定义的快捷键。</p>
+
+<ol>
+<li>安装package实现对语法的支持以及其他一些功能。首先访问&#8221;http://wbond.net/sublime_packages/package_control&#8221;打开sublime text 2的控制台输入:</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">import</span> <span class="err">urllib</span><span class="mi">2</span><span class="err">,os;</span> <span class="err">pf=&#39;Package</span> <span class="err">Control.sublime-package&#39;;</span> <span class="err">ipp=sublime.installed_packages_path();</span> <span class="err">os.makedirs(ipp)</span> <span class="err">if</span> <span class="err">not</span> <span class="err">os.path.exists(ipp)</span> <span class="err">else</span> <span class="err">None;</span> <span class="err">urllib</span><span class="mi">2</span><span class="err">.install_opener(urllib</span><span class="mi">2</span><span class="err">.build_opener(urllib</span><span class="mi">2</span><span class="err">.ProxyHandler()));</span> <span class="err">open(os.path.join(ipp,pf),&#39;wb&#39;).write(urllib</span><span class="mi">2</span><span class="err">.urlopen(&#39;http://sublime.wbond.net/&#39;+pf.replace(&#39;</span> <span class="err">&#39;,&#39;%</span><span class="mi">20</span><span class="err">&#39;)).read());</span> <span class="err">print</span> <span class="err">&#39;Please</span> <span class="err">restart</span> <span class="err">Sublime</span> <span class="err">Text</span> <span class="err">to</span> <span class="err">finish</span> <span class="err">installation&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后重启sublime text 2.然后进入&#8221;Preferences>Package Control>Install Package&#8221;稍等片刻后，输入&#8221;rspec&#8221;然后安装。然后检查&#8221;Preferences>Package Settings>Package Control>User&#8221;中发现已经添加Rspec支持:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;auto_upgrade_last_run&quot;</span><span class="p">:</span> <span class="mi">1349498917</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;installed_packages&quot;</span><span class="p">:</span>
+</span><span class='line'>  <span class="p">[</span>
+</span><span class='line'>      <span class="s2">&quot;RSpec (snippets and syntax)&quot;</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -463,58 +543,6 @@ Error: &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/09/less-is-good-than-more/">做少没有什么不好</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-09T23:35:00+08:00" pubdate data-updated="true">Sep 9<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/09/09/less-is-good-than-more/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>做得比竟争对手少</h2>
-
-<p>常规的思维方式告诉我们,不管竞争对手做什么你总是要比他们加多一些。<br/>
-如果他们有 4 个 特色功能,你就需要做出 5 个(或 15 个,或 25 个)。<br/>
-如果他们花了 x,你就该花 xx。<br/>
-如果 他们有 20,你就得有 30。<br/>
-这种强调更多一层的冷战竞争思维是行不通的死胡同。<br/>
-如此创造产品的方式是昂贵的,过分防御的,并且有点偏执不正常的。<br/>
-防御性的偏执的公司是做不到前瞻性思维的,他们只能做事后思维。<br/>
-他们不可能领导,只能跟从。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/09/less-is-good-than-more/">详细 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/3/">&larr; Older</a></li>
@@ -535,7 +563,7 @@ Error: &hellip;">
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
 <li class='category'><a href=' /blog/categories/javascript/'>JavaScript (11)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
-<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (2)</a></li>
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
@@ -551,6 +579,10 @@ Error: &hellip;">
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/03/10/disqus-not-visible-in-octopress/">Disqus 评论功能无法显示</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/26/how-to-create-jquery-plugin/">如何创建一个jQuery插件</a>
       </li>
     
@@ -564,10 +596,6 @@ Error: &hellip;">
     
       <li class="post">
         <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
       </li>
     
   </ul>

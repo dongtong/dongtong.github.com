@@ -9,8 +9,8 @@
   <meta name="author" content="Dong">
 
   
-  <meta name="description" content="这里安装Postgresql不是通过port,而是直接下载.dmg文件安装。 第一步: 到Postgresql官网下载Postgresql.dmg文件
-想到http://www.postgresql.org/download/macosx/下点击&#8221;Download&#8221;，页面 &hellip;">
+  <meta name="description" content="JavaScript使用function来界定作用域，如果在function内部定义一个变量，那么它就是local的，如果
+在function外部定义一个变量，那么就是global的。 在浏览器上下文中，有一个window属性指向的是global对象，不论是否在function内部还是外部，只要 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +97,111 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/22/global-object-in-javascript/">JavaScript中的全局对象</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-22T14:29:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/22/global-object-in-javascript/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>JavaScript使用function来界定作用域，如果在function内部定义一个变量，那么它就是local的，如果
+在function外部定义一个变量，那么就是global的。</p>
+
+<p>在浏览器上下文中，有一个window属性指向的是global对象，不论是否在function内部还是外部，只要
+声明变量不使用var那么浏览器就把它当做window的属性，如果在function外部，this指代的也是window。
+下面声明的就是window对象的属性:</p>
+
+<figure class='code'><figcaption><span>Declare global object</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">globalVar1</span> <span class="o">=</span> <span class="s2">&quot;hello world&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">globalVar1</span><span class="p">);</span><span class="c1">// hello world</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="nx">declareGlobalVar</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">globalVar2</span> <span class="o">=</span> <span class="s2">&quot;foo bar&quot;</span><span class="p">;</span><span class="c1">//如果在其余代码中申明globalVar2这个全局变量就会出问题</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">[</span><span class="s1">&#39;globalVar2&#39;</span><span class="p">]);</span><span class="c1">//foo bar</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">globalVar2</span><span class="p">);</span><span class="c1">//foo bar</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="nx">chainAssign</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">bar</span> <span class="o">=</span> <span class="s2">&quot;hello world&quot;</span><span class="p">;</span><span class="c1">//这里其实首先执行的是 bar = &quot;hello world&quot;,没有使用var</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">bar</span><span class="p">);</span><span class="c1">//bar变成了window的属性</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span><span class="c1">//foo还是local</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="nx">chainAssign2</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">foo</span><span class="p">,</span> <span class="nx">bar2</span> <span class="o">=</span> <span class="s2">&quot;hello world again&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">bar2</span><span class="p">);</span><span class="c1">//bar2是local</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span><span class="c1">//foo还是local</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="kd">function</span> <span class="nx">chainAssign3</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">foo</span><span class="p">,</span> <span class="nx">bar3</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">foo</span> <span class="o">=</span> <span class="nx">bar3</span> <span class="o">=</span> <span class="s2">&quot;hello world again too&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">bar2</span><span class="p">);</span><span class="c1">//bar3是local</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span><span class="c1">//foo还是local</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/07/22/global-object-in-javascript/">详细 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -281,7 +386,7 @@
 <li class='category'><a href=' /blog/categories/git/'>Git (3)</a></li>
 <li class='category'><a href=' /blog/categories/javascript/'>JavaScript (11)</a></li>
 <li class='category'><a href=' /blog/categories/node-js/'>Node.js (2)</a></li>
-<li class='category'><a href=' /blog/categories/octopress/'>Octopress (1)</a></li>
+<li class='category'><a href=' /blog/categories/octopress/'>Octopress (2)</a></li>
 <li class='category'><a href=' /blog/categories/programming/'>Programming (1)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/rspec/'>Rspec (1)</a></li>
@@ -297,6 +402,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/03/10/disqus-not-visible-in-octopress/">Disqus 评论功能无法显示</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/26/how-to-create-jquery-plugin/">如何创建一个jQuery插件</a>
       </li>
     
@@ -310,10 +419,6 @@
     
       <li class="post">
         <a href="/blog/2012/10/26/add-new-page-in-octopress/">Add new page in Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/10/04/sublime-text2-usage/">Sublime text 2使用介绍</a>
       </li>
     
   </ul>

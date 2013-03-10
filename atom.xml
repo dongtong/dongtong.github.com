@@ -4,7 +4,7 @@
   <title><![CDATA[Dong Way]]></title>
   <link href="http://www.dongjinhu.com/atom.xml" rel="self"/>
   <link href="http://www.dongjinhu.com/"/>
-  <updated>2013-03-07T23:17:36+08:00</updated>
+  <updated>2013-03-10T15:00:04+08:00</updated>
   <id>http://www.dongjinhu.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Disqus 评论功能无法显示]]></title>
+    <link href="http://www.dongjinhu.com/blog/2013/03/10/disqus-not-visible-in-octopress/"/>
+    <updated>2013-03-10T14:24:00+08:00</updated>
+    <id>http://www.dongjinhu.com/blog/2013/03/10/disqus-not-visible-in-octopress</id>
+    <content type="html"><![CDATA[<h3>Disqus评论功能无法显示</h3>
+
+<p>刚开始使用Octopress这个博客引擎时，把它部署到github上，我们得到的域名是http://xxx.github.com。后来申请了一个域名，把这个域名绑定到http://xxx.github.com后发现disqus的评论功能显示不了，一直报错，起初以为是不是被墙了，所以Octopress访问不了disqus的接口，后来发现是配置文件_config.yml需要修改。</p>
+
+<!--More-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">xxxx</span>
+</span><span class='line'><span class="c1">#改成</span>
+</span><span class='line'><span class="l-Scalar-Plain">url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http://www.dongjinhu.com</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原因是source/_includes/disqus.html 中:</p>
+
+<p>&#8230;
+var disqus_url = &#8216;http://www.dongjinhu.com/blog/2013/03/10/disqus-not-visible-in-octopress/&#8217;;
+…</p>
+
+<p>site.url出现了两个&#8221;//&#8221;</p>
+
+<p>改完之后重新部署一下</p>
+
+<p>&gt; rake generate</p>
+
+<p>&gt; rake deploy</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何创建一个jQuery插件]]></title>
@@ -1169,7 +1208,9 @@ ECMAScript标准中被重写。不过现在现在浏览器基本上都不会出�
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p>PS:</p>
 
+<p>git repo: <a href="http://github.com/dongtong/choice">https://github.com/dongtong/choice</a></p>
 ]]></content>
   </entry>
   
@@ -5119,116 +5160,6 @@ switch语句。目前不同的浏览器针对到此是if..else效率高还是swi
 
 
 <p>你做到了吗? :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[实现简单的Node聊天客户端]]></title>
-    <link href="http://www.dongjinhu.com/blog/2012/08/08/simple-nodejs-chat-server/"/>
-    <updated>2012-08-08T00:02:00+08:00</updated>
-    <id>http://www.dongjinhu.com/blog/2012/08/08/simple-nodejs-chat-server</id>
-    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">net</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;net&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">chatServer</span> <span class="o">=</span> <span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">();</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">client_list</span> <span class="o">=</span> <span class="p">[];</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">chatServer</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">client</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">client</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">remoteAddress</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="nx">client</span><span class="p">.</span><span class="nx">remotePort</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">client</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">&quot;Welcome &quot;</span><span class="o">+</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="s2">&quot;!\n&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; joined.&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">client_list</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">client</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">client</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">){</span>
-</span><span class='line'>      <span class="nx">broadcast</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">client</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">client</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; leave.&quot;</span><span class="p">);</span>
-</span><span class='line'>      <span class="nx">client_list</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">client_list</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">client</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">client</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
-</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'><span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">9000</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!--More-->
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">broadcast</span><span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">client</span><span class="p">){</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">removedClients</span> <span class="o">=</span> <span class="p">[],</span>
-</span><span class='line'>      <span class="nx">client_len</span> <span class="o">=</span> <span class="nx">client_list</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="nx">client_len</span><span class="p">;</span> <span class="nx">index</span><span class="o">--</span><span class="p">;){</span>
-</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="nx">client</span> <span class="o">!==</span> <span class="nx">client_list</span><span class="p">[</span><span class="nx">index</span><span class="p">]){</span>
-</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="nx">client_list</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">writable</span><span class="p">){</span>
-</span><span class='line'>              <span class="nx">client_list</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">write</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; says :&quot;</span> <span class="o">+</span> <span class="nx">msg</span> <span class="o">+</span> <span class="s2">&quot;\n&quot;</span><span class="p">);</span>
-</span><span class='line'>          <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>              <span class="nx">removedClients</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">client_list</span><span class="p">[</span><span class="nx">index</span><span class="p">])</span>
-</span><span class='line'>              <span class="nx">client_list</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">destroy</span><span class="p">();</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">remove_client_len</span> <span class="o">=</span> <span class="nx">removedClients</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">index</span><span class="o">=</span><span class="nx">remove_client_len</span><span class="p">;</span> <span class="nx">index</span><span class="o">--</span><span class="p">;){</span>
-</span><span class='line'>      <span class="nx">client_list</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">client_list</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">removedClients</span><span class="p">[</span><span class="nx">index</span><span class="p">]),</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;chat server is running...&quot;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

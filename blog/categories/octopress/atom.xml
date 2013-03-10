@@ -4,7 +4,7 @@
   <title><![CDATA[Category:Octopress | Dong Way]]></title>
   <link href="http://www.dongjinhu.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://www.dongjinhu.com/"/>
-  <updated>2013-03-07T23:17:36+08:00</updated>
+  <updated>2013-03-10T15:00:04+08:00</updated>
   <id>http://www.dongjinhu.com/</id>
   <author>
     <name><![CDATA[Dong]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Disqus 评论功能无法显示]]></title>
+    <link href="http://www.dongjinhu.com/blog/2013/03/10/disqus-not-visible-in-octopress/"/>
+    <updated>2013-03-10T14:24:00+08:00</updated>
+    <id>http://www.dongjinhu.com/blog/2013/03/10/disqus-not-visible-in-octopress</id>
+    <content type="html"><![CDATA[<h3>Disqus评论功能无法显示</h3>
+
+<p>刚开始使用Octopress这个博客引擎时，把它部署到github上，我们得到的域名是http://xxx.github.com。后来申请了一个域名，把这个域名绑定到http://xxx.github.com后发现disqus的评论功能显示不了，一直报错，起初以为是不是被墙了，所以Octopress访问不了disqus的接口，后来发现是配置文件_config.yml需要修改。</p>
+
+<!--More-->
+
+
+<p>```yml
+url: xxxx</p>
+
+<h1>改成</h1>
+
+<p>url: http://www.dongjinhu.com
+```</p>
+
+<p>原因是source/_includes/disqus.html 中:</p>
+
+<p>...
+var disqus_url = 'http://www.dongjinhu.comblog/categories/octopress/atom.xml';
+…</p>
+
+<p>site.url出现了两个"//"</p>
+
+<p>改完之后重新部署一下</p>
+
+<p>&gt; rake generate</p>
+
+<p>&gt; rake deploy</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Add new page in Octopress]]></title>
